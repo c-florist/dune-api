@@ -1,0 +1,5 @@
+uvicorn[standard] ~= 0.25.0
+autoflake
+mypy
+black
+pytest
