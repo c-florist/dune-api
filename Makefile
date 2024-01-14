@@ -1,7 +1,7 @@
 .PHONY: test lint-check lint-fix
 
 test:
-	python -m pytest app -vvv
+	python -m pytest tests -vvv
 
 lint-check:
 	black --check --diff app

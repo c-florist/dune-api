@@ -1,6 +1,6 @@
 import pytest
 
-from ..connection import DbConnection
+from app.v1.database import DbConnection
 
 
 @pytest.fixture
