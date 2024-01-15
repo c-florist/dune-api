@@ -6,11 +6,14 @@ from app.v1.response_models import Character, Organisation
 @pytest.fixture
 def character_model():
     yield Character(
-        titles=['Duke'],
+        titles=['Mr'],
         first_name='Foo',
         last_name='Bar',
-        relation='Father of Baz',
-        organisation='Atreides',
+        suffix=None,
+        dob='10000 AD',
+        birthplace='Planet of the Apes',
+        dod=None,
+        organisation='Monkeys',
         created_at='2024-01-15T12:10:07.770187',
         updated_at='2024-01-15T12:10:07.770187'
     )
@@ -28,7 +31,7 @@ def organisation_model():
 
 @pytest.mark.parametrize(
     'model, attributes', [
-        pytest.param('character_model', {'titles', 'first_name', 'last_name', 'relation', 'organisation', 'created_at', 'updated_at'}, id='character'),
+        pytest.param('character_model', {'titles', 'first_name', 'last_name', 'suffix', 'dob', 'birthplace', 'dod', 'organisation', 'created_at', 'updated_at'}, id='character'),
         pytest.param('organisation_model', {'name', 'year_founded', 'created_at', 'updated_at'}, id='organisation')
     ]
 )

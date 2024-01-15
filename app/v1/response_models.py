@@ -7,7 +7,10 @@ class Character(BaseModel):
     titles: list[str] | None
     first_name: str
     last_name: str
-    relation: str | None
+    suffix: str | None
+    dob: str
+    birthplace: str
+    dod: str | None
     organisation: str | None
     created_at: datetime
     updated_at: datetime

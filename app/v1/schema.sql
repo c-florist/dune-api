@@ -1,8 +1,11 @@
+begin;
+
 create table character (
     id int not null primary key,
     title text,
     first_name text not null,
     last_name text not null,
+    suffix text,
     relation text,
     org_id int,
     created_at datetime not null default current_timestamp,
@@ -33,3 +36,5 @@ begin
     set updated_at = current_timestamp
     where old.id = new.id;
 end;
+
+commit;
