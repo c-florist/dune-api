@@ -1,6 +1,6 @@
 import pytest
 
-from app.v1.response_models import Character
+from app.v1.response_models import Character, Organisation
 
 
 @pytest.fixture
@@ -16,9 +16,20 @@ def character_model():
     )
 
 
+@pytest.fixture
+def organisation_model():
+    yield Organisation(
+        name='Order of Foo',
+        year_founded='110000 AG',
+        created_at='2024-01-15T12:27:53.898594',
+        updated_at='2024-01-15T12:27:53.898594'
+    )
+
+
 @pytest.mark.parametrize(
     'model, attributes', [
-        pytest.param('character_model', {'title', 'first_name', 'last_name', 'relation', 'organisation', 'created_at', 'updated_at'}, id='character')
+        pytest.param('character_model', {'title', 'first_name', 'last_name', 'relation', 'organisation', 'created_at', 'updated_at'}, id='character'),
+        pytest.param('organisation_model', {'name', 'year_founded', 'created_at', 'updated_at'}, id='organisation')
     ]
 )
 def test_model_attributes_match_schema(request, model, attributes):

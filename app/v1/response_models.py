@@ -11,3 +11,10 @@ class Character(BaseModel):
     organisation: str | None
     created_at: datetime
     updated_at: datetime
+
+
+class Organisation(BaseModel):
+    name: str
+    year_founded: str | None
+    created_at: datetime
+    updated_at: datetime
