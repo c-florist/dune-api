@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 
 class Character(BaseModel):
-    title: str | None
+    titles: list[str] | None
     first_name: str
     last_name: str
     relation: str | None
