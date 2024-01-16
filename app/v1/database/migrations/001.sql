@@ -1,6 +1,7 @@
 begin;
 
 --------------------- TABLES ---------------------
+--------------------------------------------------
 create table if not exists character (
     id integer not null primary key,
     titles text,
@@ -14,7 +15,8 @@ create table if not exists character (
     house_id int,
     created_at datetime not null default current_timestamp,
     updated_at datetime not null default current_timestamp,
-    foreign key (org_id) references organisation(id)
+    foreign key (org_id) references organisation(id),
+    foreign key (house_id) references house(id)
 );
 
 create trigger if not exists character_updated_at

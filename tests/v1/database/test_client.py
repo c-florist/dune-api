@@ -1,4 +1,4 @@
-def test_db_connection_success(db_client):
+def test_db_client_connection_success(db_client):
     with db_client.conn as conn:
         cursor = conn.cursor()
         assert cursor.connection == conn
