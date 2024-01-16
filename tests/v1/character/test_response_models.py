@@ -1,6 +1,6 @@
 import pytest
 
-from app.v1.response_models import Character
+from app.v1.character.response_models import Character
 
 
 @pytest.fixture

@@ -1,7 +1,7 @@
 from sqlite3 import Connection
 from contextlib import closing
 
-from .models import DbCharacter
+from app.v1.character.database_models import DbCharacter
 
 
 def get_characters(

@@ -1,6 +1,6 @@
 import pytest
 
-from app.v1.database.models import DbCharacter
+from app.v1.character.database_models import DbCharacter
 
 
 @pytest.fixture

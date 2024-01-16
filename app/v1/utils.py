@@ -2,10 +2,10 @@ from logging import getLogger
 from glob import glob
 from pathlib import Path
 
-from .client import DbClient
+from app.v1.database import DbClient
 
 logger = getLogger(__name__)
-MIGRATIONS_DIR = Path(__file__).parent / "migrations"
+MIGRATIONS_DIR = Path(__file__).parent.parent / "migrations"
 
 
 def run_migrations(db_client: DbClient) -> None:
