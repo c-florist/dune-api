@@ -1,6 +1,8 @@
 from sqlite3 import Connection
 from contextlib import closing
 
+from .models import DbCharacter
+
 
 def get_characters(
     db_conn: Connection, skip: int = 0, limit: int | None = 20
@@ -31,6 +33,8 @@ def get_characters(
             (limit, skip),
         )
 
-        results = cursor.fetchall()
+        results = [
+            DbCharacter(**x).to_dict(json_fields=("titles",)) for x in cursor.fetchall()
+        ]
 
         return results

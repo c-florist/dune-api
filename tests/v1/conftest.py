@@ -1,6 +1,5 @@
 import json
 from contextlib import closing
-from collections.abc import Generator
 
 import pytest
 
