@@ -9,6 +9,6 @@ lint-check:
 	mypy -p app
 
 lint-fix:
-	black app
-	autoflake -ri --ignore-init-module-imports --remove-all-unused-imports app
+	black app tests
+	autoflake -ri --ignore-init-module-imports --remove-all-unused-imports app tests
 	mypy -p app

@@ -16,7 +16,7 @@ def test_get_characters(db_client):
             "house": "House Atreides",
             "organisation": None,
             "created_at": "2024-01-16 06:15:49",
-            "updated_at": "2024-01-16 06:15:49"
+            "updated_at": "2024-01-16 06:15:49",
         },
         {
             "titles": ["Warmaster", "Earl of Caladan"],
@@ -29,6 +29,6 @@ def test_get_characters(db_client):
             "house": "House Atreides",
             "organisation": None,
             "created_at": "2024-01-16 06:15:49",
-            "updated_at": "2024-01-16 06:15:49"
-        }
+            "updated_at": "2024-01-16 06:15:49",
+        },
     ]

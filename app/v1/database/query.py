@@ -33,8 +33,6 @@ def get_characters(
             (limit, skip),
         )
 
-        results = [
+        return [
             DbCharacter(**x).to_dict(json_fields=("titles",)) for x in cursor.fetchall()
         ]
-
-        return results
