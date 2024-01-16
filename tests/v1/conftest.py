@@ -1,18 +1,34 @@
-from pathlib import Path
+import json
 from contextlib import closing
+from collections.abc import Generator
 
 import pytest
 
-from app.v1.database import DbConnection
+
+def generate_atreides_characters(house_id):
+    return [
+        (json.dumps(["Duke"]), "Leto", "Atreides", "I", "10140 AG", "Caladan", "10191 AG", house_id, "2024-01-16 06:15:49", "2024-01-16 06:15:49"),
+        (json.dumps(["Warmaster", "Earl of Caladan"]), "Gurney", "Halleck", None, "10130s AG", "Unknown", None, house_id, "2024-01-16 06:15:49", "2024-01-16 06:15:49"),
+    ]
 
 
 @pytest.fixture
-def db_connection():
-    schema = Path(__file__).parent.parent.parent / Path('app/v1/schema.sql')
-    schema_sql = schema.read_text()
+def db_client(db_client):
+    with closing(db_client.conn.cursor()) as cursor:
+        cursor.execute(
+            "INSERT INTO house (name, homeworld, status, colours, symbol, created_at, updated_at) VALUES(?, ?, ?, ?, ?, ?, ?)",
+            ("House Atreides", "Caladan", "House Major", json.dumps(["Red", "Green"]), "Red Hawk", "2024-01-16 06:15:49", "2024-01-16 06:15:49")
+        )
 
-    with DbConnection('test', mode='memory') as conn:
-        with closing(conn.cursor()) as cursor:
-            cursor.executescript(schema_sql)
+        cursor.executemany(
+            "INSERT INTO character (titles, first_name, last_name, suffix, dob, birthplace, dod, house_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            generate_atreides_characters(cursor.lastrowid)
+        )
 
-        yield conn
+    yield db_client
+
+    with closing(db_client.conn.cursor()) as cursor:
+        cursor.executescript("""
+            DELETE FROM house;
+            DELETE FROM character;
+        """)

@@ -11,13 +11,7 @@ class Character(BaseModel):
     dob: str
     birthplace: str
     dod: str | None
+    house: str | None
     organisation: str | None
-    created_at: datetime
-    updated_at: datetime
-
-
-class Organisation(BaseModel):
-    name: str
-    year_founded: str | None
     created_at: datetime
     updated_at: datetime
