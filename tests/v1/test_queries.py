@@ -1,12 +1,13 @@
 from app.v1.queries import get_characters
+from app.v1.response_models import Character
 
 
 def test_get_characters(db_client):
     characters = get_characters(db_client.conn)
 
     assert characters == [
-        {
-            "titles": ["Duke"],
+        Character(**{
+            "titles": '["Duke"]',
             "first_name": "Leto",
             "last_name": "Atreides",
             "suffix": "I",
@@ -17,9 +18,9 @@ def test_get_characters(db_client):
             "organisation": None,
             "created_at": "2024-01-16 06:15:49",
             "updated_at": "2024-01-16 06:15:49",
-        },
-        {
-            "titles": ["Warmaster", "Earl of Caladan"],
+        }),
+        Character(**{
+            "titles": '["Warmaster", "Earl of Caladan"]',
             "first_name": "Gurney",
             "last_name": "Halleck",
             "suffix": None,
@@ -30,5 +31,5 @@ def test_get_characters(db_client):
             "organisation": None,
             "created_at": "2024-01-16 06:15:49",
             "updated_at": "2024-01-16 06:15:49",
-        },
+        }),
     ]

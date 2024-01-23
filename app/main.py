@@ -9,4 +9,10 @@ app = FastAPI(
     redoc_url=None,
 )
 
+
+@app.get("/")
+def root() -> dict[str, dict[str, str]]:
+    return {"v1": {"status": "OK"}}
+
+
 app.include_router(v1_root_router, prefix="/v1")
