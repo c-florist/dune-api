@@ -57,14 +57,6 @@ def db_client(db_client):
 
     yield db_client
 
-    with closing(db_client.conn.cursor()) as cursor:
-        cursor.executescript(
-            """
-            DELETE FROM house;
-            DELETE FROM character;
-        """
-        )
-
 
 def test_get_characters(db_client, character_db_response):
     characters = get_characters(db_client.conn)

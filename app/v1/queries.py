@@ -1,12 +1,10 @@
 from sqlite3 import Connection
 from contextlib import closing
 
-from app.v1.response_models import Character
-
 
 def get_characters(
     db_conn: Connection, skip: int = 0, limit: int | None = 20
-) -> list[Character]:
+) -> list[dict[str, str | None]]:
     with closing(db_conn.cursor()) as cursor:
         cursor.execute(
             """

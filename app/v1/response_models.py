@@ -1,11 +1,10 @@
 from datetime import datetime
-from typing import TypedDict
 
 from pydantic import BaseModel, ConfigDict, Json
 
 
 class CustomBase(BaseModel):
-    model_config: TypedDict = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="forbid")
 
     created_at: datetime
     updated_at: datetime

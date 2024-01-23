@@ -1,5 +1,8 @@
+from typing import Any
+
 from fastapi import FastAPI
 
+from .response_models import Root
 from .v1.router import router as v1_root_router
 
 app = FastAPI(
@@ -10,9 +13,9 @@ app = FastAPI(
 )
 
 
-@app.get("/")
-def root() -> dict[str, dict[str, str]]:
-    return {"v1": {"status": "OK"}}
+@app.get("/", response_model=Root)
+def root() -> Any:
+    return {"v1": {"status": "200 OK"}}
 
 
 app.include_router(v1_root_router, prefix="/v1")

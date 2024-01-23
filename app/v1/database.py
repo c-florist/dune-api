@@ -5,7 +5,7 @@ from app.v1.constants import DB_PATH
 
 
 class DbClient:
-    def __init__(self, file_path: str, mode: str = "ro") -> None:
+    def __init__(self, file_path: str, mode: str = "rw") -> None:
         self.file_path = file_path
         self.mode = mode
 
@@ -14,6 +14,7 @@ class DbClient:
                 f"file:{self.file_path}?mode={self.mode}",
                 uri=True,
                 isolation_level=None,
+                check_same_thread=False,
             )
             self.conn.row_factory = self.dict_row_factory
         except DatabaseError as ex:
