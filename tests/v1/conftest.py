@@ -1,65 +1,33 @@
-import json
-from contextlib import closing
-
 import pytest
 
 
-def generate_atreides_characters(house_id):
-    return [
-        (
-            json.dumps(["Duke"]),
-            "Leto",
-            "Atreides",
-            "I",
-            "10140 AG",
-            "Caladan",
-            "10191 AG",
-            house_id,
-            "2024-01-16 06:15:49",
-            "2024-01-16 06:15:49",
-        ),
-        (
-            json.dumps(["Warmaster", "Earl of Caladan"]),
-            "Gurney",
-            "Halleck",
-            None,
-            "10130s AG",
-            "Unknown",
-            None,
-            house_id,
-            "2024-01-16 06:15:49",
-            "2024-01-16 06:15:49",
-        ),
-    ]
-
-
 @pytest.fixture
-def db_client(db_client):
-    with closing(db_client.conn.cursor()) as cursor:
-        cursor.execute(
-            "INSERT INTO house (name, homeworld, status, colours, symbol, created_at, updated_at) VALUES(?, ?, ?, ?, ?, ?, ?)",
-            (
-                "House Atreides",
-                "Caladan",
-                "House Major",
-                json.dumps(["Red", "Green"]),
-                "Red Hawk",
-                "2024-01-16 06:15:49",
-                "2024-01-16 06:15:49",
-            ),
-        )
-
-        cursor.executemany(
-            "INSERT INTO character (titles, first_name, last_name, suffix, dob, birthplace, dod, house_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            generate_atreides_characters(cursor.lastrowid),
-        )
-
-    yield db_client
-
-    with closing(db_client.conn.cursor()) as cursor:
-        cursor.executescript(
-            """
-            DELETE FROM house;
-            DELETE FROM character;
-        """
-        )
+def character_db_response():
+    return [
+        {
+            "titles": '["Duke"]',
+            "first_name": "Leto",
+            "last_name": "Atreides",
+            "suffix": "I",
+            "dob": "10140 AG",
+            "birthplace": "Caladan",
+            "dod": "10191 AG",
+            "house": "House Atreides",
+            "organisation": None,
+            "created_at": "2024-01-16 06:15:49",
+            "updated_at": "2024-01-16 06:15:49",
+        },
+        {
+            "titles": '["Warmaster", "Earl of Caladan"]',
+            "first_name": "Gurney",
+            "last_name": "Halleck",
+            "suffix": None,
+            "dob": "10130s AG",
+            "birthplace": "Unknown",
+            "dod": None,
+            "house": "House Atreides",
+            "organisation": None,
+            "created_at": "2024-01-16 06:15:49",
+            "updated_at": "2024-01-16 06:15:49",
+        },
+    ]

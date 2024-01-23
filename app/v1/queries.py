@@ -33,6 +33,6 @@ def get_characters(
             (limit, skip),
         )
 
-        return [
-            Character(**x) for x in cursor.fetchall()
-        ]
+        results = cursor.fetchall()
+
+        return results
