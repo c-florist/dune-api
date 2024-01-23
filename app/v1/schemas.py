@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from typing import Any
 
 
-class DbModel:
+class BaseSchema:
     def to_dict(self, json_fields: tuple[str, ...]) -> dict[str, Any]:
         _dict = self.__dict__.copy()
         for field in json_fields:
@@ -13,7 +13,7 @@ class DbModel:
 
 
 @dataclass
-class DbCharacter(DbModel):
+class CharacterSchema(BaseSchema):
     titles: str
     first_name: str
     last_name: str

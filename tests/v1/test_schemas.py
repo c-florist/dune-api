@@ -1,6 +1,6 @@
 import pytest
 
-from app.v1.character.database_models import DbCharacter
+from app.v1.schemas import CharacterSchema
 
 
 @pytest.fixture
@@ -21,7 +21,7 @@ def db_response():
 
 
 def test_db_model_to_dict_converts_stringified_json(db_response):
-    model = DbCharacter(**db_response)
+    model = CharacterSchema(**db_response)
 
     assert isinstance(model.titles, str)
     assert isinstance(model.to_dict(json_fields=("titles",))["titles"], list)

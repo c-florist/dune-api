@@ -1,7 +1,7 @@
 from sqlite3 import Connection
 from contextlib import closing
 
-from app.v1.character.database_models import DbCharacter
+from app.v1.schemas import CharacterSchema
 
 
 def get_characters(
@@ -34,5 +34,5 @@ def get_characters(
         )
 
         return [
-            DbCharacter(**x).to_dict(json_fields=("titles",)) for x in cursor.fetchall()
+            CharacterSchema(**x).to_dict(json_fields=("titles",)) for x in cursor.fetchall()
         ]

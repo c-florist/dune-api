@@ -1,4 +1,4 @@
-from app.v1.character.queries import get_characters
+from app.v1.queries import get_characters
 
 
 def test_get_characters(db_client):
