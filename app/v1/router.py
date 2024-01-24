@@ -1,12 +1,12 @@
 from sqlite3 import Connection
 from typing import Any, Annotated
 
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Query, HTTPException
 from fastapi.responses import RedirectResponse
 
 from .response_models import Character
 from .dependencies import get_db_connection, CommonQueryParams
-from .queries import read_characters, read_characters_by_house
+from .queries import read_characters
 
 router = APIRouter()
 
@@ -24,13 +24,9 @@ def get_characters(
     ] = None,
     db_conn: Connection = Depends(get_db_connection),
 ) -> Any:
-    if house is not None:
-        characters = read_characters_by_house(
-            db_conn, house, common_query_params["skip"], common_query_params["limit"]
-        )
-    else:
-        characters = read_characters(
-            db_conn, common_query_params["skip"], common_query_params["limit"]
-        )
+    characters = read_characters(db_conn, house, common_query_params["skip"], common_query_params["limit"])
+
+    if not characters and house is not None:
+        raise HTTPException(status_code=404, detail=f"Items not found, House {house.capitalize()} does not exist")
 
     return characters

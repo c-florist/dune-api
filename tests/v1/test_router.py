@@ -27,7 +27,13 @@ def test_get_all_characters(test_client, character_db_response):
     ]
 
 
-def test_get_characters_by_house(test_client):
+def test_get_characters_by_house_success(test_client):
     response = test_client.get("/v1/characters?house=harkonnen")
     assert response.status_code == 200
     assert all(x["house"] == "House Harkonnen" for x in response.json())
+
+
+def test_get_characters_by_non_existent_house(test_client):
+    response = test_client.get("/v1/characters?house=monkey")
+    assert response.status_code == 404
+    assert response.json() == {"detail": "Items not found, House Monkey does not exist"}
