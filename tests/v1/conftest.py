@@ -30,4 +30,17 @@ def character_db_response():
             "created_at": "2024-01-16 06:15:49",
             "updated_at": "2024-01-16 06:15:49",
         },
+        {
+            "titles": '["Baron"]',
+            "first_name": "Vladimir",
+            "last_name": "Harkonnen",
+            "suffix": None,
+            "dob": "10110 AG",
+            "birthplace": "Giedi Prime",
+            "dod": "10193 AG",
+            "house": "House Harkonnen",
+            "organisation": None,
+            "created_at": "2024-01-16 06:15:49",
+            "updated_at": "2024-01-16 06:15:49",
+        },
     ]
