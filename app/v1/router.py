@@ -1,7 +1,7 @@
 from sqlite3 import Connection
-from typing import Any
+from typing import Any, Annotated
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from fastapi.responses import RedirectResponse
 
 from .response_models import Character
@@ -18,18 +18,13 @@ async def root() -> Any:
 
 @router.get("/characters", response_model=list[Character])
 def get_all_characters(
-    common_group_params: CommonQueryParams,
+    common_query_params: CommonQueryParams,
+    house: Annotated[str | None, Query(strict=True, examples=["Atreides", "Harkonnen"])] = None,
     db_conn: Connection = Depends(get_db_connection),
 ) -> Any:
-    characters = read_characters(db_conn, common_group_params["skip"], common_group_params["limit"])
-    return characters
+    if house is not None:
+        characters = read_characters_by_house(db_conn, house, common_query_params["skip"], common_query_params["limit"])
+    else:
+        characters = read_characters(db_conn, common_query_params["skip"], common_query_params["limit"])
 
-
-@router.get("/characters/{house}", response_model=list[Character])
-def get_characters_by_house(
-    common_group_params: CommonQueryParams,
-    house: str,
-    db_conn: Connection = Depends(get_db_connection),
-) -> Any:
-    characters = read_characters_by_house(db_conn, house, common_group_params["skip"], common_group_params["limit"])
     return characters
