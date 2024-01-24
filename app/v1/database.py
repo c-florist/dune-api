@@ -5,7 +5,7 @@ from app.v1.constants import DB_PATH
 
 
 class DbClient:
-    def __init__(self, file_path: str, mode: str = "rw") -> None:
+    def __init__(self, file_path: str, mode: str = "ro") -> None:
         self.file_path = file_path
         self.mode = mode
 
@@ -20,10 +20,11 @@ class DbClient:
         except DatabaseError as ex:
             raise RuntimeError("Fatal: Unable to connect to database") from ex
 
+    def close(self) -> None:
+        self.conn.commit()
+        self.conn.close()
+
     @staticmethod
     def dict_row_factory(cursor: Cursor, row: tuple[Any, ...]) -> dict[str, Any]:
         fields = [column[0] for column in cursor.description]
         return {k: v for k, v in zip(fields, row)}
-
-
-db_client = DbClient(DB_PATH)

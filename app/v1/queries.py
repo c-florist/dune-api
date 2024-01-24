@@ -39,6 +39,8 @@ def read_characters(
 def read_characters_by_house(
     db_conn: Connection, house: str, skip: int = 0, limit: int | None = 20
 ) -> list[dict[str, str | None]]:
+    house = f"House {house.capitalize()}"
+
     with closing(db_conn.cursor()) as cursor:
         cursor.execute(
             """

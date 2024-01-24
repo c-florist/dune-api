@@ -4,19 +4,20 @@ from typing import Annotated
 
 from fastapi import Depends
 
-from app.v1.database import db_client
+from .database import DbClient
+from .constants import DB_PATH
 
 
 def get_db_connection() -> Generator[Connection, None, None]:
+    db_client = DbClient(DB_PATH)
     try:
-        with db_client.conn as conn:
-            yield conn
+        yield db_client.conn
     finally:
-        db_client.conn.close()
+        db_client.close()
 
 
-def common_group_parameters(skip: int = 0, limit: int = 20) -> dict[str, int]:
+def common_query_parameters(skip: int = 0, limit: int = 20) -> dict[str, int]:
     return {"skip": skip, "limit": limit}
 
 
-CommonGroupParams = Annotated[dict, Depends(common_group_parameters)]
+CommonQueryParams = Annotated[dict, Depends(common_query_parameters)]
