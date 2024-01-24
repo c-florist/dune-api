@@ -2,7 +2,7 @@ from sqlite3 import Connection
 from contextlib import closing
 
 
-def get_characters(
+def read_characters(
     db_conn: Connection, skip: int = 0, limit: int | None = 20
 ) -> list[dict[str, str | None]]:
     with closing(db_conn.cursor()) as cursor:
@@ -36,7 +36,7 @@ def get_characters(
     return results
 
 
-def get_characters_by_house(
+def read_characters_by_house(
     db_conn: Connection, house: str, skip: int = 0, limit: int | None = 20
 ) -> list[dict[str, str | None]]:
     with closing(db_conn.cursor()) as cursor:

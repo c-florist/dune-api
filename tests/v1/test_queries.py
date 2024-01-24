@@ -2,7 +2,7 @@ import json
 import pytest
 from contextlib import closing
 
-from app.v1.queries import get_characters, get_characters_by_house
+from app.v1.queries import read_characters, read_characters_by_house
 
 
 @pytest.fixture
@@ -89,16 +89,16 @@ def db_client(db_client, house_raw_data, character_raw_data):
     yield db_client
 
 
-def test_get_characters(db_client, character_db_response):
-    characters = get_characters(db_client.conn)
+def test_read_characters(db_client, character_db_response):
+    characters = read_characters(db_client.conn)
 
     assert characters == character_db_response
 
 
-def test_get_characters_by_house(db_client, character_db_response):
+def test_read_characters_by_house(db_client, character_db_response):
     expected_response = [
         x for x in character_db_response if x["house"] == "House Atreides"
     ]
-    characters = get_characters_by_house(db_client.conn, "House Atreides")
+    characters = read_characters_by_house(db_client.conn, "House Atreides")
 
     assert characters == expected_response

@@ -6,7 +6,7 @@ from fastapi.responses import RedirectResponse
 
 from .response_models import Character
 from .dependencies import get_db_connection
-from .queries import get_characters
+from .queries import read_characters
 
 router = APIRouter()
 
@@ -20,5 +20,5 @@ async def root() -> Any:
 def get_all_characters(
     db_conn: Connection = Depends(get_db_connection),
 ) -> Any:
-    characters = get_characters(db_conn)
+    characters = read_characters(db_conn)
     return characters
