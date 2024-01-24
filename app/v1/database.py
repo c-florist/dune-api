@@ -1,8 +1,6 @@
 from sqlite3 import DatabaseError, Cursor, connect
 from typing import Any
 
-from app.v1.constants import DB_PATH
-
 
 class DbClient:
     def __init__(self, file_path: str, mode: str = "ro") -> None:
@@ -17,6 +15,7 @@ class DbClient:
                 check_same_thread=False,
             )
             self.conn.row_factory = self.dict_row_factory
+            self.conn.execute("PRAGMA foreign_keys = ON;")
         except DatabaseError as ex:
             raise RuntimeError("Fatal: Unable to connect to database") from ex
 

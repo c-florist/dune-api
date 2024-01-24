@@ -17,14 +17,20 @@ async def root() -> Any:
 
 
 @router.get("/characters", response_model=list[Character])
-def get_all_characters(
+def get_characters(
     common_query_params: CommonQueryParams,
-    house: Annotated[str | None, Query(strict=True, examples=["Atreides", "Harkonnen"])] = None,
+    house: Annotated[
+        str | None, Query(strict=True, examples=["Atreides", "atreides"])
+    ] = None,
     db_conn: Connection = Depends(get_db_connection),
 ) -> Any:
     if house is not None:
-        characters = read_characters_by_house(db_conn, house, common_query_params["skip"], common_query_params["limit"])
+        characters = read_characters_by_house(
+            db_conn, house, common_query_params["skip"], common_query_params["limit"]
+        )
     else:
-        characters = read_characters(db_conn, common_query_params["skip"], common_query_params["limit"])
+        characters = read_characters(
+            db_conn, common_query_params["skip"], common_query_params["limit"]
+        )
 
     return characters

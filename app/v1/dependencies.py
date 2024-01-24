@@ -20,4 +20,4 @@ def common_query_parameters(skip: int = 0, limit: int = 20) -> dict[str, int]:
     return {"skip": skip, "limit": limit}
 
 
-CommonQueryParams = Annotated[dict, Depends(common_query_parameters)]
+CommonQueryParams = Annotated[dict[str, int], Depends(common_query_parameters)]

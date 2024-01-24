@@ -1,66 +1,66 @@
-begin;
+BEGIN;
 
---------------------- TABLES ---------------------
---------------------------------------------------
-create table if not exists character (
-    id integer not null primary key,
-    titles text,
-    first_name text not null,
-    last_name text not null,
-    suffix text,
-    dob text not null,
-    birthplace text not null,
-    dod text,
-    org_id int,
-    house_id int,
-    created_at datetime not null default current_timestamp,
-    updated_at datetime not null default current_timestamp,
-    foreign key (org_id) references organisation(id),
-    foreign key (house_id) references house(id)
+PRAGMA foreign_keys = ON;
+
+CREATE TABLE IF NOT EXISTS character (
+    id INTEGER NOT NULL PRIMARY KEY,
+    titles TEXT,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    suffix TEXT,
+    dob TEXT NOT NULL,
+    birthplace TEXT NOT NULL,
+    dod TEXT,
+    org_id INT,
+    house_id INT,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (org_id) REFERENCES organisation(id) ON DELETE SET NULL,
+    FOREIGN KEY (house_id) REFERENCES house(id) ON DELETE SET NULL
 );
 
-create trigger if not exists character_updated_at
-after update on character
-begin
-    update character
-    set updated_at = current_timestamp
-    where old.id = new.id;
-end;
+CREATE TRIGGER IF NOT EXISTS character_updated_at
+AFTER UPDATE ON character
+BEGIN
+    UPDATE character
+    SET updated_at = current_timestamp
+    WHERE OLD.id = NEW.id;
+END;
 
-create table if not exists organisation (
-    id integer not null primary key,
-    name text not null,
-    founded text not null,
-    dissolved text,
-    created_at datetime not null default current_timestamp,
-    updated_at datetime not null default current_timestamp
+CREATE TABLE IF NOT EXISTS organisation (
+    id INTEGER NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    founded TEXT NOT NULL,
+    dissolved TEXT,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-create trigger if not exists organisation_updated_at
-after update on organisation
-begin
-    update organisation
-    set updated_at = current_timestamp
-    where old.id = new.id;
-end;
+CREATE TRIGGER IF NOT EXISTS organisation_updated_at
+AFTER UPDATE ON organisation
+BEGIN
+    UPDATE organisation
+    SET updated_at = current_timestamp
+    WHERE OLD.id = NEW.id;
+END;
 
-create table if not exists house (
-    id integer not null primary key,
-    name text not null,
-    homeworld text not null,
-    status text not null,
-    colours text not null,
-    symbol text not null,
-    created_at datetime not null default current_timestamp,
-    updated_at datetime not null default current_timestamp
+CREATE TABLE IF NOT EXISTS house (
+    id INTEGER NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    homeworld TEXT NOT NULL,
+    status TEXT NOT NULL,
+    colours TEXT NOT NULL,
+    symbol TEXT NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-create trigger if not exists house_updated_at
-after update on house
-begin
-    update house
-    set updated_at = current_timestamp
-    where old.id = new.id;
-end;
+CREATE TRIGGER IF NOT EXISTS house_updated_at
+AFTER UPDATE ON house
+BEGIN
+    UPDATE house
+    SET updated_at = current_timestamp
+    WHERE OLD.id = NEW.id;
+END;
 
-commit;
+COMMIT;
