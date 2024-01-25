@@ -13,7 +13,7 @@ class CustomBase(BaseModel):
 class Character(CustomBase):
     titles: Json[list[str]] | None
     first_name: str
-    last_name: str
+    last_name: str | None
     suffix: str | None
     dob: str
     birthplace: str

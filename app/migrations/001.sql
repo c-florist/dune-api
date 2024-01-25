@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS character (
     id INTEGER NOT NULL PRIMARY KEY,
     titles TEXT,
     first_name TEXT NOT NULL,
-    last_name TEXT NOT NULL,
+    last_name TEXT,
     suffix TEXT,
     dob TEXT NOT NULL,
     birthplace TEXT NOT NULL,
