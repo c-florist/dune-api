@@ -23,8 +23,8 @@ CREATE TRIGGER IF NOT EXISTS character_updated_at
 AFTER UPDATE ON character
 BEGIN
     UPDATE character
-    SET updated_at = current_timestamp
-    WHERE OLD.id = NEW.id;
+    SET updated_at = CURRENT_TIMESTAMP
+    WHERE id = NEW.id;
 END;
 
 CREATE TABLE IF NOT EXISTS organisation (
@@ -40,8 +40,8 @@ CREATE TRIGGER IF NOT EXISTS organisation_updated_at
 AFTER UPDATE ON organisation
 BEGIN
     UPDATE organisation
-    SET updated_at = current_timestamp
-    WHERE OLD.id = NEW.id;
+    SET updated_at = CURRENT_TIMESTAMP
+    WHERE id = NEW.id;
 END;
 
 CREATE TABLE IF NOT EXISTS house (
@@ -59,8 +59,8 @@ CREATE TRIGGER IF NOT EXISTS house_updated_at
 AFTER UPDATE ON house
 BEGIN
     UPDATE house
-    SET updated_at = current_timestamp
-    WHERE OLD.id = NEW.id;
+    SET updated_at = CURRENT_TIMESTAMP
+    WHERE id = NEW.id;
 END;
 
 COMMIT;

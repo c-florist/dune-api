@@ -24,9 +24,14 @@ def get_characters(
     ] = None,
     db_conn: Connection = Depends(get_db_connection),
 ) -> Any:
-    characters = read_characters(db_conn, house, common_query_params["skip"], common_query_params["limit"])
+    characters = read_characters(
+        db_conn, house, common_query_params["skip"], common_query_params["limit"]
+    )
 
     if not characters and house is not None:
-        raise HTTPException(status_code=404, detail=f"Items not found, House {house.capitalize()} does not exist")
+        raise HTTPException(
+            status_code=404,
+            detail=f"Items not found, House {house.capitalize()} does not exist",
+        )
 
     return characters

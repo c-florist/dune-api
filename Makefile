@@ -1,7 +1,10 @@
 .PHONY: start test lint-check lint-fix
 
-start:
+start: init
 	uvicorn app.main:app --reload
+
+init:
+	python -m tests.setup
 
 test:
 	python -m pytest tests -vvv

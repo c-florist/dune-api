@@ -5,7 +5,7 @@ from typing import Annotated
 from fastapi import Depends
 
 from .database import DbClient
-from .constants import DB_PATH
+from app.constants import DB_PATH
 
 
 def get_db_connection() -> Generator[Connection, None, None]:

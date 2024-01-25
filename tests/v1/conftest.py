@@ -44,3 +44,27 @@ def character_db_response():
             "updated_at": "2024-01-16 06:15:49",
         },
     ]
+
+
+@pytest.fixture
+def house_db_response():
+    yield [
+        {
+            "name": "House Atreides",
+            "homeworld": "Caladan",
+            "status": "House Major",
+            "colours": '["Red", "Green"]',
+            "symbol": "Red Hawk",
+            "created_at": "2024-01-16 06:15:49",
+            "updated_at": "2024-01-16 06:15:49",
+        },
+        {
+            "name": "House Harkonnen",
+            "homeworld": "Giedi Prime",
+            "status": "House Major",
+            "colours": '["Blue", "Orange"]',
+            "symbol": "Griffin",
+            "created_at": "2024-01-16 06:15:49",
+            "updated_at": "2024-01-16 06:15:49",
+        },
+    ]

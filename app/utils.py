@@ -1,11 +1,26 @@
-from logging import getLogger
+import logging
 from glob import glob
+from logging import getLogger
 from pathlib import Path
 
-from app.v1.database import DbClient
+from .constants import ENV
+from .v1.database import DbClient
 
+MIGRATIONS_DIR = Path(__file__).parent / "migrations"
 logger = getLogger(__name__)
-MIGRATIONS_DIR = Path(__file__).parent.parent / "migrations"
+
+
+def setup_logging() -> None:
+    if ENV != "local":
+        logging_level = logging.INFO
+    else:
+        logging_level = logging.DEBUG
+
+    logging.basicConfig(
+        level=logging_level,
+        format="%(asctime)s %(levelname)s:%(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+    )
 
 
 def run_migrations(db_client: DbClient) -> None:

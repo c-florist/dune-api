@@ -1,4 +1,4 @@
-from app.v1.queries import read_characters
+from app.v1.queries import read_characters, read_houses
 
 
 def test_read_characters(db_client, character_db_response):
@@ -14,3 +14,16 @@ def test_read_characters_by_house(db_client, character_db_response):
     characters = read_characters(db_client.conn, "atreides")
 
     assert characters == expected_response
+
+
+def test_read_houses(db_client, house_db_response):
+    houses = read_houses(db_client.conn)
+
+    assert houses == house_db_response
+
+
+def test_read_houses_by_status(db_client, house_db_response):
+    expected_response = [x for x in house_db_response if x["status"] == "House Major"]
+    houses = read_houses(db_client.conn, "major")
+
+    assert houses == expected_response

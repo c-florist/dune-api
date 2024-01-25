@@ -1,14 +1,15 @@
+from logging import getLogger
 from contextlib import closing
 
 from app.v1.database import DbClient
-from app.v1.constants import DB_PATH
-from app.v1.utils import run_migrations
+from app.constants import DB_PATH
+from app.utils import run_migrations, setup_logging
 from .seed_data import CHARACTERS, HOUSES
 
+logger = getLogger(__name__)
 
-def drop_test_db() -> None:
-    db_client = DbClient(DB_PATH, mode="rw")
 
+def drop_test_db(db_client: DbClient) -> None:
     with closing(db_client.conn.cursor()) as cursor:
         cursor.executescript(
             """
@@ -18,13 +19,8 @@ def drop_test_db() -> None:
         """
         )
 
-    db_client.close()
 
-
-def seed_test_db() -> None:
-    db_client = DbClient(DB_PATH, mode="rwc")
-    run_migrations(db_client)
-
+def seed_test_db(db_client: DbClient) -> None:
     with closing(db_client.conn.cursor()) as cursor:
         cursor.executemany(
             "INSERT INTO house (id, name, homeworld, status, colours, symbol, created_at, updated_at) VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
@@ -36,4 +32,22 @@ def seed_test_db() -> None:
             CHARACTERS,
         )
 
+
+def run() -> None:
+    db_client = DbClient(DB_PATH, mode="rwc")
+
+    logger.info("Dropping database tables ...")
+    drop_test_db(db_client)
+
+    logger.info("Running migrations ...")
+    run_migrations(db_client)
+
+    logger.info(f"Seeding test database at {DB_PATH} ...")
+    seed_test_db(db_client)
+
     db_client.close()
+
+
+if __name__ == "__main__":
+    setup_logging()
+    run()

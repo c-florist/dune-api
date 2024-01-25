@@ -17,7 +17,7 @@ HOUSES = [
         "Giedi Prime",
         "House Major",
         json.dumps(["Blue", "Orange"]),
-        "Ram",
+        "Griffin",
         "2024-01-16 06:15:49",
         "2024-01-16 06:15:49",
     ),
