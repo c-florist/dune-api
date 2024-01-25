@@ -51,7 +51,7 @@ def house_db_response():
     yield [
         {
             "name": "House Atreides",
-            "homeworld": "Caladan",
+            "homeworld": '["Caladan", "Arrakis"]',
             "status": "House Major",
             "colours": '["Red", "Green"]',
             "symbol": "Red Hawk",
@@ -60,7 +60,7 @@ def house_db_response():
         },
         {
             "name": "House Harkonnen",
-            "homeworld": "Giedi Prime",
+            "homeworld": '["Giedi Prime"]',
             "status": "House Major",
             "colours": '["Blue", "Orange"]',
             "symbol": "Griffin",

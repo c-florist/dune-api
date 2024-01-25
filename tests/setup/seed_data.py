@@ -4,7 +4,7 @@ HOUSES = [
     (
         1,
         "House Atreides",
-        "Caladan",
+        json.dumps(["Caladan", "Arrakis"]),
         "House Major",
         json.dumps(["Red", "Green"]),
         "Red Hawk",
@@ -14,7 +14,7 @@ HOUSES = [
     (
         2,
         "House Harkonnen",
-        "Giedi Prime",
+        json.dumps(["Giedi Prime"]),
         "House Major",
         json.dumps(["Blue", "Orange"]),
         "Griffin",

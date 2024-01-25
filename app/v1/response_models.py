@@ -24,7 +24,7 @@ class Character(CustomBase):
 
 class House(CustomBase):
     name: str
-    homeworld: str
+    homeworld: Json[list[str]]
     status: str
     colours: Json[list[str]]
     symbol: str
