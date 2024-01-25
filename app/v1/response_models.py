@@ -20,3 +20,11 @@ class Character(CustomBase):
     dod: str | None
     house: str | None
     organisation: str | None
+
+
+class House(CustomBase):
+    name: str
+    homeworld: str
+    status: str
+    colours: Json[list[str]]
+    symbol: str

@@ -36,4 +36,28 @@ def test_get_characters_by_house_success(test_client):
 def test_get_characters_by_non_existent_house(test_client):
     response = test_client.get("/v1/characters?house=monkey")
     assert response.status_code == 404
-    assert response.json() == {"detail": "Items not found, House Monkey does not exist"}
+    assert response.json()["detail"] == "Items not found, House Monkey does not exist"
+
+
+def test_get_all_houses(test_client, house_db_response):
+    response = test_client.get("/v1/houses")
+    assert response.status_code == 200
+
+    data = response.json()
+    assert len(data) == 2
+
+    assert [x["colours"] for x in data] == [
+        json.loads(x["colours"]) for x in house_db_response
+    ]
+
+
+def test_get_houses_by_status_success(test_client):
+    response = test_client.get("/v1/houses?status=major")
+    assert response.status_code == 200
+    assert all(x["status"] == "House Major" for x in response.json())
+
+
+def test_get_houses_by_non_existent_status(test_client):
+    response = test_client.get("/v1/houses?status=nope")
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Items not found, status House Nope does not exist"
