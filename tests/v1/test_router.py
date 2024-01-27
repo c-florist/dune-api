@@ -60,4 +60,6 @@ def test_get_houses_by_status_success(test_client):
 def test_get_houses_by_non_existent_status(test_client):
     response = test_client.get("/v1/houses?status=nope")
     assert response.status_code == 404
-    assert response.json()["detail"] == "Items not found, status House Nope does not exist"
+    assert (
+        response.json()["detail"] == "Items not found, status House Nope does not exist"
+    )

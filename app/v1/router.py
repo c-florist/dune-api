@@ -52,7 +52,7 @@ def get_houses(
     if not houses and status is not None:
         raise HTTPException(
             status_code=404,
-            detail=f"Items not found, status House {status.capitalize()} does not exist"
+            detail=f"Items not found, status House {status.capitalize()} does not exist",
         )
 
     return houses
