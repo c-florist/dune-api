@@ -11,6 +11,7 @@ class CustomBase(BaseModel):
 
 
 class Character(CustomBase):
+    # TODO: add aliases
     titles: Json[list[str]] | None
     first_name: str
     last_name: str | None
