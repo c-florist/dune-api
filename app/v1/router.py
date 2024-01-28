@@ -63,12 +63,11 @@ def get_organisations(
     common_query_params: CommonQueryParams,
     db_conn: Connection = Depends(get_db_connection),
 ) -> Any:
-    organisations = read_organisations(db_conn, common_query_params["skip"], common_query_params["limit"])
+    organisations = read_organisations(
+        db_conn, common_query_params["skip"], common_query_params["limit"]
+    )
 
     if not organisations:
-        raise HTTPException(
-            status_code=404,
-            detail="Items not found"
-        )
+        raise HTTPException(status_code=404, detail="Items not found")
 
     return organisations

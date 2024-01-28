@@ -34,7 +34,7 @@ def seed_test_db(db_client: DbClient) -> None:
 
         cursor.executemany(
             "INSERT INTO organisation (id, name, founded, dissolved, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)",
-            ORGANISATIONS
+            ORGANISATIONS,
         )
 
 

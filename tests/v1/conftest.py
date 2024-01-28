@@ -86,5 +86,5 @@ def organisation_db_response():
             "dissolved": "c. 10219 AG",
             "created_at": "2024-01-16 06:15:49",
             "updated_at": "2024-01-16 06:15:49",
-        }
+        },
     ]

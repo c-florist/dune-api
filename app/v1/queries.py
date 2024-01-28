@@ -81,9 +81,7 @@ def read_houses(
 
 
 def read_organisations(
-    db_conn: Connection,
-    skip: int = 0,
-    limit: int = 20
+    db_conn: Connection, skip: int = 0, limit: int = 20
 ) -> list[dict[str, str]]:
     params = (limit, skip)
     q = """
