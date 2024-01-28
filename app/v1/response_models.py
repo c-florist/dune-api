@@ -29,3 +29,9 @@ class House(CustomBase):
     status: str
     colours: Json[list[str]]
     symbol: str
+
+
+class Organisation(CustomBase):
+    name: str
+    founded: str
+    dissolved: str | None

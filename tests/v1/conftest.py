@@ -76,11 +76,15 @@ def organisation_db_response():
         {
             "name": "Bene Gesserit",
             "founded": "c. 98 BG",
-            "dissolved": None
+            "dissolved": None,
+            "created_at": "2024-01-16 06:15:49",
+            "updated_at": "2024-01-16 06:15:49",
         },
         {
             "name": "Fremen",
             "founded": "c. 1300 BG",
-            "dissolved": "c. 10219 AG"
+            "dissolved": "c. 10219 AG",
+            "created_at": "2024-01-16 06:15:49",
+            "updated_at": "2024-01-16 06:15:49",
         }
     ]

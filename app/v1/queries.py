@@ -90,7 +90,9 @@ def read_organisations(
         SELECT
             name,
             founded,
-            dissolved
+            dissolved,
+            created_at,
+            updated_at
         FROM organisation
         LIMIT ? OFFSET ?
     """
