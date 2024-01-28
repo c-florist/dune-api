@@ -63,3 +63,13 @@ def test_get_houses_by_non_existent_status(test_client):
     assert (
         response.json()["detail"] == "Items not found, status House Nope does not exist"
     )
+
+
+def test_get_all_organisations(test_client, organisation_db_response):
+    response = test_client.get("/v1/organisations")
+    assert response.status_code == 200
+
+    data = response.json()
+    assert len(data) == 2
+
+    assert [x["name"] for x in data] == [x["name"] for x in organisation_db_response]

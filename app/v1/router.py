@@ -4,9 +4,9 @@ from typing import Any, Annotated
 from fastapi import APIRouter, Depends, Query, HTTPException
 from fastapi.responses import RedirectResponse
 
-from .response_models import Character, House
+from .response_models import Character, House, Organisation
 from .dependencies import get_db_connection, CommonQueryParams
-from .queries import read_characters, read_houses
+from .queries import read_characters, read_houses, read_organisations
 
 router = APIRouter()
 
@@ -56,3 +56,19 @@ def get_houses(
         )
 
     return houses
+
+
+@router.get("/organisations", response_model=list[Organisation])
+def get_organisations(
+    common_query_params: CommonQueryParams,
+    db_conn: Connection = Depends(get_db_connection),
+) -> Any:
+    organisations = read_organisations(db_conn, common_query_params["skip"], common_query_params["limit"])
+
+    if not organisations:
+        raise HTTPException(
+            status_code=404,
+            detail="Items not found"
+        )
+
+    return organisations
