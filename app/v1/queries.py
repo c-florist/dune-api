@@ -4,7 +4,7 @@ from typing import Any
 
 
 def read_characters(
-    db_conn: Connection, house: str | None = None, skip: int = 0, limit: int | None = 20
+    db_conn: Connection, house: str | None = None, skip: int = 0, limit: int = 20
 ) -> list[dict[str, str | None]]:
     params: tuple[Any, ...] = (limit, skip)
 
@@ -48,7 +48,7 @@ def read_houses(
     db_conn: Connection,
     status: str | None = None,
     skip: int = 0,
-    limit: int | None = 20,
+    limit: int = 20,
 ) -> list[dict[str, str]]:
     params: tuple[Any, ...] = (limit, skip)
 
@@ -72,6 +72,28 @@ def read_houses(
     limit_offset_clause = "LIMIT ? OFFSET ?"
 
     q = base_query + where_clause + limit_offset_clause
+
+    with closing(db_conn.cursor()) as cursor:
+        cursor.execute(q, params)
+        results = cursor.fetchall()
+
+    return results
+
+
+def read_organisations(
+    db_conn: Connection,
+    skip: int = 0,
+    limit: int = 20
+) -> list[dict[str, str]]:
+    params = (limit, skip)
+    q = """
+        SELECT
+            name,
+            founded,
+            dissolved
+        FROM organisation
+        LIMIT ? OFFSET ?
+    """
 
     with closing(db_conn.cursor()) as cursor:
         cursor.execute(q, params)

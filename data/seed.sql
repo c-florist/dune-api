@@ -20,7 +20,17 @@ VALUES
 INSERT INTO organisation (id, name, founded, dissolved)
 VALUES
     (1, 'Bene Gesserit', 'c. 98 BG', null),
-    (2, 'Fremen', 'c. 1300 BG', 'c. 10219 AG')
+    (2, 'Fremen', 'c. 1300 BG', 'c. 10219 AG'),
+    (3, 'Ixian Confederacy', '10196 AG', null),
+    (4, 'Fish Speakers', 'c. 10500 AG', null),
+    (5, 'Bene Tleilax', 'After 1381 BG', '15229 AG'),
+    (6, 'Rakian Preisthood', 'c. 15228 AG', null),
+    (7, 'Sardaukar', 'Before 10163 AG', 'After 10219 AG'),
+    (8, 'Honored Matres', 'c. 15728 AG', 'After 15240 AG'),
+    (9, 'Combine Honnete Ober Advancer Mercantiles (CHOAM)', 'c. 1000 AG', 'After 15212 AG'),
+    (10, 'Landsraad', 'c. 2100 BG', 'After 10219 AG'),
+    (11, 'Spacing Guild', 'c. 1 AG', null),
+    (12, 'Suk Medical School', '88 BG', null)
 ;
 
 -------------------- ATREIDES CHARACTERS --------------------

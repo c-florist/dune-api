@@ -23,6 +23,21 @@ HOUSES = [
     ),
 ]
 
+ORGANISATIONS = [
+    (
+        1,
+        "Bene Gesserit",
+        "c. 98 BG",
+        None
+    ),
+    (
+        2,
+        "Fremen",
+        "c. 1300 BG",
+        "c. 10219 AG"
+    )
+]
+
 CHARACTERS = [
     (
         json.dumps(["Duke"]),

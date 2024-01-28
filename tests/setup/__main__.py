@@ -4,7 +4,7 @@ from contextlib import closing
 from app.v1.database import DbClient
 from app.constants import DB_PATH
 from app.utils import run_migrations, setup_logging
-from .seed_data import CHARACTERS, HOUSES
+from .seed_data import CHARACTERS, HOUSES, ORGANISATIONS
 
 logger = getLogger(__name__)
 
@@ -30,6 +30,11 @@ def seed_test_db(db_client: DbClient) -> None:
         cursor.executemany(
             "INSERT INTO character (titles, first_name, last_name, suffix, dob, birthplace, dod, house_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             CHARACTERS,
+        )
+
+        cursor.executemany(
+            "INSERT INTO organisation (id, name, founded, dissolved) VALUES (?, ?, ?, ?)",
+            ORGANISATIONS
         )
 
 

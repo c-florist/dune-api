@@ -68,3 +68,19 @@ def house_db_response():
             "updated_at": "2024-01-16 06:15:49",
         },
     ]
+
+
+@pytest.fixture
+def organisation_db_response():
+    yield [
+        {
+            "name": "Bene Gesserit",
+            "founded": "c. 98 BG",
+            "dissolved": None
+        },
+        {
+            "name": "Fremen",
+            "founded": "c. 1300 BG",
+            "dissolved": "c. 10219 AG"
+        }
+    ]
