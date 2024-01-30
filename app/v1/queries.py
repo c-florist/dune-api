@@ -45,6 +45,41 @@ def read_characters(
     return results
 
 
+def read_random_character(db_conn: Connection) -> dict[str, str | None]:
+    q = """
+        WITH random_character AS (
+            SELECT *
+            FROM character
+            ORDER BY RANDOM()
+            LIMIT 1
+        )
+        SELECT
+            titles,
+            aliases,
+            first_name,
+            last_name,
+            suffix,
+            dob,
+            birthplace,
+            dod,
+            organisation.name as organisation,
+            house.name as house,
+            character.created_at,
+            character.updated_at
+        FROM random_character AS character
+        LEFT JOIN organisation
+            ON character.org_id = organisation.id
+        LEFT JOIN house
+            ON character.house_id = house.id
+    """
+
+    with closing(db_conn.cursor()) as cursor:
+        cursor.execute(q)
+        result = cursor.fetchone()
+
+    return result
+
+
 def read_houses(
     db_conn: Connection,
     status: str | None = None,

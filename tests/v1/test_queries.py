@@ -1,4 +1,4 @@
-from app.v1.queries import read_characters, read_houses, read_organisations
+from app.v1.queries import read_characters, read_random_character, read_houses, read_organisations
 
 
 def test_read_characters(db_client, character_db_response):
@@ -14,6 +14,12 @@ def test_read_characters_by_house(db_client, character_db_response):
     characters = read_characters(db_client.conn, "atreides")
 
     assert characters == expected_response
+
+
+def test_read_random_character(db_client):
+    character = read_random_character(db_client.conn)
+
+    assert character["house"] in {"House Atreides", "House Harkonnen"}
 
 
 def test_read_houses(db_client, house_db_response):

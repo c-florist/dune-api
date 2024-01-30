@@ -37,6 +37,11 @@ def get_characters(
     return characters
 
 
+@router.get("/characters/random")
+def get_random_character(db_conn: Connection = Depends(get_db_connection)) -> Any:
+    ...
+
+
 @router.get("/houses", response_model=list[House])
 def get_houses(
     common_query_params: CommonQueryParams,

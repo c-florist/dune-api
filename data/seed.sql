@@ -15,6 +15,10 @@ VALUES
     (9, 'House Nebiro', '["Unknown"]', 'House Minor', '["Unknown"]', 'Unknown')
 ;
 
+COMMIT;
+
+BEGIN;
+
 --------------------- ALL ORGANISATIONS ---------------------
 -------------------------------------------------------------
 INSERT INTO organisation (id, name, founded, dissolved)
@@ -32,6 +36,10 @@ VALUES
     (11, 'Spacing Guild', 'c. 1 AG', null),
     (12, 'Suk Medical School', '88 BG', null)
 ;
+
+COMMIT;
+
+BEGIN;
 
 -------------------- ATREIDES CHARACTERS --------------------
 -------------------------------------------------------------
