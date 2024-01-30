@@ -39,16 +39,18 @@ def get_characters(
     return characters
 
 
-@router.get("/character/random")
+@router.get("/character/random", response_model=Character)
 def get_random_character(db_conn: Connection = Depends(get_db_connection)) -> Any:
     character = read_random_character(db_conn)
 
     if not character:
-        logger.error("Could not find a random character")
+        logger.error("Could not get a random character from database")
         raise HTTPException(
             status_code=500,
             detail="No data available"
         )
+
+    return character
 
 
 @router.get("/houses", response_model=list[House])
