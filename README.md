@@ -35,6 +35,7 @@ make lint-fix
 
 - [x] Add basic routes for characters, houses and organisations
 - [ ] Add some other fun routes for additional information, e.g. `GET /characters/random`
+- [ ] Add a route and validation for getting a single character
 - [ ] Add all seed data for basic routes
 
 ### Data to add

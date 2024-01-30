@@ -1,3 +1,4 @@
+from logging import getLogger
 from sqlite3 import Connection
 from typing import Any, Annotated
 
@@ -6,8 +7,9 @@ from fastapi.responses import RedirectResponse
 
 from .response_models import Character, House, Organisation
 from .dependencies import get_db_connection, CommonQueryParams
-from .queries import read_characters, read_houses, read_organisations
+from .queries import read_characters, read_random_character, read_houses, read_organisations
 
+logger = getLogger(__name__)
 router = APIRouter()
 
 
@@ -37,9 +39,16 @@ def get_characters(
     return characters
 
 
-@router.get("/characters/random")
+@router.get("/character/random")
 def get_random_character(db_conn: Connection = Depends(get_db_connection)) -> Any:
-    ...
+    character = read_random_character(db_conn)
+
+    if not character:
+        logger.error("Could not find a random character")
+        raise HTTPException(
+            status_code=500,
+            detail="No data available"
+        )
 
 
 @router.get("/houses", response_model=list[House])
