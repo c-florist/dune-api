@@ -28,13 +28,13 @@ def seed_test_db(db_client: DbClient) -> None:
         )
 
         cursor.executemany(
-            "INSERT INTO character (titles, first_name, last_name, suffix, dob, birthplace, dod, house_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            CHARACTERS,
+            "INSERT INTO organisation (id, name, founded, dissolved, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)",
+            ORGANISATIONS,
         )
 
         cursor.executemany(
-            "INSERT INTO organisation (id, name, founded, dissolved, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)",
-            ORGANISATIONS,
+            "INSERT INTO character (titles, aliases, first_name, last_name, suffix, dob, birthplace, dod, house_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            CHARACTERS,
         )
 
 

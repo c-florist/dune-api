@@ -17,6 +17,7 @@ def read_characters(
     base_query = """
         SELECT 
             titles,
+            aliases,
             first_name,
             last_name,
             suffix,

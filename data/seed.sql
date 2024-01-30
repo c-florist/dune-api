@@ -49,4 +49,11 @@ VALUES
     ('["Governor of Arrakis"]', 'Siona Ibn Fuad al-Seyefa', 'Atreides', null, '13600s AG', 'Arrakis', null, null, 1)
 ;
 
+------------------- HARKONNEN CHARACTERS --------------------
+-------------------------------------------------------------
+INSERT INTO character (titles, first_name, last_name, suffix, dob, birthplace, dod, org_id, house_id)
+VALUES
+    ()
+;
+
 COMMIT;

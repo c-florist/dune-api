@@ -6,6 +6,7 @@ def character_db_response():
     yield [
         {
             "titles": '["Duke"]',
+            "aliases": '["The Red Duke", "Leto the Just"]',
             "first_name": "Leto",
             "last_name": "Atreides",
             "suffix": "I",
@@ -19,6 +20,7 @@ def character_db_response():
         },
         {
             "titles": '["Warmaster", "Earl of Caladan"]',
+            "aliases": None,
             "first_name": "Gurney",
             "last_name": "Halleck",
             "suffix": None,
@@ -32,6 +34,7 @@ def character_db_response():
         },
         {
             "titles": '["Baron"]',
+            "aliases": None,
             "first_name": "Vladimir",
             "last_name": "Harkonnen",
             "suffix": None,

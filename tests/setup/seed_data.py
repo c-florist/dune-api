@@ -45,6 +45,7 @@ ORGANISATIONS = [
 CHARACTERS = [
     (
         json.dumps(["Duke"]),
+        json.dumps(["The Red Duke", "Leto the Just"]),
         "Leto",
         "Atreides",
         "I",
@@ -57,6 +58,7 @@ CHARACTERS = [
     ),
     (
         json.dumps(["Warmaster", "Earl of Caladan"]),
+        None,
         "Gurney",
         "Halleck",
         None,
@@ -69,6 +71,7 @@ CHARACTERS = [
     ),
     (
         json.dumps(["Baron"]),
+        None,
         "Vladimir",
         "Harkonnen",
         None,
