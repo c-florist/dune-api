@@ -1,13 +1,8 @@
 from datetime import datetime
 
-from pydantic import BaseModel, ConfigDict, Json
+from pydantic import BaseModel, Json
 
-
-class CustomBase(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-
-    created_at: datetime
-    updated_at: datetime
+from ..response_models import CustomBase
 
 
 class Character(CustomBase):
@@ -21,6 +16,8 @@ class Character(CustomBase):
     dod: str | None
     house: str | None
     organisation: str | None
+    created_at: datetime
+    updated_at: datetime
 
 
 class House(CustomBase):
@@ -29,9 +26,20 @@ class House(CustomBase):
     status: str
     colours: Json[list[str]]
     symbol: str
+    created_at: datetime
+    updated_at: datetime
 
 
 class Organisation(CustomBase):
     name: str
     founded: str
     dissolved: str | None
+    created_at: datetime
+    updated_at: datetime
+
+
+class PaginatedResponse(BaseModel):
+    items: list[Character | House | Organisation]
+    limit: int
+    offset: int
+    total: int

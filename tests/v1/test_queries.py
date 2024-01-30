@@ -1,4 +1,9 @@
-from app.v1.queries import read_characters, read_random_character, read_houses, read_organisations
+from app.v1.queries import (
+    read_characters,
+    read_random_character,
+    read_houses,
+    read_organisations,
+)
 
 
 def test_read_characters(db_client, character_db_response):

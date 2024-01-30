@@ -5,9 +5,15 @@ from typing import Any, Annotated
 from fastapi import APIRouter, Depends, Query, HTTPException
 from fastapi.responses import RedirectResponse
 
-from .response_models import Character, House, Organisation
 from .dependencies import get_db_connection, CommonQueryParams
-from .queries import read_characters, read_random_character, read_houses, read_organisations
+from .queries import (
+    read_characters,
+    read_random_character,
+    read_houses,
+    read_organisations,
+)
+from .response_models import PaginatedResponse
+from ..utils import paginated_response
 
 logger = getLogger(__name__)
 router = APIRouter()
@@ -18,7 +24,7 @@ async def root() -> Any:
     return RedirectResponse(url="/docs")
 
 
-@router.get("/characters", response_model=list[Character])
+@router.get("/characters", response_model=PaginatedResponse)
 def get_characters(
     common_query_params: CommonQueryParams,
     house: Annotated[
@@ -27,7 +33,7 @@ def get_characters(
     db_conn: Connection = Depends(get_db_connection),
 ) -> Any:
     characters = read_characters(
-        db_conn, house, common_query_params["skip"], common_query_params["limit"]
+        db_conn, house, common_query_params["limit"], common_query_params["offset"]
     )
 
     if not characters and house is not None:
@@ -36,24 +42,23 @@ def get_characters(
             detail=f"Items not found, House {house.capitalize()} does not exist",
         )
 
-    return characters
+    return paginated_response(
+        characters, common_query_params["limit"], common_query_params["offset"]
+    )
 
 
-@router.get("/character/random", response_model=Character)
+@router.get("/character/random", response_model=PaginatedResponse)
 def get_random_character(db_conn: Connection = Depends(get_db_connection)) -> Any:
     character = read_random_character(db_conn)
 
     if not character:
         logger.error("Could not get a random character from database")
-        raise HTTPException(
-            status_code=500,
-            detail="No data available"
-        )
+        raise HTTPException(status_code=500, detail="No data available")
 
-    return character
+    return paginated_response([character], 0, 0)
 
 
-@router.get("/houses", response_model=list[House])
+@router.get("/houses", response_model=PaginatedResponse)
 def get_houses(
     common_query_params: CommonQueryParams,
     status: Annotated[
@@ -62,7 +67,7 @@ def get_houses(
     db_conn: Connection = Depends(get_db_connection),
 ) -> Any:
     houses = read_houses(
-        db_conn, status, common_query_params["skip"], common_query_params["limit"]
+        db_conn, status, common_query_params["limit"], common_query_params["offset"]
     )
 
     if not houses and status is not None:
@@ -71,19 +76,23 @@ def get_houses(
             detail=f"Items not found, status House {status.capitalize()} does not exist",
         )
 
-    return houses
+    return paginated_response(
+        houses, common_query_params["limit"], common_query_params["offset"]
+    )
 
 
-@router.get("/organisations", response_model=list[Organisation])
+@router.get("/organisations", response_model=PaginatedResponse)
 def get_organisations(
     common_query_params: CommonQueryParams,
     db_conn: Connection = Depends(get_db_connection),
 ) -> Any:
     organisations = read_organisations(
-        db_conn, common_query_params["skip"], common_query_params["limit"]
+        db_conn, common_query_params["limit"], common_query_params["offset"]
     )
 
     if not organisations:
         raise HTTPException(status_code=404, detail="Items not found")
 
-    return organisations
+    return paginated_response(
+        organisations, common_query_params["limit"], common_query_params["offset"]
+    )

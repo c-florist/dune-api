@@ -4,9 +4,9 @@ from typing import Any
 
 
 def read_characters(
-    db_conn: Connection, house: str | None = None, skip: int = 0, limit: int = 20
+    db_conn: Connection, house: str | None = None, limit: int = 20, offset: int = 0
 ) -> list[dict[str, str | None]]:
-    params: tuple[Any, ...] = (limit, skip)
+    params: tuple[Any, ...] = (limit, offset)
 
     if house is not None:
         params = (house.capitalize(),) + params
@@ -34,9 +34,9 @@ def read_characters(
         LEFT JOIN house
             ON character.house_id = house.id
     """
-    limit_offset_clause = "LIMIT ? OFFSET ?"
+    order_limit_clause = "ORDER BY character.id LIMIT ? OFFSET ?"
 
-    q = base_query + where_clause + limit_offset_clause
+    q = base_query + where_clause + order_limit_clause
 
     with closing(db_conn.cursor()) as cursor:
         cursor.execute(q, params)
@@ -75,7 +75,7 @@ def read_random_character(db_conn: Connection) -> dict[str, str | None]:
 
     with closing(db_conn.cursor()) as cursor:
         cursor.execute(q)
-        result = cursor.fetchone()
+        result: dict[str, str | None] = cursor.fetchone()
 
     return result
 
@@ -83,10 +83,10 @@ def read_random_character(db_conn: Connection) -> dict[str, str | None]:
 def read_houses(
     db_conn: Connection,
     status: str | None = None,
-    skip: int = 0,
     limit: int = 20,
+    offset: int = 0,
 ) -> list[dict[str, str]]:
-    params: tuple[Any, ...] = (limit, skip)
+    params: tuple[Any, ...] = (limit, offset)
 
     if status is not None:
         params = (status.capitalize(),) + params
@@ -105,9 +105,9 @@ def read_houses(
             updated_at
         FROM house
     """
-    limit_offset_clause = "LIMIT ? OFFSET ?"
+    order_limit_clause = "ORDER BY id LIMIT ? OFFSET ?"
 
-    q = base_query + where_clause + limit_offset_clause
+    q = base_query + where_clause + order_limit_clause
 
     with closing(db_conn.cursor()) as cursor:
         cursor.execute(q, params)
@@ -117,9 +117,9 @@ def read_houses(
 
 
 def read_organisations(
-    db_conn: Connection, skip: int = 0, limit: int = 20
+    db_conn: Connection, limit: int = 20, offset: int = 0
 ) -> list[dict[str, str]]:
-    params = (limit, skip)
+    params = (limit, offset)
     q = """
         SELECT
             name,
@@ -128,6 +128,7 @@ def read_organisations(
             created_at,
             updated_at
         FROM organisation
+        ORDER BY id
         LIMIT ? OFFSET ?
     """
 

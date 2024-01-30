@@ -17,7 +17,7 @@ app = FastAPI(
 
 @app.get("/", response_model=Root)
 def root() -> Any:
-    return {"v1": {"status": "200 OK"}}
+    return {"v1": {"status": "active"}}
 
 
 app.include_router(v1, prefix="/v1")

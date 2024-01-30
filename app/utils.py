@@ -2,12 +2,19 @@ import logging
 from glob import glob
 from logging import getLogger
 from pathlib import Path
+from typing import Any
 
 from .constants import ENV
 from .v1.database import DbClient
 
 MIGRATIONS_DIR = Path(__file__).parent / "migrations"
 logger = getLogger(__name__)
+
+
+def paginated_response(
+    items: list[dict[str, Any]], limit: int, offset: int
+) -> dict[str, int | list[dict[str, Any]]]:
+    return {"items": items, "limit": limit, "offset": offset, "total": len(items)}
 
 
 def setup_logging() -> None:
