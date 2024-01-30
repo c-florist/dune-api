@@ -23,7 +23,7 @@ def drop_test_db(db_client: DbClient) -> None:
 def seed_test_db(db_client: DbClient) -> None:
     with closing(db_client.conn.cursor()) as cursor:
         cursor.executemany(
-            "INSERT INTO house (id, name, homeworld, status, colours, symbol, created_at, updated_at) VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO house (id, name, homeworld, status, colours, symbol, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
             HOUSES,
         )
 

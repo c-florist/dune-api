@@ -2,6 +2,6 @@
 
 An API that provides information about the world of Dune, the book series created by Frank Herbert.
 
-At the moment the focus is on the original book series, so this API doesn't include any additional information that may have been added afterwards.
+The focus for this API is the original book series, so it doesn't include any information added afterwards, for example in the prequels.
 
 Currently under development, so no docs or live endpoints yet.

@@ -4,12 +4,12 @@ from fastapi import FastAPI
 
 from .utils import setup_logging
 from .response_models import Root
-from .v1.router import router as v1_root_router
+from .v1.router import router as v1
 
 setup_logging()
 app = FastAPI(
     title="Dune API",
-    summary="API for information about Frank Herbert's book series Dune",
+    summary="API for information about the book series Dune by Frank Herbert'",
     version="0.0.1",
     redoc_url=None,
 )
@@ -20,4 +20,4 @@ def root() -> Any:
     return {"v1": {"status": "200 OK"}}
 
 
-app.include_router(v1_root_router, prefix="/v1")
+app.include_router(v1, prefix="/v1")
