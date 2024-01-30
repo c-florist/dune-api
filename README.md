@@ -34,7 +34,7 @@ make lint-fix
 ### Project goals
 
 - [x] Add basic routes for characters, houses and organisations
-- [ ] Implement pagination on list endpoints
+- [x] Implement pagination on all endpoints
 - [x] Add some other fun routes for additional information, e.g. `GET /character/random`
 - [ ] Add a route and validation for getting a single character
 - [ ] Add all seed data for basic routes
