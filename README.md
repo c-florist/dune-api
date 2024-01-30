@@ -15,6 +15,22 @@ cd dune-api
 pip install -r requirements.txt -r requirements.dev.txt
 ```
 
+### Makefile targets
+```shell
+# Start local development server
+make start
+
+# Initialise test database and seed data
+make init-tests
+
+# Run test suite
+make test
+
+# Run linting tools
+make lint-check
+make lint-fix
+```
+
 ### Project goals
 
 - [x] Add basic routes for characters, houses and organisations
