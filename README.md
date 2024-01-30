@@ -37,3 +37,7 @@ make lint-fix
 - [ ] Add all seed data for basic routes
 - [ ] Add some other fun routes for additional information, e.g. `GET /characters/random`
 - [ ] Add CI/CD pipeline and make deployable on AWS (or other free tier cloud service)
+
+### Data to add
+
+- [ ] Planets

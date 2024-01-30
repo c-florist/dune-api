@@ -35,25 +35,56 @@ VALUES
 
 -------------------- ATREIDES CHARACTERS --------------------
 -------------------------------------------------------------
-INSERT INTO character (titles, first_name, last_name, suffix, dob, birthplace, dod, org_id, house_id)
+INSERT INTO character (titles, aliases, first_name, last_name, suffix, dob, birthplace, dod, org_id, house_id)
 VALUES
-    ('["The Old Duke"]', 'Unknown', 'Atreides', null, 'Unknown', 'Unknown', '10154 AG', null, 1),
-    ('["Duke"]', 'Leto', 'Atreides', 'I', '10140 AG', 'Caladan', '10191 AG', null, 1),
-    ('["Lady", "Honorable Atreides"]', 'Jessica', 'Atreides', null, '10154 AG', 'Wallach IX', '10256 AG', 1, 1),
-    ('["Duke", "Padishah Emperor", "Kwisatz Haderach", "Mahdi", "Lisan al Gaib"]', 'Paul', 'Atreides', null, '10176 AG', 'Caladan', '10219 AG', 2, 1),
-    ('["Regent", "Mahdinate"]', 'Alia', 'Atreides', null, '10191 AG', 'Arrakis', '10219 AG', 2, 1),
-    (null, 'Leto', 'Atreides', 'II (Elder)', 'Unknown', 'Arrakis', '10193 AG', null, 1),
-    ('["Padishah Emperor"]', 'Leto', 'Atreides', 'II', '10210 AG', 'Arrakis', '13728 AG', null, 1),
-    ('["Empress"]', 'Ghanima', 'Atreides', null, '10210 AG', 'Arrakis', null, null, 1),
-    ('["Majordomo"]', 'Moneo', 'Atreides', null, '13610 AG', 'Unknown', '13728 AG', null, 1),
-    ('["Governor of Arrakis"]', 'Siona Ibn Fuad al-Seyefa', 'Atreides', null, '13600s AG', 'Arrakis', null, null, 1)
+    ('["Duke"]', '["The Old Duke"]', 'Unknown', 'Atreides', null, 'Unknown', 'Unknown', '10154 AG', null, 1),
+    ('["Duke"]', '["The Red Duke", "Leto the Just"]', 'Leto', 'Atreides', 'I', '10140 AG', 'Caladan', '10191 AG', null, 1),
+    ('["Lady", "Honorable Atreides"]', null, 'Jessica', 'Atreides', null, '10154 AG', 'Wallach IX', '10256 AG', 1, 1),
+    ('["Duke", "Padishah Emperor", "Kwisatz Haderach", "Mahdi", "Lisan al Gaib"]', '["Muad''Dib", "Usul", "The Preacher", "The Mentat Emperor"]', 'Paul', 'Atreides', null, '10176 AG', 'Caladan', '10219 AG', 2, 1),
+    ('["Regent", "Mahdinate"]', '["St. Alia of the Knife", "Abomination", "Coan-Teen", "Hawt the Fish Monster", "Womb of Heaven"]', 'Alia', 'Atreides', null, '10191 AG', 'Arrakis', '10219 AG', 2, 1),
+    (null, null, 'Leto', 'Atreides', 'II (Elder)', 'Unknown', 'Arrakis', '10193 AG', null, 1),
+    ('["Padishah Emperor"]', '["God-Emperor", "Divided God", "Golden Ruler", "The Tyrant", "Guldur", "Great God Dur", "Worm", "Worm God", "Old Worm", "Prophet", "Desert Demon", "Ari", "Lion of the Atreides", "Batigh"]', 'Leto', 'Atreides', 'II', '10210 AG', 'Arrakis', '13728 AG', null, 1),
+    ('["Empress"]', '["Aryeh", "Atreides Lioness"]', 'Ghanima', 'Atreides', null, '10210 AG', 'Arrakis', null, null, 1),
+    ('["Majordomo"]', null, 'Moneo', 'Atreides', null, '13610 AG', 'Unknown', '13728 AG', null, 1),
+    ('["Governor of Arrakis"]', null, 'Siona Ibn Fuad al-Seyefa', 'Atreides', null, '13600s AG', 'Arrakis', null, null, 1),
+    ('["Warmaster", "Earl of Caladan"]', null, 'Gurney', 'Halleck', null, 'c. 10130 AG', 'Unknown', null, null, 1)
 ;
 
 ------------------- HARKONNEN CHARACTERS --------------------
 -------------------------------------------------------------
-INSERT INTO character (titles, first_name, last_name, suffix, dob, birthplace, dod, org_id, house_id)
+INSERT INTO character (titles, aliases, first_name, last_name, suffix, dob, birthplace, dod, org_id, house_id)
 VALUES
-    ()
+    (null, null, 'Abulurd', 'Harkonnen', null, 'Unknown', 'Unknown', 'Unknown', null, 2),
+    (null, '["Abulurd Harkonnen II"]', 'Abulurd', 'Rabban', null, 'Unknown', 'Unknown', 'Unknown', null, 2),
+    ('["Baron"]', null, 'Vladimir', 'Harkonnen', null, '10110 AG', 'Giedi Prime', '10193 AG', null, 2),
+    ('["Count of Lankiveil", "Governor of Arrakis"]', '["Beast Rabban", "Mudir Nahya", "Demon Ruler", "King Cobra"]', 'Glossu', 'Rabban', null, '10132 AG', 'Lankiveil', '10193 AG', null, 2),
+    ('["Baron"]', null, 'Feyd-Rautha', 'Harkonnen', null, '10174 AG', 'Lankiveil', '10193 AG', null, 2)
+;
+
+--------------------- CORRINO CHARACTERS --------------------
+-------------------------------------------------------------
+INSERT INTO character (titles, aliases, first_name, last_name, suffix, dob, birthplace, dod, org_id, house_id)
+VALUES
+    ('["Padishah Emperor"]', null, 'Shaddam', 'Corrino', 'IV', '10119 AG', 'Kaitain', '10202 AG', null, 3),
+    ('["Princess"]', null, 'Irulan', 'Corrino', null, '10176 AG', 'Kaitain', null, 1, 3),
+    ('["Princess"]', null, 'Wensicia', 'Corrino', null, 'Unknown', 'Unknown', null, null, 3),
+    ('["Prince"]', '["Harq al-Ada"]', 'Farad''n', 'Corrino', null, 'Unknown', 'Unknown', null, null, 3)
+;
+
+--------------------- FENRING CHARACTERS --------------------
+-------------------------------------------------------------
+INSERT INTO character (titles, aliases, first_name, last_name, suffix, dob, birthplace, dod, org_id, house_id)
+VALUES
+    ('["Count"]', '["Imperial Agent on Arrakis", "Interim Governor of Arrakis", "Siridar-Absentia of Caladan"]', null, 'Hasimir', 'Fenring', null, '10133 AG', 'Unknown', '10225 AG', null, 4),
+    ('["Lady"]', null, 'Margot', 'Fenring', null, 'Unknown', 'Unknown', null, 1, 4),
+    (null, null, 'Dalak', 'Fenring', null, 'Unknown', 'Unknown', 'Before 10219 AG', null, 4)
+;
+
+---------------------- NEBIRO CHARACTERS --------------------
+-------------------------------------------------------------
+INSERT INTO character (titles, aliases, first_name, last_name, suffix, dob, birthplace, dod, org_id, house_id)
+VALUES
+    (null, null, 'Essas', 'Paymon', null, 'Unknown', 'Unknown', 'After 10210 AG', null, 9)
 ;
 
 COMMIT;
