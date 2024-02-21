@@ -1,23 +1,21 @@
 PRAGMA foreign_keys = ON;
 
-CREATE TABLE IF NOT EXISTS house (
+CREATE TABLE IF NOT EXISTS organisation (
     id INTEGER NOT NULL PRIMARY KEY,
     uuid TEXT NOT NULL,
     name TEXT NOT NULL,
-    homeworld TEXT NOT NULL,
-    status TEXT NOT NULL,
-    colours TEXT NOT NULL,
-    symbol TEXT NOT NULL,
+    founded TEXT NOT NULL,
+    dissolved TEXT,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE UNIQUE INDEX house_uuid_unique_idx ON house(uuid);
+CREATE UNIQUE INDEX organisation_uuid_unique_idx ON organisation(uuid);
 
-CREATE TRIGGER IF NOT EXISTS house_updated_at
-AFTER UPDATE ON house
+CREATE TRIGGER IF NOT EXISTS organisation_updated_at
+AFTER UPDATE ON organisation
 BEGIN
-    UPDATE house
+    UPDATE organisation
     SET updated_at = CURRENT_TIMESTAMP
     WHERE id = NEW.id;
 END;
