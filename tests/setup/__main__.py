@@ -4,7 +4,7 @@ from contextlib import closing
 from app.v1.database import DbClient
 from app.constants import DB_PATH
 from app.utils import run_migrations, setup_logging
-from .seed_data import CHARACTERS, HOUSES, ORGANISATIONS
+from .seed_data import CHARACTERS, HOUSES, ORGANISATIONS, CHARACTER_ORGS
 
 logger = getLogger(__name__)
 
@@ -13,6 +13,7 @@ def drop_test_db(db_client: DbClient) -> None:
     with closing(db_client.conn.cursor()) as cursor:
         cursor.executescript(
             """
+            DROP TABLE IF EXISTS character_organisation;
             DROP TABLE IF EXISTS character;
             DROP TABLE IF EXISTS house;
             DROP TABLE IF EXISTS organisation;
@@ -23,18 +24,23 @@ def drop_test_db(db_client: DbClient) -> None:
 def seed_test_db(db_client: DbClient) -> None:
     with closing(db_client.conn.cursor()) as cursor:
         cursor.executemany(
-            "INSERT INTO house (id, name, homeworld, status, colours, symbol, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO house (id, uuid, name, homeworld, status, colours, symbol, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
             HOUSES,
         )
 
         cursor.executemany(
-            "INSERT INTO organisation (id, name, founded, dissolved, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)",
+            "INSERT INTO organisation (id, uuid, name, founded, dissolved, misc, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
             ORGANISATIONS,
         )
 
         cursor.executemany(
-            "INSERT INTO character (titles, aliases, first_name, last_name, suffix, dob, birthplace, dod, house_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO character (id, uuid, titles, aliases, first_name, last_name, suffix, dob, birthplace, dod, profession, misc, house_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             CHARACTERS,
+        )
+
+        cursor.executemany(
+            "INSERT INTO character_organisation (character_id, org_id) VALUES (?, ?)",
+            CHARACTER_ORGS,
         )
 
 

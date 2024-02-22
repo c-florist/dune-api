@@ -11,6 +11,8 @@ CREATE TABLE IF NOT EXISTS character (
     dob TEXT NOT NULL,
     birthplace TEXT NOT NULL,
     dod TEXT,
+    profession TEXT,
+    misc TEXT,
     house_id INTEGER,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,

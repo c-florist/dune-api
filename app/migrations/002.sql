@@ -5,7 +5,8 @@ CREATE TABLE IF NOT EXISTS organisation (
     uuid TEXT NOT NULL,
     name TEXT NOT NULL,
     founded TEXT NOT NULL,
-    dissolved TEXT,
+    dissolved TEXT NOT NULL,
+    misc TEXT,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
