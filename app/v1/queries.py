@@ -102,7 +102,7 @@ def read_houses(
     status: str | None = None,
     limit: int = 20,
     offset: int = 0,
-) -> list[dict[str, str]]:
+) -> list[dict[str, Any]]:
     params: tuple[Any, ...] = (limit, offset)
 
     if status is not None:
@@ -132,7 +132,7 @@ def read_houses(
     return results
 
 
-def read_organisations(db_conn: Connection, limit: int = 20, offset: int = 0) -> list[dict[str, str]]:
+def read_organisations(db_conn: Connection, limit: int = 20, offset: int = 0) -> list[dict[str, Any]]:
     params = (limit, offset)
     q = """
         SELECT
@@ -153,7 +153,7 @@ def read_organisations(db_conn: Connection, limit: int = 20, offset: int = 0) ->
     return results
 
 
-def read_planet(db_conn: Connection, planet_uuid: str) -> dict[str, str | None]:
+def read_planet(db_conn: Connection, planet_uuid: str) -> dict[str, Any]:
     q = """
         SELECT
             uuid,
@@ -166,12 +166,12 @@ def read_planet(db_conn: Connection, planet_uuid: str) -> dict[str, str | None]:
 
     with closing(db_conn.cursor()) as cursor:
         cursor.execute(q, (planet_uuid,))
-        result: dict[str, str | None] = cursor.fetchone()
+        result = cursor.fetchone()
 
     return result
 
 
-def read_planets(db_conn: Connection, limit: int = 20, offset: int = 0) -> list[dict[str, str]]:
+def read_planets(db_conn: Connection, limit: int = 20, offset: int = 0) -> list[dict[str, Any]]:
     params = (limit, offset)
     q = """
         SELECT
@@ -191,7 +191,7 @@ def read_planets(db_conn: Connection, limit: int = 20, offset: int = 0) -> list[
     return results
 
 
-def read_planet_by_environment(db_conn: Connection, environment: str) -> dict[str, str | None]:
+def read_planet_by_environment(db_conn: Connection, environment: str) -> dict[str, Any]:
     q = """
         SELECT
             uuid,
@@ -205,6 +205,6 @@ def read_planet_by_environment(db_conn: Connection, environment: str) -> dict[st
 
     with closing(db_conn.cursor()) as cursor:
         cursor.execute(q, (environment,))
-        result: dict[str, str | None] = cursor.fetchone()
+        result = cursor.fetchone()
 
     return result

@@ -9,14 +9,15 @@ from pydantic import UUID4
 from app.core.responses import paginated_response
 from app.domain.models import Character, Planet
 from app.services.character_service import CharacterService
+from app.services.house_service import HouseService
 
 from .dependencies import (
     CommonQueryParams,
     get_character_service,
     get_db_connection,
+    get_house_service,
 )
 from .queries import (
-    read_houses,
     read_organisations,
     read_planet,
     read_planets,
@@ -76,10 +77,10 @@ def get_random_character(character_service: Annotated[CharacterService, Depends(
 @router.get("/houses", response_model=PaginatedResponse)
 def get_houses(
     common_query_params: CommonQueryParams,
-    db_conn: Annotated[Connection, Depends(get_db_connection)],
+    house_service: Annotated[HouseService, Depends(get_house_service)],
     status: Annotated[str | None, Query(strict=True, examples=["Major", "major"])] = None,
 ) -> Any:
-    houses = read_houses(db_conn, status, common_query_params["limit"], common_query_params["offset"])
+    houses = house_service.get_houses(status, common_query_params["limit"], common_query_params["offset"])
 
     if not houses and status is not None:
         raise HTTPException(
