@@ -47,7 +47,7 @@ def seed_test_db(db_client: DBClient) -> None:
         )
 
         cursor.executemany(
-            "INSERT INTO planet (id, uuid, name, geographical_features, ruler) VALUES (?, ?, ?, ?, ?)",
+            "INSERT INTO planet (id, uuid, name, environment, ruler) VALUES (?, ?, ?, ?, ?)",
             PLANETS,
         )
 

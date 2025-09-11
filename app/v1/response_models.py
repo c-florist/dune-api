@@ -39,7 +39,7 @@ class Organisation(CustomBase):
 class Planet(CustomBase):
     uuid: UUID4
     name: str
-    geographical_features: str
+    environment: str
     ruler: str | None
 
 

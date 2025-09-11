@@ -158,7 +158,7 @@ def read_planet(db_conn: Connection, planet_uuid: str) -> dict[str, str | None]:
         SELECT
             uuid,
             name,
-            geographical_features,
+            environment,
             ruler
         FROM planet
         WHERE uuid = ?
@@ -177,7 +177,7 @@ def read_planets(db_conn: Connection, limit: int = 20, offset: int = 0) -> list[
         SELECT
             uuid,
             name,
-            geographical_features,
+            environment,
             ruler
         FROM planet
         ORDER BY id

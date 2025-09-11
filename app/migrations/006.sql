@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS planet (
     id INTEGER NOT NULL PRIMARY KEY,
     uuid TEXT NOT NULL,
     name TEXT NOT NULL,
-    geographical_features TEXT NOT NULL,
+    environment TEXT NOT NULL,
     ruler TEXT,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP

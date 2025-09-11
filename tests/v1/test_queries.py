@@ -60,5 +60,5 @@ def test_read_planets(db_client):
     assert len(planets) == 3
     for planet in planets:
         assert isinstance(planet["name"], str)
-        assert isinstance(planet["geographical_features"], str)
+        assert isinstance(planet["environment"], str)
         assert isinstance(planet["ruler"], (str, type(None)))
