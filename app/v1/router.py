@@ -15,10 +15,11 @@ from .queries import (
     read_houses,
     read_organisations,
     read_planet,
+    read_planet_by_environment,
     read_planets,
-    read_planets_by_environment,
     read_random_character,
 )
+from .request_models import Coordinates
 from .response_models import Character, PaginatedResponse, Planet
 from .services import (
     EnvironmentService,
@@ -106,6 +107,28 @@ def get_organisations(
     return paginated_response(organisations, common_query_params["limit"], common_query_params["offset"])
 
 
+@router.post("/planet/from-coordinates", response_model=Planet)
+async def get_planet_from_coordinates(
+    coordinates: Coordinates,
+    db_conn: Annotated[Connection, Depends(get_db_connection)],
+    environment_service: Annotated[EnvironmentService, Depends(get_environment_service)],
+) -> Any:
+    try:
+        environment = await environment_service.get_environment_from_coords(coordinates.latitude, coordinates.longitude)
+    except ServiceCommunicationError as e:
+        logger.error(f"Service communication error: {e}")
+        raise HTTPException(status_code=503, detail="External service is unavailable") from None
+    except InvalidResponseError as e:
+        logger.error(f"Invalid response from service: {e}")
+        raise HTTPException(status_code=500, detail="Error parsing external service response") from None
+
+    planet = read_planet_by_environment(db_conn, environment)
+    if not planet:
+        raise HTTPException(status_code=404, detail=f"No planet found with environment: {environment}")
+
+    return planet
+
+
 @router.get("/planet/{uuid}", response_model=Planet)
 def get_planet(
     uuid: UUID4,
@@ -130,26 +153,3 @@ def get_planets(
         raise HTTPException(status_code=404, detail="Items not found")
 
     return paginated_response(planets, common_query_params["limit"], common_query_params["offset"])
-
-
-@router.get("/planet/from-coordinates", response_model=Planet)
-async def get_planet_from_coordinates(
-    latitude: float,
-    longitude: float,
-    db_conn: Annotated[Connection, Depends(get_db_connection)],
-    environment_service: Annotated[EnvironmentService, Depends(get_environment_service)],
-) -> Any:
-    try:
-        environment = await environment_service.get_environment_from_coords(latitude, longitude)
-    except ServiceCommunicationError as e:
-        logger.error(f"Service communication error: {e}")
-        raise HTTPException(status_code=503, detail="External service is unavailable") from None
-    except InvalidResponseError as e:
-        logger.error(f"Invalid response from service: {e}")
-        raise HTTPException(status_code=500, detail="Error parsing external service response") from None
-
-    planets = read_planets_by_environment(db_conn, environment)
-    if not planets:
-        raise HTTPException(status_code=404, detail=f"No planets found with environment: {environment}")
-
-    return planets[0]
