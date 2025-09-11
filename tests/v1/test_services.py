@@ -1,7 +1,11 @@
 import httpx
 import pytest
 
-from app.v1.services import EnvironmentService
+from app.v1.services import (
+    EnvironmentService,
+    InvalidResponseError,
+    ServiceCommunicationError,
+)
 
 
 class MockSuccessResponse:
@@ -10,6 +14,17 @@ class MockSuccessResponse:
 
     def json(self):
         return {"biomes": {"label": "Deserts & Xeric Shrublands"}}
+
+    def raise_for_status(self):
+        pass
+
+
+class MockUnmappableResponse:
+    """A mock response for a biome that isn't in our BIOME_MAP."""
+    status_code = 200
+
+    def json(self):
+        return {"biomes": {"label": "Unmappable Biome"}}
 
     def raise_for_status(self):
         pass
@@ -41,9 +56,6 @@ class MockBadJSONResponse:
 
 @pytest.mark.asyncio
 async def test_get_environment_from_coords_success(monkeypatch):
-    """
-    Tests the success case where the external API returns a valid biome.
-    """
     async def mock_get(*args, **kwargs):
         return MockSuccessResponse()
 
@@ -58,9 +70,6 @@ async def test_get_environment_from_coords_success(monkeypatch):
 
 @pytest.mark.asyncio
 async def test_get_environment_from_coords_api_error(monkeypatch):
-    """
-    Tests the failure case where the external API returns a non-2xx status code.
-    """
     async def mock_get(*args, **kwargs):
         return MockErrorResponse()
 
@@ -68,16 +77,12 @@ async def test_get_environment_from_coords_api_error(monkeypatch):
 
     async with httpx.AsyncClient() as client:
         service = EnvironmentService(client)
-        environment = await service.get_environment_from_coords(lat=27.98, lon=86.92)
-
-    assert environment is None
+        with pytest.raises(ServiceCommunicationError):
+            await service.get_environment_from_coords(lat=27.98, lon=86.92)
 
 
 @pytest.mark.asyncio
 async def test_get_environment_from_coords_bad_json(monkeypatch):
-    """
-    Tests the failure case where the external API returns an unexpected JSON structure.
-    """
     async def mock_get(*args, **kwargs):
         return MockBadJSONResponse()
 
@@ -85,6 +90,18 @@ async def test_get_environment_from_coords_bad_json(monkeypatch):
 
     async with httpx.AsyncClient() as client:
         service = EnvironmentService(client)
-        environment = await service.get_environment_from_coords(lat=27.98, lon=86.92)
+        with pytest.raises(InvalidResponseError):
+            await service.get_environment_from_coords(lat=27.98, lon=86.92)
 
-    assert environment is None
+
+@pytest.mark.asyncio
+async def test_get_environment_from_coords_unmappable_biome(monkeypatch):
+    async def mock_get(*args, **kwargs):
+        return MockUnmappableResponse()
+
+    monkeypatch.setattr(httpx.AsyncClient, "get", mock_get)
+
+    async with httpx.AsyncClient() as client:
+        service = EnvironmentService(client)
+        with pytest.raises(InvalidResponseError):
+            await service.get_environment_from_coords(lat=27.98, lon=86.92)
