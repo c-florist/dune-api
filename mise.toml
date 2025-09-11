@@ -1,0 +1,35 @@
+[env]
+_.file = ".env.secrets"
+_.python.venv = { path = ".venv", create = true }
+
+DB_PATH = "./local.sqlite3"
+
+[tools]
+python = "3.13"
+pre-commit = "latest"
+
+[tasks.dev]
+description = "Run the development server"
+run = "uvicorn app.main:app --reload"
+
+[tasks.init-tests]
+description = "Initialise the test environment"
+hide = true
+run = "python -m tests.setup"
+
+[tasks.test]
+description = "Run unit tests"
+depends = ["init-tests"]
+run = "python -m pytest tests -vvv"
+
+[tasks.format]
+description = "Run the formatter [and modify files]"
+run = "ruff format {{arg(name='dir', default='.')}}"
+
+[tasks.lint]
+description = "Run the linter [and modify files]"
+run = "ruff check --fix {{arg(name='dir', default='.')}}"
+
+[tasks.typecheck]
+description = "Run the basedpyright type checker"
+run = "basedpyright --level error {{arg(name='dir', default='.')}}"
