@@ -4,6 +4,7 @@ from typing import Annotated, Any
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import RedirectResponse
+from pydantic import UUID4
 
 from app.core.responses import paginated_response
 
@@ -107,10 +108,10 @@ def get_organisations(
 
 @router.get("/planet/{uuid}", response_model=Planet)
 def get_planet(
-    uuid: str,
+    uuid: UUID4,
     db_conn: Annotated[Connection, Depends(get_db_connection)],
 ) -> Any:
-    planet = read_planet(db_conn, uuid)
+    planet = read_planet(db_conn, str(uuid))
 
     if not planet:
         raise HTTPException(status_code=404, detail=f"Planet {uuid} not found")
@@ -131,15 +132,15 @@ def get_planets(
     return paginated_response(planets, common_query_params["limit"], common_query_params["offset"])
 
 
-@router.get("/planet/from-coordinates", response_model=PaginatedResponse)
+@router.get("/planet/from-coordinates", response_model=Planet)
 async def get_planet_from_coordinates(
-    lat: float,
-    lon: float,
+    latitude: float,
+    longitude: float,
     db_conn: Annotated[Connection, Depends(get_db_connection)],
     environment_service: Annotated[EnvironmentService, Depends(get_environment_service)],
 ) -> Any:
     try:
-        environment = await environment_service.get_environment_from_coords(lat, lon)
+        environment = await environment_service.get_environment_from_coords(latitude, longitude)
     except ServiceCommunicationError as e:
         logger.error(f"Service communication error: {e}")
         raise HTTPException(status_code=503, detail="External service is unavailable") from None
