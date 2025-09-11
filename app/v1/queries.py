@@ -3,6 +3,33 @@ from sqlite3 import Connection
 from typing import Any
 
 
+def read_character(db_conn: Connection, character_uuid: str) -> dict[str, str | None]:
+    q = """
+        SELECT
+            uuid,
+            titles,
+            aliases,
+            first_name,
+            last_name,
+            suffix,
+            dob,
+            birthplace,
+            dod,
+            profession,
+            misc,
+            organisations,
+            house
+        FROM character_with_org
+        WHERE uuid = ?
+    """
+
+    with closing(db_conn.cursor()) as cursor:
+        cursor.execute(q, (character_uuid,))
+        result: dict[str, str | None] = cursor.fetchone()
+
+    return result
+
+
 def read_characters(
     db_conn: Connection, house: str | None = None, limit: int = 20, offset: int = 0
 ) -> list[dict[str, str | None]]:
