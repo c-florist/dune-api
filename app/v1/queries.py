@@ -189,3 +189,21 @@ def read_planets(db_conn: Connection, limit: int = 20, offset: int = 0) -> list[
         results = cursor.fetchall()
 
     return results
+
+
+def read_planets_by_environment(db_conn: Connection, environment: str) -> list[dict[str, str | None]]:
+    q = """
+        SELECT
+            uuid,
+            name,
+            environment,
+            ruler
+        FROM planet
+        WHERE environment = ?
+    """
+
+    with closing(db_conn.cursor()) as cursor:
+        cursor.execute(q, (environment,))
+        results = cursor.fetchall()
+
+    return results
