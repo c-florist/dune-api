@@ -16,6 +16,7 @@ def read_characters(
 
     base_query = """
         SELECT
+            uuid,
             titles,
             aliases,
             first_name,
@@ -44,6 +45,7 @@ def read_characters(
 def read_random_character(db_conn: Connection) -> dict[str, str | None]:
     q = """
         SELECT
+            uuid,
             titles,
             aliases,
             first_name,
@@ -84,6 +86,7 @@ def read_houses(
 
     base_query = """
         SELECT
+            uuid,
             name,
             homeworld,
             status,
@@ -106,6 +109,7 @@ def read_organisations(db_conn: Connection, limit: int = 20, offset: int = 0) ->
     params = (limit, offset)
     q = """
         SELECT
+            uuid,
             name,
             founded,
             dissolved,

@@ -1,9 +1,10 @@
-from pydantic import BaseModel, Json
+from pydantic import UUID4, BaseModel, Json
 
 from ..response_models import CustomBase
 
 
 class Character(CustomBase):
+    uuid: UUID4
     titles: Json[list[str]] | None
     aliases: Json[list[str]] | None
     first_name: str
@@ -19,6 +20,7 @@ class Character(CustomBase):
 
 
 class House(CustomBase):
+    uuid: UUID4
     name: str
     homeworld: Json[list[str]]
     status: str
@@ -27,6 +29,7 @@ class House(CustomBase):
 
 
 class Organisation(CustomBase):
+    uuid: UUID4
     name: str
     founded: str
     dissolved: str

@@ -1,9 +1,10 @@
 import json
+from uuid import uuid4
 
 HOUSES = [
     (
         1,
-        "f7d081daff8b4b3db229a9bf5d0857ae",
+        str(uuid4()),
         "House Atreides",
         json.dumps(["Caladan", "Arrakis"]),
         "House Major",
@@ -12,7 +13,7 @@ HOUSES = [
     ),
     (
         2,
-        "80cce60abec0446da07a3f9a23dcd3d1",
+        str(uuid4()),
         "House Harkonnen",
         json.dumps(["Giedi Prime"]),
         "House Major",
@@ -24,7 +25,7 @@ HOUSES = [
 ORGANISATIONS = [
     (
         1,
-        "44d6140fc50a412f8faf0b5ebf69cf93",
+        str(uuid4()),
         "Bene Gesserit",
         "c. 98 BG",
         "Unknown",
@@ -32,7 +33,7 @@ ORGANISATIONS = [
     ),
     (
         2,
-        "2c1b4cc6c28a4f59b7752daf02c7db2f",
+        str(uuid4()),
         "Fremen",
         "c. 1300 BG",
         "c. 10219 AG",
@@ -40,7 +41,7 @@ ORGANISATIONS = [
     ),
     (
         3,
-        "3323880028444608b71244d540c87683",
+        str(uuid4()),
         "Fedaykin",
         "Unknown",
         "10210 AG",
@@ -51,7 +52,7 @@ ORGANISATIONS = [
 CHARACTERS = [
     (
         1,
-        "90f2ccd25ba54c279089dcee58e3e71e",
+        str(uuid4()),
         json.dumps(["Duke"]),
         json.dumps(["The Red Duke", "Leto the Just"]),
         "Leto",
@@ -66,7 +67,7 @@ CHARACTERS = [
     ),
     (
         2,
-        "281e7ae3beac47b0abc02f6b93594649",
+        str(uuid4()),
         json.dumps(["Warmaster", "Earl of Caladan"]),
         None,
         "Gurney",
@@ -81,7 +82,7 @@ CHARACTERS = [
     ),
     (
         3,
-        "a5ace2a66a8d412cbc7ca9dabbc9e999",
+        str(uuid4()),
         json.dumps(["Baron"]),
         None,
         "Vladimir",
@@ -96,7 +97,7 @@ CHARACTERS = [
     ),
     (
         4,
-        "16c93dfee7dc47a9aa6aed5d94813d8c",
+        str(uuid4()),
         json.dumps(["Duke", "Padishah Emperor", "Kwisatz Haderach", "Mahdi", "Lisan al Gaib"]),
         json.dumps(["MuadDib", "Usul", "The Preacher", "The Mentat Emperor"]),
         "Paul",
@@ -111,7 +112,7 @@ CHARACTERS = [
     ),
     (
         5,
-        "0450abd379c74a2e9fe90828bcb1d71e",
+        str(uuid4()),
         json.dumps(["Captain"]),
         json.dumps(["The Leaper"]),
         "Chatt",

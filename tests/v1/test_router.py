@@ -19,6 +19,7 @@ def test_get_all_characters(test_client):
     assert response.status_code == 200
     data = response.json()["items"]
     assert len(data) == 5
+    assert all(x.get("uuid") for x in data)
 
 
 def test_get_characters_by_house_success(test_client):
@@ -27,6 +28,7 @@ def test_get_characters_by_house_success(test_client):
     data = response.json()["items"]
     assert len(data) == 1
     assert all(x["house"] == "House Harkonnen" for x in data)
+    assert all(x.get("uuid") for x in data)
 
 
 def test_get_characters_by_non_existent_house(test_client):
@@ -40,6 +42,7 @@ def test_get_all_houses(test_client):
     assert response.status_code == 200
     data = response.json()["items"]
     assert len(data) == 2
+    assert all(x.get("uuid") for x in data)
 
 
 def test_get_houses_by_status_success(test_client):
@@ -61,3 +64,4 @@ def test_get_all_organisations(test_client):
     assert response.status_code == 200
     data = response.json()["items"]
     assert len(data) == 3
+    assert all(x.get("uuid") for x in data)
