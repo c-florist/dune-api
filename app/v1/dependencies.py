@@ -2,15 +2,10 @@ from collections.abc import Generator
 from sqlite3 import Connection
 from typing import Annotated
 
-from fastapi import Depends, Query, Request
+from fastapi import Depends, Query
 
 from app.core.constants import DB_PATH
 from app.core.database import DBClient
-from app.v1.services import EnvironmentService
-
-
-def get_environment_service(request: Request) -> EnvironmentService:
-    return request.app.state.environment_service
 
 
 def get_db_connection() -> Generator[Connection]:

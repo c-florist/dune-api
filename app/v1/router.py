@@ -8,24 +8,17 @@ from pydantic import UUID4
 
 from app.core.responses import paginated_response
 
-from .dependencies import CommonQueryParams, get_db_connection, get_environment_service
+from .dependencies import CommonQueryParams, get_db_connection
 from .queries import (
     read_character,
     read_characters,
     read_houses,
     read_organisations,
     read_planet,
-    read_planet_by_environment,
     read_planets,
     read_random_character,
 )
-from .request_models import Coordinates
 from .response_models import Character, PaginatedResponse, Planet
-from .services import (
-    EnvironmentService,
-    InvalidResponseError,
-    ServiceCommunicationError,
-)
 
 logger = getLogger(__name__)
 router = APIRouter()
@@ -105,28 +98,6 @@ def get_organisations(
         raise HTTPException(status_code=404, detail="Items not found")
 
     return paginated_response(organisations, common_query_params["limit"], common_query_params["offset"])
-
-
-@router.post("/planet/from-coordinates", response_model=Planet)
-async def get_planet_from_coordinates(
-    coordinates: Coordinates,
-    db_conn: Annotated[Connection, Depends(get_db_connection)],
-    environment_service: Annotated[EnvironmentService, Depends(get_environment_service)],
-) -> Any:
-    try:
-        environment = await environment_service.get_environment_from_coords(coordinates.latitude, coordinates.longitude)
-    except ServiceCommunicationError as e:
-        logger.error(f"Service communication error: {e}")
-        raise HTTPException(status_code=503, detail="External service is unavailable") from None
-    except InvalidResponseError as e:
-        logger.error(f"Invalid response from service: {e}")
-        raise HTTPException(status_code=500, detail="Error parsing external service response") from None
-
-    planet = read_planet_by_environment(db_conn, environment)
-    if not planet:
-        raise HTTPException(status_code=404, detail=f"No planet found with environment: {environment}")
-
-    return planet
 
 
 @router.get("/planet/{uuid}", response_model=Planet)
