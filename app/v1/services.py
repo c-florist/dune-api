@@ -1,10 +1,18 @@
-from collections import defaultdict
-from logging import getLogger
-
-from httpx import AsyncClient, HTTPStatusError
+import httpx
 from pydantic import BaseModel, ValidationError
 
-logger = getLogger(__name__)
+
+class ServiceCommunicationError(Exception):
+    """Raised when there's a network or API error communicating with an external service."""
+
+    pass
+
+
+class InvalidResponseError(Exception):
+    """Raised when the external service response is not in the expected format."""
+
+    pass
+
 
 BIOME_MAP = {
     "Deserts & Xeric Shrublands": "Desert",
@@ -31,37 +39,35 @@ class LandMapResponse(BaseModel):
 
 
 class EnvironmentService:
-    client: AsyncClient
-
-    def __init__(self, client: AsyncClient):
+    def __init__(self, client: httpx.AsyncClient):
         self.client = client
 
-    async def get_environment_from_coords(self, lat: float, lon: float) -> str | None:
+    async def get_environment_from_coords(self, lat: float, lon: float) -> str:
         """
         Fetches biome data from OpenLandMap and maps it to a Dune environment.
+
+        Raises:
+            ServiceCommunicationError: If the external API call fails.
+            InvalidResponseError: If the API response is malformed or unmappable.
         """
-        data = defaultdict()
-        status_code = None
         try:
             url = f"https://api.openlandmap.org/query/point?lat={lat}&lon={lon}&layers=biomes"
             response = await self.client.get(url)
-            status_code = response.status_code
-            _ = response.raise_for_status()
+            response.raise_for_status()
             data = response.json()
 
             response_data = LandMapResponse(**data)
             biome_name = response_data.biomes.label
 
-            return BIOME_MAP.get(biome_name)
+            environment = BIOME_MAP.get(biome_name)
+            if environment is None:
+                raise InvalidResponseError(f"Biome '{biome_name}' has no defined mapping.")
 
-        except HTTPStatusError:
-            logger.error(f"Failed to fetch biome data from OpenLandMap: {status_code}")
-            return None
+            return environment
 
-        except ValidationError:
-            logger.error(f"Failed to parse biome data from OpenLandMap: {data}")
-            return None
-
-        except (KeyError, TypeError):
-            logger.error(f"Failed to extract biome data from OpenLandMap: {data}")
-            return None
+        except httpx.HTTPStatusError as e:
+            raise ServiceCommunicationError(f"External API returned a non-2xx status: {e.response.status_code}") from e
+        except ValidationError as e:
+            raise InvalidResponseError("External API response did not match expected format.") from e
+        except (KeyError, TypeError) as e:
+            raise InvalidResponseError("Could not parse the external API response.") from e
