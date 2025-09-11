@@ -1,8 +1,8 @@
-from sqlite3 import DatabaseError, Cursor, connect
+from sqlite3 import Cursor, DatabaseError, connect
 from typing import Any
 
 
-class DbClient:
+class DBClient:
     def __init__(self, file_path: str, mode: str = "ro") -> None:
         self.file_path = file_path
         self.mode = mode
@@ -26,4 +26,4 @@ class DbClient:
     @staticmethod
     def dict_row_factory(cursor: Cursor, row: tuple[Any, ...]) -> dict[str, Any]:
         fields = [column[0] for column in cursor.description]
-        return {k: v for k, v in zip(fields, row)}
+        return {k: v for k, v in zip(fields, row, strict=False)}

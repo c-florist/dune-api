@@ -1,15 +1,16 @@
-from logging import getLogger
 from contextlib import closing
+from logging import getLogger
 
-from app.v1.database import DbClient
 from app.constants import DB_PATH
+from app.core.database import DBClient
 from app.utils import run_migrations, setup_logging
-from .seed_data import CHARACTERS, HOUSES, ORGANISATIONS, CHARACTER_ORGS
+
+from .seed_data import CHARACTER_ORGS, CHARACTERS, HOUSES, ORGANISATIONS
 
 logger = getLogger(__name__)
 
 
-def drop_test_db(db_client: DbClient) -> None:
+def drop_test_db(db_client: DBClient) -> None:
     with closing(db_client.conn.cursor()) as cursor:
         cursor.executescript(
             """
@@ -21,7 +22,7 @@ def drop_test_db(db_client: DbClient) -> None:
         )
 
 
-def seed_test_db(db_client: DbClient) -> None:
+def seed_test_db(db_client: DBClient) -> None:
     with closing(db_client.conn.cursor()) as cursor:
         cursor.executemany(
             "INSERT INTO house (id, uuid, name, homeworld, status, colours, symbol, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
@@ -45,7 +46,7 @@ def seed_test_db(db_client: DbClient) -> None:
 
 
 def run() -> None:
-    db_client = DbClient(DB_PATH, mode="rwc")
+    db_client = DBClient(DB_PATH, mode="rwc")
 
     logger.info("Dropping database tables ...")
     drop_test_db(db_client)

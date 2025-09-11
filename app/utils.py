@@ -5,15 +5,13 @@ from pathlib import Path
 from typing import Any
 
 from .constants import ENV
-from .v1.database import DbClient
+from .core.database import DBClient
 
 MIGRATIONS_DIR = Path(__file__).parent / "migrations"
 logger = getLogger(__name__)
 
 
-def paginated_response(
-    items: list[dict[str, Any]], limit: int, offset: int
-) -> dict[str, int | list[dict[str, Any]]]:
+def paginated_response(items: list[dict[str, Any]], limit: int, offset: int) -> dict[str, int | list[dict[str, Any]]]:
     return {"items": items, "limit": limit, "offset": offset, "total": len(items)}
 
 
@@ -30,7 +28,7 @@ def setup_logging() -> None:
     )
 
 
-def run_migrations(db_client: DbClient) -> None:
+def run_migrations(db_client: DBClient) -> None:
     migrations = [Path(x) for x in glob(f"{MIGRATIONS_DIR}/*.sql")]
     logger.info(f"Found {len(migrations)} migrations in {MIGRATIONS_DIR} ...")
 
@@ -40,4 +38,4 @@ def run_migrations(db_client: DbClient) -> None:
             sql = file.read_text()
             conn.executescript(sql)
 
-    logger.info(f"Successfully executed all migrations")
+    logger.info("Successfully executed all migrations")
