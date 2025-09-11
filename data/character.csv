@@ -4,49 +4,49 @@ id,titles,aliases,first_name,last_name,suffix,dob,birthplace,dod,profession,misc
 3,"[""Lady"", ""Honorable Atreides""]",,Jessica,Atreides,,10154 AG,Wallach IX,10256 AG,"[""Bene Gesserit Sister""]",,1
 4,"[""Duke"", ""Padishah Emperor"", ""Kwisatz Haderach"", ""Mahdi"", ""Lisan al Gaib""]","[""MuadDib"", ""Usul"", ""The Preacher"", ""The Mentat Emperor""]",Paul,Atreides,,10176 AG,Caladan,10219 AG,"[""Ruler"", ""Soldier""]",,1
 5,"[""Regent"", ""Mahdinate""]","[""St. Alia of the Knife"", ""Abomination"", ""Coan-Teen"", ""Hawt the Fish Monster"", ""Womb of Heaven""]",Alia,Atreides,,10191 AG,Arrakis,10219 AG,"[""Ruler""]",,1
-6,,Leto,Atreides,II (Elder),Unknown,Arrakis,10193 AG,,,,1
+6,,,Leto,Atreides,II (Elder),Unknown,Arrakis,10193 AG,,,1
 7,"[""Padishah Emperor""]","[""God-Emperor"", ""Divided God"", ""Golden Ruler"", ""The Tyrant"", ""Guldur"", ""Great God Dur"", ""Worm"", ""Worm God"", ""Old Worm"", ""Prophet"", ""Desert Demon"", ""Ari"", ""Lion of the Atreides"", ""Batigh""]",Leto,Atreides,II,10210 AG,Arrakis,13728 AG,"[""Ruler""]",,1
-8,"[""Empress""]","[""Aryeh"", ""Atreides Lioness""]",Ghanima,Atreides,,10210 AG,Arrakis,Unknown,,,,1
+8,"[""Empress""]","[""Aryeh"", ""Atreides Lioness""]",Ghanima,Atreides,,10210 AG,Arrakis,Unknown,,,1
 9,"[""Majordomo""]",,Moneo,Atreides,,13610 AG,Unknown,13728 AG,"[""Emperor's Aide""]",,1
 10,"[""Governor of Arrakis""]",,Siona Ibn Fuad al-Seyefa,Atreides,,13600s AG,Arrakis,Unknown,"[""Ruler""]",,1
 11,"[""Warmaster"", ""Earl of Caladan""]",,Gurney,Halleck,,c. 10130 AG,Unknown,Unknown,"[""Soldier""]",,1
-12,,Abulurd,Harkonnen,,Unknown,Unknown,Unknown,,,,2
+12,,,Abulurd,Harkonnen,,Unknown,Unknown,Unknown,,,2
 13,"[""Governor of Lankiveil""]","[""Abulurd Harkonnen II""]",Abulurd,Rabban,,Unknown,Unknown,Unknown,"[""Ruler""]",,2
 14,"[""Baron""]",,Vladimir,Harkonnen,,10110 AG,Giedi Prime,10193 AG,"[""Ruler""]",,2
 15,"[""Count of Lankiveil"", ""Governor of Arrakis""]","[""Beast Rabban"", ""Mudir Nahya"", ""Demon Ruler"", ""King Cobra""]",Glossu,Rabban,,10132 AG,Lankiveil,10193 AG,"[""Ruler"", ""Soldier""]",,2
 16,"[""Baron""]",,Feyd-Rautha,Harkonnen,,10174 AG,Lankiveil,10193 AG,"[""Ruler"", ""Soldier""]",,2
 17,"[""Padishah Emperor""]",,Shaddam,Corrino,IV,10119 AG,Kaitain,10202 AG,"[""Ruler""]",,3
 18,"[""Princess""]",,Irulan,Corrino,,10176 AG,Kaitain,Unknown,"[""Historian"", ""Bene Gesserit Sister""]",,3
-19,"[""Princess""]",,Wensicia,Corrino,,Unknown,Unknown,Unknown,,,,3
+19,"[""Princess""]",,Wensicia,Corrino,,Unknown,Unknown,Unknown,,,3
 20,"[""Prince""]","[""Harq al-Ada""]",Faradn,Corrino,,Unknown,Unknown,Unknown,"[""Scribe""]",,3
 21,"[""Lady""]",,Anirul,Corrino,,Unknown,Unknown,10176 AG,"[""Bene Gesserit Sister""]",,3
 22,"[""Count""]","[""Imperial Agent on Arrakis"", ""Interim Governor of Arrakis"", ""Siridar-Absentia of Caladan""]",Hasimir,Fenring,,10133 AG,Unknown,10225 AG,"[""Assassin"", ""Mentat""]",,4
 23,"[""Lady""]",,Margot,Fenring,,Unknown,Unknown,Unknown,"[""Bene Gesserit Sister""]",,4
-24,,Dalak,Fenring,,Unknown,Unknown,Before 10219 AG,,,,4
-25,,Essas,Paymon,,Unknown,Unknown,After 10210 AG,"[""Spy""]",,9
-26,,Ali Ben,Ohashi,,Unknown,Unknown,Unknown,,,,
+24,,,Dalak,Fenring,,Unknown,Unknown,Before 10219 AG,,,4
+25,,,Essas,Paymon,,Unknown,Unknown,After 10210 AG,"[""Spy""]",9,
+26,,,Ali Ben,Ohashi,,Unknown,Unknown,Unknown,,,
 27,"[""Captain""]",,Aramsham,,,Unknown,Unknown,Unknown,"[""Soldier""]",,
 28,"[""Officer""]",,Arkie,,,Unknown,Unknown,10191 AG,"[""Soldier""]",,1
 29,,"[""Sihaya""]",Chani,Kynes,,10177 AG,Arrakis,10205 AG,"[""Fighter""]",,
-30,"[""Captain""]","[""The Leaper""]",Chatt,,,Unknown,Unknown,Unknown,"[""Fighter""]","Leader of the Fedaykin.",
-31,,Czigo,,,Unknown,Unknown,10191 AG,"[""Soldier"", ""Assassin""]",,2
-32,,Drisq,,,Unknown,Unknown,Unknown,"[""Quartermaster""]","Quartermaster of Tuek's Sietch.",
-33,,Coss,,,Unknown,Unknown,Unknown,"[""Spice Harvester Worker""]","Member of the Harvester crew saved by Duke Leto Atreides I.",
-34,"[""Swordmaster of Ginaz"", ""Commander of the Fish Speakers""]","[""Hayt""]",Duncan,Idaho,,Unknown,Giedi Prime,"10191 AG, 10219 AG and 13728 AG","[""Soldier""]","Reincarnated several times as a Tleilaxu ghola.",1
+30,"[""Captain""]","[""The Leaper""]",Chatt,,,Unknown,Unknown,Unknown,"[""Fighter""]",Leader of the Fedaykin.,
+31,,,Czigo,,,Unknown,Unknown,10191 AG,"[""Soldier"", ""Assassin""]",,2
+32,,,Drisq,,,Unknown,Unknown,Unknown,"[""Quartermaster""]",Quartermaster of Tuek's Sietch.,
+33,,,Coss,,,Unknown,Unknown,Unknown,"[""Spice Harvester Worker""]",Member of the Harvester crew saved by Duke Leto Atreides I.,
+34,"[""Swordmaster of Ginaz"", ""Commander of the Fish Speakers""]","[""Hayt""]",Duncan,Idaho,,Unknown,Giedi Prime,"10191 AG, 10219 AG and 13728 AG","[""Soldier""]",Reincarnated several times as a Tleilaxu ghola.,1
 35,"[""Padishah Emperor""]",,Elrood,Corrino,IX,Unknown,Unknown,10156 AG,"[""Ruler""]",,3
-36,,Esmar,Tuek,,Unknown,Unknown,10191 AG,"[""Smuggler""]","A successful spice smuggler operating in the polar regions of Arrakis, that had secret arrangements with the Fremen.",
+36,,,Esmar,Tuek,,Unknown,Unknown,10191 AG,"[""Smuggler""]","A successful spice smuggler operating in the polar regions of Arrakis, that had secret arrangements with the Fremen.",
 37,"[""Bashar of the Ninth Legion""]",,Farok,,,Unknown,Unknown,10208 AG,"[""Fighter""]",,
-38,,Farrukh,,,Unknown,Unknown,Unknown,"[""Fighter""]",,
-39,,Fedor,,,Unknown,Unknown,Unknown,"[""Soldier""]",,1
+38,,,Farrukh,,,Unknown,Unknown,Unknown,"[""Fighter""]",,
+39,,,Fedor,,,Unknown,Unknown,Unknown,"[""Soldier""]",,1
 40,"[""Reverend Mother""]",,Gaius Helen,Mohiam,,Unknown,Unknown,10210 AG,"[""Bene Gesserit Sister""]",,
-41,,Geoff,,,Unknown,Unknown,Unknown,"[""Fighter""]","First husband of Harah, who was killed by Jamis in a duel.",
-42,,Harah,,,Unknown,Unknown,Unknown,,"Widow of Jamis and wife by custom of Paul Atreides, after Paul killed Jamis in a duel. Later, she became the nurse to Alia and subsequently Leto Atreides II and Ghanima. She also became the wife of Stilgar.",
-43,"[""Captain""]",,Iakin,Nefud,,Unknown,Unknown,Unknown,"[""Soldier""]","Promoted to Captain of the House Harkonnen guard after Umman Kudu's death by Leto Atreides I's poisoned tooth attack.",2
-44,,Jamis,,,10159 AG,Arrakis,10191 AG,"[""Fighter""]",,
-45,,Kaleff,,,Unknown,Unknown,Unknown,,"Son of Geoff who was taken in by Jamis after his father lost his life in a duel with Jamis. When Jamis lost his life in a duel with Paul Atreides, Kaleff was taken in by House Atreides.",
+41,,,Geoff,,,Unknown,Unknown,Unknown,"[""Fighter""]","First husband of Harah, who was killed by Jamis in a duel.",
+42,,,Harah,,,Unknown,Unknown,Unknown,,"Widow of Jamis and wife by custom of Paul Atreides, after Paul killed Jamis in a duel. Later, she became the nurse to Alia and subsequently Leto Atreides II and Ghanima. She also became the wife of Stilgar.",
+43,"[""Captain""]",,Iakin,Nefud,,Unknown,Unknown,Unknown,"[""Soldier""]",Promoted to Captain of the House Harkonnen guard after Umman Kudu's death by Leto Atreides I's poisoned tooth attack.,2
+44,,,Jamis,,,10159 AG,Arrakis,10191 AG,"[""Fighter""]",,
+45,,,Kaleff,,,Unknown,Unknown,Unknown,,"Son of Geoff who was taken in by Jamis after his father lost his life in a duel with Jamis. When Jamis lost his life in a duel with Paul Atreides, Kaleff was taken in by House Atreides.",
 46,,"[""Scarface""]",Kinet,,,Unknown,Unknown,10191 AG,"[""Soldier"", ""Assassin""]",,2
 47,"[""Panegyrist"", ""High Priest""]",,Korba,,,Unknown,Arrakis,10210 AG,"[""Fighter"", ""Priest""]",,
-48,,Larus,,,Unknown,Unknown,Unknown,"[""Fighter""]","Member of the troupe who found Paul and Jessica Atreides at Tuono Basin.",
-49,,Lemil,,,Unknown,Unknown,Unknown,"[""Fighter""]","Member of the troupe who found Paul and Jessica Atreides at Tuono Basin.",
-50,"[""Imperial Planetologist""]","[""Liet-Kynes"", ""Dr. Kynes""]",Liet,Kynes,,10156 AG,Unknown,10191 AG,"[""Planetologist"", ""Ecologist""]","Leader of the Fremen when the Atreides arrived on Arrakis.",
-51,,Lingar,Bewt,,,,,"[""Water Seller""]","A water seller who mined ice from the north polar region to be sold as water. Maintained a summer mansion near his polar cap factory.",
+48,,,Larus,,,Unknown,Unknown,Unknown,"[""Fighter""]",Member of the troupe who found Paul and Jessica Atreides at Tuono Basin.,
+49,,,Lemil,,,Unknown,Unknown,Unknown,"[""Fighter""]",Member of the troupe who found Paul and Jessica Atreides at Tuono Basin.,
+50,"[""Imperial Planetologist""]","[""Liet-Kynes"", ""Dr. Kynes""]",Liet,Kynes,,10156 AG,Unknown,10191 AG,"[""Planetologist"", ""Ecologist""]",Leader of the Fremen when the Atreides arrived on Arrakis.,
+51,,,Lingar,Bewt,,Unknown,Unknown,,"[""Water Seller""]",A water seller who mined ice from the north polar region to be sold as water. Maintained a summer mansion near his polar cap factory.,
