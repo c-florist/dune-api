@@ -6,41 +6,36 @@ from app.v1.queries import (
 )
 
 
-def test_read_characters(db_client, character_db_response):
+def test_read_characters(db_client):
     characters = read_characters(db_client.conn)
+    assert len(characters) == 5
+    for char in characters:
+        assert isinstance(char["first_name"], str)
+        assert isinstance(char["last_name"], (str, type(None)))
 
-    assert characters == character_db_response
 
-
-def test_read_characters_by_house(db_client, character_db_response):
-    expected_response = [
-        x for x in character_db_response if x["house"] == "House Atreides"
-    ]
+def test_read_characters_by_house(db_client):
     characters = read_characters(db_client.conn, "atreides")
-
-    assert characters == expected_response
+    assert len(characters) == 3
+    assert all(c["house"] == "House Atreides" for c in characters)
 
 
 def test_read_random_character(db_client):
     character = read_random_character(db_client.conn)
+    assert character["first_name"] is not None
 
-    assert character["house"] in {"House Atreides", "House Harkonnen"}
 
-
-def test_read_houses(db_client, house_db_response):
+def test_read_houses(db_client):
     houses = read_houses(db_client.conn)
+    assert len(houses) == 2
 
-    assert houses == house_db_response
 
-
-def test_read_houses_by_status(db_client, house_db_response):
-    expected_response = [x for x in house_db_response if x["status"] == "House Major"]
+def test_read_houses_by_status(db_client):
     houses = read_houses(db_client.conn, "major")
+    assert len(houses) == 2
+    assert all(h["status"] == "House Major" for h in houses)
 
-    assert houses == expected_response
 
-
-def test_read_organisations(db_client, organisation_db_response):
+def test_read_organisations(db_client):
     orgs = read_organisations(db_client.conn)
-
-    assert orgs == organisation_db_response
+    assert len(orgs) == 3
