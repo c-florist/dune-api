@@ -5,7 +5,7 @@ from app.core.constants import DB_PATH
 from app.core.database import DBClient, run_migrations
 from app.core.logging import setup_logging
 
-from .seed_data import CHARACTER_ORGS, CHARACTERS, HOUSES, ORGANISATIONS
+from .seed_data import CHARACTER_ORGS, CHARACTERS, HOUSES, ORGANISATIONS, PLANETS
 
 logger = getLogger(__name__)
 
@@ -18,6 +18,7 @@ def drop_test_db(db_client: DBClient) -> None:
             DROP TABLE IF EXISTS character;
             DROP TABLE IF EXISTS house;
             DROP TABLE IF EXISTS organisation;
+            DROP TABLE IF EXISTS planet;
         """
         )
 
@@ -43,6 +44,11 @@ def seed_test_db(db_client: DBClient) -> None:
         cursor.executemany(
             "INSERT INTO character_organisation (character_id, org_id) VALUES (?, ?)",
             CHARACTER_ORGS,
+        )
+
+        cursor.executemany(
+            "INSERT INTO planet (id, uuid, name, geographical_features, ruler) VALUES (?, ?, ?, ?, ?)",
+            PLANETS,
         )
 
 

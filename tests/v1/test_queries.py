@@ -1,9 +1,11 @@
 from app.v1.queries import (
     read_character,
     read_characters,
-    read_random_character,
     read_houses,
     read_organisations,
+    read_planet,
+    read_planets,
+    read_random_character,
 )
 
 
