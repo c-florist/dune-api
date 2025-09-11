@@ -10,7 +10,7 @@ def read_characters(
 
     if house is not None:
         params = (house.capitalize(),) + params
-        where_clause = "WHERE house.name = 'House ' || ?"
+        where_clause = "WHERE house = 'House ' || ?"
     else:
         where_clause = ""
 
@@ -24,17 +24,13 @@ def read_characters(
             dob,
             birthplace,
             dod,
-            organisation.name as organisation,
-            house.name as house,
-            character.created_at,
-            character.updated_at
-        FROM character
-        LEFT JOIN organisation
-            ON character.org_id = organisation.id
-        LEFT JOIN house
-            ON character.house_id = house.id
+            organisations,
+            house,
+            created_at,
+            updated_at
+        FROM character_with_org
     """
-    order_limit_clause = "ORDER BY character.id LIMIT ? OFFSET ?"
+    order_limit_clause = "ORDER BY 1 LIMIT ? OFFSET ?"
 
     q = base_query + where_clause + order_limit_clause
 
@@ -47,12 +43,6 @@ def read_characters(
 
 def read_random_character(db_conn: Connection) -> dict[str, str | None]:
     q = """
-        WITH random_character AS (
-            SELECT *
-            FROM character
-            ORDER BY RANDOM()
-            LIMIT 1
-        )
         SELECT
             titles,
             aliases,
@@ -62,15 +52,13 @@ def read_random_character(db_conn: Connection) -> dict[str, str | None]:
             dob,
             birthplace,
             dod,
-            organisation.name as organisation,
-            house.name as house,
-            character.created_at,
-            character.updated_at
-        FROM random_character AS character
-        LEFT JOIN organisation
-            ON character.org_id = organisation.id
-        LEFT JOIN house
-            ON character.house_id = house.id
+            organisations,
+            house,
+            created_at,
+            updated_at
+        FROM character_with_org
+        ORDER BY RANDOM()
+        LIMIT 1
     """
 
     with closing(db_conn.cursor()) as cursor:
