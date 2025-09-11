@@ -21,6 +21,12 @@ cd dune-api
 uv sync
 ```
 
+Check the mise.toml for helpful scripts under "tasks", otherwise you can run the below to start the dev server:
+```shell
+source .venv/bin/activate
+uvicorn app.main:app --reload
+```
+
 ### TODO
 
 - [ ] Add a route and validation for getting a single character
