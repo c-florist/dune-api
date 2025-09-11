@@ -73,3 +73,18 @@ def test_get_all_organisations(test_client):
     data = response.json()["items"]
     assert len(data) == 3
     assert all(x.get("uuid") for x in data)
+
+
+def test_get_planet_by_uuid(test_client):
+    response = test_client.get("/v1/planet/a370cbcd-d6e8-46bd-8a9f-bfd2fe5a8eef")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["name"] == "Arrakis"
+
+
+def test_get_all_planets(test_client):
+    response = test_client.get("/v1/planets")
+    assert response.status_code == 200
+    data = response.json()["items"]
+    assert len(data) == 3
+    assert all(x.get("uuid") for x in data)

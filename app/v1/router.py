@@ -13,9 +13,11 @@ from .queries import (
     read_characters,
     read_houses,
     read_organisations,
+    read_planet,
+    read_planets,
     read_random_character,
 )
-from .response_models import Character, PaginatedResponse
+from .response_models import Character, PaginatedResponse, Planet
 
 logger = getLogger(__name__)
 router = APIRouter()
@@ -43,15 +45,15 @@ def get_characters(
     return paginated_response(characters, common_query_params["limit"], common_query_params["offset"])
 
 
-@router.get("/character/{character_id}", response_model=Character)
+@router.get("/character/{uuid}", response_model=Character)
 def get_character(
-    character_id: str,
+    uuid: str,
     db_conn: Annotated[Connection, Depends(get_db_connection)],
 ) -> Any:
-    character = read_character(db_conn, character_id)
+    character = read_character(db_conn, uuid)
 
     if not character:
-        raise HTTPException(status_code=404, detail=f"Character {character_id} not found")
+        raise HTTPException(status_code=404, detail=f"Character {uuid} not found")
 
     return character
 
@@ -95,3 +97,29 @@ def get_organisations(
         raise HTTPException(status_code=404, detail="Items not found")
 
     return paginated_response(organisations, common_query_params["limit"], common_query_params["offset"])
+
+
+@router.get("/planet/{uuid}", response_model=Planet)
+def get_planet(
+    uuid: str,
+    db_conn: Annotated[Connection, Depends(get_db_connection)],
+) -> Any:
+    planet = read_planet(db_conn, uuid)
+
+    if not planet:
+        raise HTTPException(status_code=404, detail=f"Planet {uuid} not found")
+
+    return planet
+
+
+@router.get("/planets", response_model=PaginatedResponse)
+def get_planets(
+    common_query_params: CommonQueryParams,
+    db_conn: Annotated[Connection, Depends(get_db_connection)],
+) -> Any:
+    planets = read_planets(db_conn, common_query_params["limit"], common_query_params["offset"])
+
+    if not planets:
+        raise HTTPException(status_code=404, detail="Items not found")
+
+    return paginated_response(planets, common_query_params["limit"], common_query_params["offset"])
