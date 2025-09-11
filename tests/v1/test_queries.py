@@ -1,9 +1,16 @@
 from app.v1.queries import (
+    read_character,
     read_characters,
     read_random_character,
     read_houses,
     read_organisations,
 )
+
+
+def test_read_character(db_client):
+    character = read_character(db_client.conn, "540b8c10-8297-4710-833e-84ef51797ac0")
+    assert character["first_name"] == "Paul"
+    assert character["last_name"] == "Atreides"
 
 
 def test_read_characters(db_client):
