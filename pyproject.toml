@@ -10,11 +10,11 @@ authors = [
 dependencies = [
     "fastapi~=0.108.0",
     "httpx~=0.26.0",
+    "uvicorn[standard]~=0.25.0",
 ]
 
 [dependency-groups]
 dev = [
-    "uvicorn[standard]~=0.25.0",
     "pytest",
     "ruff",
     "basedpyright",
