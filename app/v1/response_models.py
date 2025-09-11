@@ -14,6 +14,8 @@ class Character(CustomBase):
     dob: str
     birthplace: str
     dod: str | None
+    profession: Json[list[str]] | None
+    misc: str | None
     house: str | None
     organisations: Json[list[str]] | None
     created_at: datetime
@@ -33,7 +35,8 @@ class House(CustomBase):
 class Organisation(CustomBase):
     name: str
     founded: str
-    dissolved: str | None
+    dissolved: str
+    misc: str | None
     created_at: datetime
     updated_at: datetime
 
