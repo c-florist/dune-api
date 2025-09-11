@@ -24,6 +24,8 @@ def read_characters(
             dob,
             birthplace,
             dod,
+            profession,
+            misc,
             organisations,
             house,
             created_at,
@@ -52,6 +54,8 @@ def read_random_character(db_conn: Connection) -> dict[str, str | None]:
             dob,
             birthplace,
             dod,
+            profession,
+            misc,
             organisations,
             house,
             created_at,
@@ -113,6 +117,7 @@ def read_organisations(
             name,
             founded,
             dissolved,
+            misc,
             created_at,
             updated_at
         FROM organisation
