@@ -52,6 +52,6 @@ line-ending = "auto"
 
 [tool.basedpyright]
 include = ["app"]
-exclude = ["**/__pycache__", "tests"]
+exclude = ["**/__pycache__", "tests", "data"]
 pythonVersion = "3.13"
 reportMissingImports = "none"
