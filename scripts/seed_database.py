@@ -1,7 +1,6 @@
 from contextlib import closing
 from logging import getLogger
 from pathlib import Path
-from uuid import uuid4
 
 from app.core.csv import load_from_csv
 from app.core.database import DBClient, run_migrations
@@ -20,15 +19,15 @@ def seed_data(db_client: DBClient) -> None:
     with closing(db_client.conn.cursor()) as cursor:
         houses = load_from_csv(DATA_DIR / "house.csv")
         cursor.executemany(
-            "INSERT INTO house (id, name, homeworld, status, colours, symbol, uuid) VALUES (?, ?, ?, ?, ?, ?, ?)",
-            [(h[0], h[1], h[2], h[3], h[4], h[5], str(uuid4())) for h in houses],
+            "INSERT INTO house (id, uuid, name, homeworld, status, colours, symbol) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            [(h[0], h[1], h[2], h[3], h[4], h[5], h[6]) for h in houses],
         )
         logger.info(f"Seeded {len(houses)} houses.")
 
         organisations = load_from_csv(DATA_DIR / "organisation.csv")
         cursor.executemany(
-            "INSERT INTO organisation (id, name, founded, dissolved, misc, uuid) VALUES (?, ?, ?, ?, ?, ?)",
-            [(o[0], o[1], o[2], o[3], o[4], str(uuid4())) for o in organisations],
+            "INSERT INTO organisation (id, uuid, name, founded, dissolved, misc) VALUES (?, ?, ?, ?, ?, ?)",
+            [(o[0], o[1], o[2], o[3], o[4], o[5]) for o in organisations],
         )
         logger.info(f"Seeded {len(organisations)} organisations.")
 
@@ -37,6 +36,7 @@ def seed_data(db_client: DBClient) -> None:
             """
                 INSERT INTO character (
                     id,
+                    uuid,
                     titles,
                     aliases,
                     first_name,
@@ -47,15 +47,11 @@ def seed_data(db_client: DBClient) -> None:
                     dod,
                     profession,
                     misc,
-                    house_id,
-                    uuid
+                    house_id
                 )
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
-            [
-                (c[0], c[1], c[2], c[3], c[4], c[5], c[6], c[7], c[8], c[9], c[10], c[11], str(uuid4()))
-                for c in characters
-            ],
+            [(c[0], c[1], c[2], c[3], c[4], c[5], c[6], c[7], c[8], c[9], c[10], c[11], c[12]) for c in characters],
         )
         logger.info(f"Seeded {len(characters)} characters.")
 

@@ -1,10 +1,10 @@
-id,name,homeworld,status,colours,symbol
-1,House Atreides,Caladan,House Major,"[""Red"", ""Green""]",Red hawk
-2,House Harkonnen,Giedi Prime,House Major,"[""Blue"", ""Orange""]",Griffin
-3,House Corrino,"[""Kaitain"", ""Salusa Secundus""]",House Major,"[""Black"", ""Grey"", ""Bronze"", ""Gold""]",Golden lion
-4,House Fenring,"[""Kaitain"", ""Caladan""]",House Major,"[""Black"", ""Silver"", ""Red""]",Two lions split by a chain
-5,House Ginaz,"[""Ginaz""]",House Major,"[""White"", ""Khaki""]",Crossed swords
-6,House Halleck,"[""Caladan""]",House Major,"[""Unknown""]",Unknown
-7,House Metulli,"[""Novebruns""]",House Major,"[""Unknown""]",Unknown
-8,House Moritani,"[""Grumman""]",House Major,"[""Unknown""]",Unknown
-9,House Nebiro,"[""Unknown""]",House Minor,"[""Unknown""]",Unknown
+id,uuid,name,homeworld,status,colours,symbol
+1,4005b9aa-8c71-43c3-9ac9-eb3003fa019a,House Atreides,Caladan,House Major,"[""Red"", ""Green""]",Red hawk
+2,0a946488-0174-4cee-b3a1-c6f46c358268,House Harkonnen,Giedi Prime,House Major,"[""Blue"", ""Orange""]",Griffin
+3,7655fbcf-329f-40a6-a832-51918f7c20ed,House Corrino,"[""Kaitain"", ""Salusa Secundus""]",House Major,"[""Black"", ""Grey"", ""Bronze"", ""Gold""]",Golden lion
+4,eaade146-450e-49c9-b70d-f30267766e23,House Fenring,"[""Kaitain"", ""Caladan""]",House Major,"[""Black"", ""Silver"", ""Red""]",Two lions split by a chain
+5,c043d069-ccb6-43c6-98f4-55916588e260,House Ginaz,"[""Ginaz""]",House Major,"[""White"", ""Khaki""]",Crossed swords
+6,0dcf7b02-7d45-4ac7-a794-e490e0611393,House Halleck,"[""Caladan""]",House Major,"[""Unknown""]",Unknown
+7,c88f6a90-d6df-4f12-ae29-c6a67988b71a,House Metulli,"[""Novebruns""]",House Major,"[""Unknown""]",Unknown
+8,6c3d10bb-ae30-4a2e-908f-24b33060fc81,House Moritani,"[""Grumman""]",House Major,"[""Unknown""]",Unknown
+9,52fb5581-ef9d-48ee-a0cd-bf9b9ba073be,House Nebiro,"[""Unknown""]",House Minor,"[""Unknown""]",Unknown
