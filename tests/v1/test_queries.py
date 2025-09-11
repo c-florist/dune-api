@@ -48,3 +48,17 @@ def test_read_houses_by_status(db_client):
 def test_read_organisations(db_client):
     orgs = read_organisations(db_client.conn)
     assert len(orgs) == 3
+
+
+def test_read_planet(db_client):
+    planet = read_planet(db_client.conn, "a370cbcd-d6e8-46bd-8a9f-bfd2fe5a8eef")
+    assert planet["name"] == "Arrakis"
+
+
+def test_read_planets(db_client):
+    planets = read_planets(db_client.conn)
+    assert len(planets) == 3
+    for planet in planets:
+        assert isinstance(planet["name"], str)
+        assert isinstance(planet["geographical_features"], str)
+        assert isinstance(planet["ruler"], (str, type(None)))
