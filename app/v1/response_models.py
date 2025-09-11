@@ -15,7 +15,7 @@ class Character(CustomBase):
     birthplace: str
     dod: str | None
     house: str | None
-    organisation: str | None
+    organisations: Json[list[str]] | None
     created_at: datetime
     updated_at: datetime
 
