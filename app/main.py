@@ -2,7 +2,7 @@ from typing import Any
 
 from fastapi import FastAPI
 
-from .utils import setup_logging
+from .core.logging import setup_logging
 from .response_models import Root
 from .v1.router import router as v1
 

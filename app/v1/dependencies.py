@@ -4,7 +4,7 @@ from typing import Annotated
 
 from fastapi import Depends, Query
 
-from app.constants import DB_PATH
+from app.core.constants import DB_PATH
 from app.core.database import DBClient
 
 

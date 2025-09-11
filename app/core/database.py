@@ -1,5 +1,11 @@
+from glob import glob
+from logging import getLogger
+from pathlib import Path
 from sqlite3 import Cursor, DatabaseError, connect
 from typing import Any
+
+MIGRATIONS_DIR = Path(__file__).parent.parent / "migrations"
+logger = getLogger(__name__)
 
 
 class DBClient:
@@ -27,3 +33,16 @@ class DBClient:
     def dict_row_factory(cursor: Cursor, row: tuple[Any, ...]) -> dict[str, Any]:
         fields = [column[0] for column in cursor.description]
         return {k: v for k, v in zip(fields, row, strict=False)}
+
+
+def run_migrations(db_client: "DBClient") -> None:
+    migrations = sorted([Path(x) for x in glob(f"{MIGRATIONS_DIR}/*.sql")])
+    logger.info(f"Found {len(migrations)} migrations in {MIGRATIONS_DIR} ...")
+
+    with db_client.conn as conn:
+        for file in migrations:
+            logger.info(f"Running migration: {file.name} ...")
+            sql = file.read_text()
+            conn.executescript(sql)
+
+    logger.info("Successfully executed all migrations")

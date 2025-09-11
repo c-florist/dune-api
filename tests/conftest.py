@@ -1,6 +1,6 @@
 import pytest
 
-from app.constants import DB_PATH
+from app.core.constants import DB_PATH
 from app.core.database import DBClient
 
 

@@ -1,9 +1,9 @@
 from contextlib import closing
 from logging import getLogger
 
-from app.constants import DB_PATH
-from app.core.database import DBClient
-from app.utils import run_migrations, setup_logging
+from app.core.constants import DB_PATH
+from app.core.database import DBClient, run_migrations
+from app.core.logging import setup_logging
 
 from .seed_data import CHARACTER_ORGS, CHARACTERS, HOUSES, ORGANISATIONS
 

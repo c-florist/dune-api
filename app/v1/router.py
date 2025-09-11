@@ -1,19 +1,20 @@
 from logging import getLogger
 from sqlite3 import Connection
-from typing import Any, Annotated
+from typing import Annotated, Any
 
-from fastapi import APIRouter, Depends, Query, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import RedirectResponse
 
-from .dependencies import get_db_connection, CommonQueryParams
+from app.core.responses import paginated_response
+
+from .dependencies import CommonQueryParams, get_db_connection
 from .queries import (
     read_characters,
-    read_random_character,
     read_houses,
     read_organisations,
+    read_random_character,
 )
 from .response_models import PaginatedResponse
-from ..utils import paginated_response
 
 logger = getLogger(__name__)
 router = APIRouter()
@@ -27,14 +28,10 @@ async def root() -> Any:
 @router.get("/characters", response_model=PaginatedResponse)
 def get_characters(
     common_query_params: CommonQueryParams,
-    house: Annotated[
-        str | None, Query(strict=True, examples=["Atreides", "atreides"])
-    ] = None,
-    db_conn: Connection = Depends(get_db_connection),
+    db_conn: Annotated[Connection, Depends(get_db_connection)],
+    house: Annotated[str | None, Query(strict=True, examples=["Atreides", "atreides"])] = None,
 ) -> Any:
-    characters = read_characters(
-        db_conn, house, common_query_params["limit"], common_query_params["offset"]
-    )
+    characters = read_characters(db_conn, house, common_query_params["limit"], common_query_params["offset"])
 
     if not characters and house is not None:
         raise HTTPException(
@@ -42,13 +39,11 @@ def get_characters(
             detail=f"Items not found, House {house.capitalize()} does not exist",
         )
 
-    return paginated_response(
-        characters, common_query_params["limit"], common_query_params["offset"]
-    )
+    return paginated_response(characters, common_query_params["limit"], common_query_params["offset"])
 
 
 @router.get("/character/random", response_model=PaginatedResponse)
-def get_random_character(db_conn: Connection = Depends(get_db_connection)) -> Any:
+def get_random_character(db_conn: Annotated[Connection, Depends(get_db_connection)]) -> Any:
     character = read_random_character(db_conn)
 
     if not character:
@@ -61,14 +56,10 @@ def get_random_character(db_conn: Connection = Depends(get_db_connection)) -> An
 @router.get("/houses", response_model=PaginatedResponse)
 def get_houses(
     common_query_params: CommonQueryParams,
-    status: Annotated[
-        str | None, Query(strict=True, examples=["Major", "major"])
-    ] = None,
-    db_conn: Connection = Depends(get_db_connection),
+    db_conn: Annotated[Connection, Depends(get_db_connection)],
+    status: Annotated[str | None, Query(strict=True, examples=["Major", "major"])] = None,
 ) -> Any:
-    houses = read_houses(
-        db_conn, status, common_query_params["limit"], common_query_params["offset"]
-    )
+    houses = read_houses(db_conn, status, common_query_params["limit"], common_query_params["offset"])
 
     if not houses and status is not None:
         raise HTTPException(
@@ -76,23 +67,17 @@ def get_houses(
             detail=f"Items not found, status House {status.capitalize()} does not exist",
         )
 
-    return paginated_response(
-        houses, common_query_params["limit"], common_query_params["offset"]
-    )
+    return paginated_response(houses, common_query_params["limit"], common_query_params["offset"])
 
 
 @router.get("/organisations", response_model=PaginatedResponse)
 def get_organisations(
     common_query_params: CommonQueryParams,
-    db_conn: Connection = Depends(get_db_connection),
+    db_conn: Annotated[Connection, Depends(get_db_connection)],
 ) -> Any:
-    organisations = read_organisations(
-        db_conn, common_query_params["limit"], common_query_params["offset"]
-    )
+    organisations = read_organisations(db_conn, common_query_params["limit"], common_query_params["offset"])
 
     if not organisations:
         raise HTTPException(status_code=404, detail="Items not found")
 
-    return paginated_response(
-        organisations, common_query_params["limit"], common_query_params["offset"]
-    )
+    return paginated_response(organisations, common_query_params["limit"], common_query_params["offset"])
