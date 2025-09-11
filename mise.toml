@@ -12,6 +12,14 @@ pre-commit = "latest"
 description = "Run the development server"
 run = "uvicorn app.main:app --reload"
 
+[tasks.build]
+description = "Build the application container"
+run = "docker build -t dune-api ."
+
+[tasks.start]
+description = "Start the application container"
+run = "docker run -p 8080:8080 dune-api"
+
 [tasks.init-tests]
 description = "Initialise the test environment"
 hide = true
