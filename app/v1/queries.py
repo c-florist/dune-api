@@ -151,3 +151,41 @@ def read_organisations(db_conn: Connection, limit: int = 20, offset: int = 0) ->
         results = cursor.fetchall()
 
     return results
+
+
+def read_planet(db_conn: Connection, planet_uuid: str) -> dict[str, str | None]:
+    q = """
+        SELECT
+            uuid,
+            name,
+            geographical_features,
+            ruler
+        FROM planet
+        WHERE uuid = ?
+    """
+
+    with closing(db_conn.cursor()) as cursor:
+        cursor.execute(q, (planet_uuid,))
+        result: dict[str, str | None] = cursor.fetchone()
+
+    return result
+
+
+def read_planets(db_conn: Connection, limit: int = 20, offset: int = 0) -> list[dict[str, str]]:
+    params = (limit, offset)
+    q = """
+        SELECT
+            uuid,
+            name,
+            geographical_features,
+            ruler
+        FROM planet
+        ORDER BY id
+        LIMIT ? OFFSET ?
+    """
+
+    with closing(db_conn.cursor()) as cursor:
+        cursor.execute(q, params)
+        results = cursor.fetchall()
+
+    return results
