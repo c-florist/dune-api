@@ -62,6 +62,13 @@ def seed_data(db_client: DBClient) -> None:
         )
         logger.info(f"Seeded {len(character_orgs)} character-organisation relationships.")
 
+        planets = load_from_csv(DATA_DIR / "planet.csv")
+        cursor.executemany(
+            "INSERT INTO planet (id, uuid, name, geographical_features, ruler) VALUES (?, ?, ?, ?, ?)",
+            [(p[0], p[1], p[2], p[3], p[4]) for p in planets],
+        )
+        logger.info(f"Seeded {len(planets)} planets.")
+
 
 def main() -> None:
     setup_logging()
@@ -79,6 +86,7 @@ def main() -> None:
             DROP TABLE IF EXISTS character;
             DROP TABLE IF EXISTS house;
             DROP TABLE IF EXISTS organisation;
+            DROP TABLE IF EXISTS planet;
             """
         )
 
