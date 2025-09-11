@@ -18,6 +18,7 @@ dev = [
     "pytest",
     "ruff",
     "basedpyright",
+    "pytest-asyncio>=1.1.0",
 ]
 
 [tool.ruff]
