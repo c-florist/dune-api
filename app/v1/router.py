@@ -9,12 +9,13 @@ from app.core.responses import paginated_response
 
 from .dependencies import CommonQueryParams, get_db_connection
 from .queries import (
+    read_character,
     read_characters,
     read_houses,
     read_organisations,
     read_random_character,
 )
-from .response_models import PaginatedResponse
+from .response_models import Character, PaginatedResponse
 
 logger = getLogger(__name__)
 router = APIRouter()
@@ -40,6 +41,19 @@ def get_characters(
         )
 
     return paginated_response(characters, common_query_params["limit"], common_query_params["offset"])
+
+
+@router.get("/character/{character_id}", response_model=Character)
+def get_character(
+    character_id: str,
+    db_conn: Annotated[Connection, Depends(get_db_connection)],
+) -> Any:
+    character = read_character(db_conn, character_id)
+
+    if not character:
+        raise HTTPException(status_code=404, detail=f"Character {character_id} not found")
+
+    return character
 
 
 @router.get("/character/random", response_model=PaginatedResponse)

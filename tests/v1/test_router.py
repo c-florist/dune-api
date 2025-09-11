@@ -14,6 +14,14 @@ def test_root_redirect_response(test_client):
     assert response.url.path == "/docs"
 
 
+def test_get_character_by_uuid(test_client):
+    response = test_client.get("/v1/character/540b8c10-8297-4710-833e-84ef51797ac0")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["first_name"] == "Paul"
+    assert data["last_name"] == "Atreides"
+
+
 def test_get_all_characters(test_client):
     response = test_client.get("/v1/characters")
     assert response.status_code == 200
