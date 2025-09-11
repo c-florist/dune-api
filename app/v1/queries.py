@@ -3,7 +3,7 @@ from sqlite3 import Connection
 from typing import Any
 
 
-def read_character(db_conn: Connection, character_uuid: str) -> dict[str, str | None]:
+def read_character(db_conn: Connection, character_uuid: str) -> dict[str, Any]:
     q = """
         SELECT
             uuid,
@@ -25,14 +25,14 @@ def read_character(db_conn: Connection, character_uuid: str) -> dict[str, str | 
 
     with closing(db_conn.cursor()) as cursor:
         cursor.execute(q, (character_uuid,))
-        result: dict[str, str | None] = cursor.fetchone()
+        result = cursor.fetchone()
 
     return result
 
 
 def read_characters(
     db_conn: Connection, house: str | None = None, limit: int = 20, offset: int = 0
-) -> list[dict[str, str | None]]:
+) -> list[dict[str, Any]]:
     params: tuple[Any, ...] = (limit, offset)
 
     if house is not None:
@@ -69,7 +69,7 @@ def read_characters(
     return results
 
 
-def read_random_character(db_conn: Connection) -> dict[str, str | None]:
+def read_random_character(db_conn: Connection) -> dict[str, Any]:
     q = """
         SELECT
             uuid,
@@ -92,7 +92,7 @@ def read_random_character(db_conn: Connection) -> dict[str, str | None]:
 
     with closing(db_conn.cursor()) as cursor:
         cursor.execute(q)
-        result: dict[str, str | None] = cursor.fetchone()
+        result = cursor.fetchone()
 
     return result
 

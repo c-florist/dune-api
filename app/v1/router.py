@@ -7,6 +7,7 @@ from fastapi.responses import RedirectResponse
 from pydantic import UUID4
 
 from app.core.responses import paginated_response
+from app.domain.models import Character, Planet
 from app.services.character_service import CharacterService
 
 from .dependencies import (
@@ -20,7 +21,7 @@ from .queries import (
     read_planet,
     read_planets,
 )
-from .response_models import Character, PaginatedResponse, Planet
+from .response_models import PaginatedResponse
 
 logger = getLogger(__name__)
 router = APIRouter()

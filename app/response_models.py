@@ -1,8 +1,4 @@
-from pydantic import BaseModel, ConfigDict
-
-
-class CustomBase(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+from pydantic import BaseModel
 
 
 class Root(BaseModel):
