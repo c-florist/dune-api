@@ -36,8 +36,15 @@ class Organisation(CustomBase):
     misc: str | None
 
 
+class Planet(CustomBase):
+    uuid: UUID4
+    name: str
+    geographical_features: str
+    ruler: str | None
+
+
 class PaginatedResponse(BaseModel):
-    items: list[Character | House | Organisation]
+    items: list[Character | House | Organisation | Planet]
     limit: int
     offset: int
     total: int
