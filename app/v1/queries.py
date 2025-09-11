@@ -1,5 +1,5 @@
-from sqlite3 import Connection
 from contextlib import closing
+from sqlite3 import Connection
 from typing import Any
 
 
@@ -15,7 +15,7 @@ def read_characters(
         where_clause = ""
 
     base_query = """
-        SELECT 
+        SELECT
             titles,
             aliases,
             first_name,
@@ -27,9 +27,7 @@ def read_characters(
             profession,
             misc,
             organisations,
-            house,
-            created_at,
-            updated_at
+            house
         FROM character_with_org
     """
     order_limit_clause = "ORDER BY 1 LIMIT ? OFFSET ?"
@@ -57,9 +55,7 @@ def read_random_character(db_conn: Connection) -> dict[str, str | None]:
             profession,
             misc,
             organisations,
-            house,
-            created_at,
-            updated_at
+            house
         FROM character_with_org
         ORDER BY RANDOM()
         LIMIT 1
@@ -87,14 +83,12 @@ def read_houses(
         where_clause = ""
 
     base_query = """
-        SELECT 
+        SELECT
             name,
             homeworld,
             status,
             colours,
-            symbol,
-            created_at,
-            updated_at
+            symbol
         FROM house
     """
     order_limit_clause = "ORDER BY id LIMIT ? OFFSET ?"
@@ -108,18 +102,14 @@ def read_houses(
     return results
 
 
-def read_organisations(
-    db_conn: Connection, limit: int = 20, offset: int = 0
-) -> list[dict[str, str]]:
+def read_organisations(db_conn: Connection, limit: int = 20, offset: int = 0) -> list[dict[str, str]]:
     params = (limit, offset)
     q = """
         SELECT
             name,
             founded,
             dissolved,
-            misc,
-            created_at,
-            updated_at
+            misc
         FROM organisation
         ORDER BY id
         LIMIT ? OFFSET ?

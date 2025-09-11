@@ -25,19 +25,20 @@ def drop_test_db(db_client: DBClient) -> None:
 def seed_test_db(db_client: DBClient) -> None:
     with closing(db_client.conn.cursor()) as cursor:
         cursor.executemany(
-            "INSERT INTO house (id, uuid, name, homeworld, status, colours, symbol, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO house (id, uuid, name, homeworld, status, colours, symbol) VALUES (?, ?, ?, ?, ?, ?, ?)",
             HOUSES,
         )
 
         cursor.executemany(
-            "INSERT INTO organisation (id, uuid, name, founded, dissolved, misc, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO organisation (id, uuid, name, founded, dissolved, misc) VALUES (?, ?, ?, ?, ?, ?)",
             ORGANISATIONS,
         )
 
         cursor.executemany(
-            "INSERT INTO character (id, uuid, titles, aliases, first_name, last_name, suffix, dob, birthplace, dod, profession, misc, house_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO character (id, uuid, titles, aliases, first_name, last_name, suffix, dob, birthplace, dod, profession, misc, house_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             CHARACTERS,
         )
+
 
         cursor.executemany(
             "INSERT INTO character_organisation (character_id, org_id) VALUES (?, ?)",

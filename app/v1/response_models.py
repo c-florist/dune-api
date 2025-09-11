@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from pydantic import BaseModel, Json
 
 from ..response_models import CustomBase
@@ -18,8 +16,6 @@ class Character(CustomBase):
     misc: str | None
     house: str | None
     organisations: Json[list[str]] | None
-    created_at: datetime
-    updated_at: datetime
 
 
 class House(CustomBase):
@@ -28,8 +24,6 @@ class House(CustomBase):
     status: str
     colours: Json[list[str]]
     symbol: str
-    created_at: datetime
-    updated_at: datetime
 
 
 class Organisation(CustomBase):
@@ -37,8 +31,6 @@ class Organisation(CustomBase):
     founded: str
     dissolved: str
     misc: str | None
-    created_at: datetime
-    updated_at: datetime
 
 
 class PaginatedResponse(BaseModel):

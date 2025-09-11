@@ -8,9 +8,7 @@ HOUSES = [
         json.dumps(["Caladan", "Arrakis"]),
         "House Major",
         json.dumps(["Red", "Green"]),
-        "Red Hawk",
-        "2024-01-16 06:15:49",
-        "2024-01-16 06:15:49",
+        "Red Hawk"
     ),
     (
         2,
@@ -19,9 +17,7 @@ HOUSES = [
         json.dumps(["Giedi Prime"]),
         "House Major",
         json.dumps(["Blue", "Orange"]),
-        "Griffin",
-        "2024-01-16 06:15:49",
-        "2024-01-16 06:15:49",
+        "Griffin"
     ),
 ]
 
@@ -32,9 +28,7 @@ ORGANISATIONS = [
         "Bene Gesserit",
         "c. 98 BG",
         "Unknown",
-        None,
-        "2024-01-16 06:15:49",
-        "2024-01-16 06:15:49",
+        None
     ),
     (
         2,
@@ -42,9 +36,7 @@ ORGANISATIONS = [
         "Fremen",
         "c. 1300 BG",
         "c. 10219 AG",
-        None,
-        "2024-01-16 06:15:49",
-        "2024-01-16 06:15:49",
+        None
     ),
     (
         3,
@@ -52,9 +44,7 @@ ORGANISATIONS = [
         "Fedaykin",
         "Unknown",
         "10210 AG",
-        "Originally a word used to describe the Fremen's guerilla fighters, later used in reference to Muad'Dib's personal guard, otherwise known as his death commandos.",
-        "2024-01-16 06:15:49",
-        "2024-01-16 06:15:49",
+        "Originally a word used to describe the Fremen's guerilla fighters, later used in reference to Muad'Dib's personal guard, otherwise known as his death commandos."
     ),
 ]
 
@@ -72,9 +62,7 @@ CHARACTERS = [
         "10191 AG",
         json.dumps(["Ruler", "Soldier"]),
         None,
-        1,
-        "2024-01-16 06:15:49",
-        "2024-01-16 06:15:49",
+        1
     ),
     (
         2,
@@ -89,9 +77,7 @@ CHARACTERS = [
         "Unknown",
         json.dumps(["Soldier"]),
         None,
-        1,
-        "2024-01-16 06:15:49",
-        "2024-01-16 06:15:49",
+        1
     ),
     (
         3,
@@ -106,9 +92,7 @@ CHARACTERS = [
         "10193 AG",
         json.dumps(["Ruler"]),
         None,
-        2,
-        "2024-01-16 06:15:49",
-        "2024-01-16 06:15:49",
+        2
     ),
     (
         4,
@@ -123,9 +107,7 @@ CHARACTERS = [
         "10219 AG",
         json.dumps(["Ruler", "Soldier"]),
         None,
-        1,
-        "2024-01-16 06:15:49",
-        "2024-01-16 06:15:49",
+        1
     ),
     (
         5,
@@ -140,9 +122,7 @@ CHARACTERS = [
         "Unknown",
         json.dumps(["Fighter"]),
         "Leader of the Fedaykin.",
-        None,
-        "2024-01-16 06:15:49",
-        "2024-01-16 06:15:49",
+        None
     ),
 ]
 
