@@ -1,6 +1,9 @@
+# Python
 __pycache__/
 .mypy_cache/
 .pytest_cache/
 dist/
 
-tests/test.db
+# Local env
+**/*.sqlite3
+.env*
