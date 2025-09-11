@@ -1,0 +1,58 @@
+[project]
+name = "dune-api"
+version = "0.1.0"
+description = "An API that provides information about the world of Dune, the book series created by Frank Herbert."
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [
+    {name = "Connor Flowers"},
+]
+dependencies = [
+    "fastapi~=0.108.0",
+    "httpx~=0.26.0",
+]
+
+[dependency-groups]
+dev = [
+    "uvicorn[standard]~=0.25.0",
+    "pytest",
+    "ruff",
+    "basedpyright",
+]
+
+[tool.ruff]
+respect-gitignore = true
+exclude = [
+  "__pycache__",
+  ".ruff_cache",
+  "./app/migrations",
+]
+line-length = 120
+indent-width = 4
+target-version = "py313"
+
+[tool.ruff.lint]
+select = [
+  "E",
+  "F",
+  "UP",
+  "B",
+  "SIM",
+  "I",
+]
+ignore = [
+  "SIM108",  # Don't enforce ternary operator
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.basedpyright]
+include = ["app"]
+exclude = ["**/__pycache__", "tests"]
+strict = true
+pythonVersion = "3.13"
+reportMissingImports = "none"

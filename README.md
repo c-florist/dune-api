@@ -6,29 +6,19 @@ The focus for this API is the original book series, so it doesn't include any in
 
 ## Development
 
-For a development install, clone the repository and install with extra dev/test dependencies:
+### Prerequisites
+
+1. This project uses [mise](https://mise.jdx.dev/getting-started.html) for dev environment management.
+1. This project uses [uv](https://github.com/astral-sh/uv) for python package management.
+
+### Setup
+For a development install, clone the repository and initialise your virtual environment:
 ```shell
 git clone https://github.com/kyoh-dev/dune-api.git
 
 cd dune-api
 
-pip install -r requirements.txt -r requirements.dev.txt
-```
-
-### Makefile targets
-```shell
-# Start local development server
-make start
-
-# Initialise test database and seed data
-make init-tests
-
-# Run test suite
-make test
-
-# Run linting tools
-make lint-check
-make lint-fix
+uv sync
 ```
 
 ### Project goals
@@ -38,7 +28,3 @@ make lint-fix
 - [x] Add some other fun routes for additional information, e.g. `GET /character/random`
 - [ ] Add a route and validation for getting a single character
 - [ ] Add all seed data for basic routes
-
-### Data to add
-
-- [ ] Planets
