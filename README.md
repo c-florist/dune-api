@@ -29,6 +29,5 @@ uvicorn app.main:app --reload
 
 ### TODO
 
-- [ ] Add a route and validation for getting a single character
 - [ ] Add a planet model and table, with associated get / getall routes
 - [ ] Add an endpoint to accept a lat/lon, identify where the user is and return the most similar planet based on environment (e.g. desert, island, ocean, forest)
