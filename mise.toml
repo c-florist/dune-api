@@ -6,7 +6,8 @@ DB_PATH = "./dune.sqlite3"
 
 [tools]
 python = "3.13"
-pre-commit = "latest"
+pre-commit = "4.3"
+dbmate = "2.28"
 
 [tasks.init]
 description = "Initialise the development environment"
