@@ -1,0 +1,34 @@
+# Git
+.git
+.gitignore
+
+# Local development environment
+.venv
+**/__pycache__
+**/*.pyc
+
+# Local databases
+*.sqlite3
+
+# Test files
+tests/
+**/.pytest_cache
+
+# Local configuration
+mise.toml
+.env
+.env.secrets
+
+# Documentation
+*.md
+
+# CI/CD
+.github/
+
+# Linters / Formatters / Type Checkers
+.ruff_cache
+.pre-commit-config.yaml
+
+# Docker
+.dockerignore
+Dockerfile
