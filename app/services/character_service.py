@@ -25,3 +25,7 @@ class CharacterService:
         if character_data:
             return Character(**character_data)
         return None
+
+    def search_characters(self, search_term: str, limit: int, offset: int) -> list[Character]:
+        characters_data = queries.search_characters(self.db_conn, search_term, limit, offset)
+        return [Character(**character_data) for character_data in characters_data]
