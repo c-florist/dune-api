@@ -1,5 +1,4 @@
 from logging import getLogger
-from sqlite3 import Connection
 from typing import Annotated, Any
 
 from fastapi import APIRouter, Depends, HTTPException, Query
@@ -11,17 +10,14 @@ from app.domain.models import Character, Planet
 from app.services.character_service import CharacterService
 from app.services.house_service import HouseService
 from app.services.organisation_service import OrganisationService
+from app.services.planet_service import PlanetService
 
 from .dependencies import (
     CommonQueryParams,
     get_character_service,
-    get_db_connection,
     get_house_service,
     get_organisation_service,
-)
-from .queries import (
-    read_planet,
-    read_planets,
+    get_planet_service,
 )
 from .response_models import PaginatedResponse
 
@@ -108,9 +104,9 @@ def get_organisations(
 @router.get("/planet/{uuid}", response_model=Planet)
 def get_planet(
     uuid: UUID4,
-    db_conn: Annotated[Connection, Depends(get_db_connection)],
+    planet_service: Annotated[PlanetService, Depends(get_planet_service)],
 ) -> Any:
-    planet = read_planet(db_conn, str(uuid))
+    planet = planet_service.get_planet_by_uuid(str(uuid))
 
     if not planet:
         raise HTTPException(status_code=404, detail=f"Planet {uuid} not found")
@@ -121,9 +117,9 @@ def get_planet(
 @router.get("/planets", response_model=PaginatedResponse)
 def get_planets(
     common_query_params: CommonQueryParams,
-    db_conn: Annotated[Connection, Depends(get_db_connection)],
+    planet_service: Annotated[PlanetService, Depends(get_planet_service)],
 ) -> Any:
-    planets = read_planets(db_conn, common_query_params["limit"], common_query_params["offset"])
+    planets = planet_service.get_planets(common_query_params["limit"], common_query_params["offset"])
 
     if not planets:
         raise HTTPException(status_code=404, detail="Items not found")
