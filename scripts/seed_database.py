@@ -2,12 +2,12 @@ from contextlib import closing
 from logging import getLogger
 from pathlib import Path
 
+from app.core.constants import DB_PATH
 from app.core.csv import load_from_csv
 from app.core.database import DBClient, run_migrations
 from app.core.logging import setup_logging
 
-BASE_DIR = Path(__file__).parent.parent
-DB_PATH = BASE_DIR / "dune.sqlite3"
+BASE_DIR = Path(__file__).parents[1]
 DATA_DIR = BASE_DIR / "data"
 
 logger = getLogger(__name__)
@@ -74,7 +74,7 @@ def main() -> None:
     setup_logging()
     logger.info(f"Database will be created at: {DB_PATH}")
 
-    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+    Path(DB_PATH).parent.mkdir(parents=True, exist_ok=True)
     db_client = DBClient(str(DB_PATH), mode="rwc")
 
     with db_client.conn:
