@@ -2,6 +2,9 @@ name: dune-api CI
 
 on: push
 
+env:
+  DBMATE_VERSION: 2.28.0
+
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -45,6 +48,19 @@ jobs:
 
       - name: Install the project
         run: uv sync --locked --all-extras --dev
+
+      - name: Cache dbmate binary
+        id: cache-dbmate
+        uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809
+        with:
+          path: /usr/local/bin/dbmate
+          key: ${{ runner.os }}-dbmate-v${{ env.DBMATE_VERSION }}
+
+      - name: Install dbmate if not cached
+        if: steps.cache-dbmate.outputs.cache-hit != 'true'
+        run: |
+          curl -fsSL -o /usr/local/bin/dbmate https://github.com/amacneil/dbmate/releases/download/v${{ env.DBMATE_VERSION }}/dbmate-linux-amd64
+          chmod +x /usr/local/bin/dbmate
 
       - name: Run tests
         env:
