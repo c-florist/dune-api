@@ -7,6 +7,7 @@ from fastapi import Depends, Query
 from app.core.constants import DB_PATH
 from app.core.database import DBClient
 from app.services.character_service import CharacterService
+from app.services.geospatial_service import GeoSpatialService
 from app.services.house_service import HouseService
 from app.services.organisation_service import OrganisationService
 from app.services.planet_service import PlanetService
@@ -42,6 +43,10 @@ def get_planet_service(
     db_conn: Annotated[Connection, Depends(get_db_connection)],
 ) -> PlanetService:
     return PlanetService(db_conn)
+
+
+def get_geospatial_service() -> GeoSpatialService:
+    return GeoSpatialService()
 
 
 def common_query_parameters(limit: int = Query(20, ge=0), offset: int = Query(0, ge=0)) -> dict[str, int]:
