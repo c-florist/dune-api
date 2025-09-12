@@ -6,6 +6,8 @@ from app.v1.queries import (
     read_planet,
     read_planets,
     read_random_character,
+    search_characters,
+    search_houses,
 )
 
 
@@ -62,3 +64,15 @@ def test_read_planets(db_client):
         assert isinstance(planet["name"], str)
         assert isinstance(planet["environment"], str)
         assert isinstance(planet["ruler"], (str, type(None)))
+
+
+def test_search_characters(db_client):
+    characters = search_characters(db_client.conn, "paul")
+    assert len(characters) == 1
+    assert characters[0]["first_name"] == "Paul"
+
+
+def test_search_houses(db_client):
+    houses = search_houses(db_client.conn, "harkonnen")
+    assert len(houses) == 1
+    assert houses[0]["name"] == "House Harkonnen"

@@ -97,6 +97,46 @@ def read_random_character(db_conn: Connection) -> dict[str, Any]:
     return result
 
 
+def search_characters(db_conn: Connection, search_term: str, limit: int = 20, offset: int = 0) -> list[dict[str, Any]]:
+    q = """
+        SELECT
+            character.uuid,
+            character.titles,
+            character.aliases,
+            character.first_name,
+            character.last_name,
+            character.suffix,
+            character.dob,
+            character.birthplace,
+            character.dod,
+            character.profession,
+            character.misc,
+            (
+                SELECT
+                    json_group_array(organisation.name)
+                FROM organisation
+                INNER JOIN character_organisation
+                    ON organisation.id = character_organisation.org_id
+                WHERE character_organisation.character_id = character.id
+            ) AS organisations,
+            house.name as house
+        FROM character
+        LEFT JOIN house
+            ON character.house_id = house.id
+        INNER JOIN character_fts fts
+            ON character.id = fts.rowid
+        WHERE fts.character_fts MATCH ?
+        ORDER BY fts.rank
+        LIMIT ? OFFSET ?
+    """
+
+    with closing(db_conn.cursor()) as cursor:
+        cursor.execute(q, (search_term, limit, offset))
+        results = cursor.fetchall()
+
+    return results
+
+
 def read_houses(
     db_conn: Connection,
     status: str | None = None,
@@ -127,6 +167,29 @@ def read_houses(
 
     with closing(db_conn.cursor()) as cursor:
         cursor.execute(q, params)
+        results = cursor.fetchall()
+
+    return results
+
+
+def search_houses(db_conn: Connection, search_term: str, limit: int = 20, offset: int = 0) -> list[dict[str, Any]]:
+    q = """
+        SELECT
+            house.uuid,
+            house.name,
+            house.homeworld,
+            house.status,
+            house.colours,
+            house.symbol
+        FROM house
+        INNER JOIN house_fts fts
+            ON house.id = fts.rowid
+        WHERE fts.house_fts MATCH ?
+        LIMIT ? OFFSET ?
+    """
+
+    with closing(db_conn.cursor()) as cursor:
+        cursor.execute(q, (search_term, limit, offset))
         results = cursor.fetchall()
 
     return results
