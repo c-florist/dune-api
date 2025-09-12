@@ -20,4 +20,3 @@ repos:
         exclude: ^tests/
 
       - id: ruff-format
-        exclude: ^tests/

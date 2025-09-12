@@ -8,7 +8,7 @@ HOUSES = [
         json.dumps(["Caladan", "Arrakis"]),
         "House Major",
         json.dumps(["Red", "Green"]),
-        "Red Hawk"
+        "Red Hawk",
     ),
     (
         2,
@@ -17,34 +17,20 @@ HOUSES = [
         json.dumps(["Giedi Prime"]),
         "House Major",
         json.dumps(["Blue", "Orange"]),
-        "Griffin"
+        "Griffin",
     ),
 ]
 
 ORGANISATIONS = [
-    (
-        1,
-        "ebe3fc90-e48e-43b4-b563-04dd3a54f526",
-        "Bene Gesserit",
-        "c. 98 BG",
-        "Unknown",
-        None
-    ),
-    (
-        2,
-        "71ba9ffa-8f2d-49f7-be74-82ec4a7f1f2b",
-        "Fremen",
-        "c. 1300 BG",
-        "c. 10219 AG",
-        None
-    ),
+    (1, "ebe3fc90-e48e-43b4-b563-04dd3a54f526", "Bene Gesserit", "c. 98 BG", "Unknown", None),
+    (2, "71ba9ffa-8f2d-49f7-be74-82ec4a7f1f2b", "Fremen", "c. 1300 BG", "c. 10219 AG", None),
     (
         3,
         "c70968f9-4110-4cf2-9033-de3d88dd6fe3",
         "Fedaykin",
         "Unknown",
         "10210 AG",
-        "Originally a word used to describe the Fremen's guerilla fighters, later used in reference to Muad'Dib's personal guard, otherwise known as his death commandos."
+        "Originally a word used to describe the Fremen's guerilla fighters, later used in reference to Muad'Dib's personal guard, otherwise known as his death commandos.",
     ),
 ]
 
@@ -62,7 +48,7 @@ CHARACTERS = [
         "10191 AG",
         json.dumps(["Ruler", "Soldier"]),
         None,
-        1
+        1,
     ),
     (
         2,
@@ -77,7 +63,7 @@ CHARACTERS = [
         "Unknown",
         json.dumps(["Soldier"]),
         None,
-        1
+        1,
     ),
     (
         3,
@@ -92,7 +78,7 @@ CHARACTERS = [
         "10193 AG",
         json.dumps(["Ruler"]),
         None,
-        2
+        2,
     ),
     (
         4,
@@ -107,7 +93,7 @@ CHARACTERS = [
         "10219 AG",
         json.dumps(["Ruler", "Soldier"]),
         None,
-        1
+        1,
     ),
     (
         5,
@@ -122,7 +108,7 @@ CHARACTERS = [
         "Unknown",
         json.dumps(["Fighter"]),
         "Leader of the Fedaykin.",
-        None
+        None,
     ),
 ]
 

@@ -40,7 +40,6 @@ def seed_test_db(db_client: DBClient) -> None:
             CHARACTERS,
         )
 
-
         cursor.executemany(
             "INSERT INTO character_organisation (character_id, org_id) VALUES (?, ?)",
             CHARACTER_ORGS,
