@@ -47,6 +47,8 @@ jobs:
         run: uv sync --locked --all-extras --dev
 
       - name: Run tests
+        env:
+          DB_PATH: ./local.sqlite3
         run: |
           uv run python -m tests.setup
           uv run pytest -vvv
