@@ -4,7 +4,7 @@ from pathlib import Path
 
 from app.core.constants import DB_PATH
 from app.core.csv import load_from_csv
-from app.core.database import DBClient, run_migrations
+from app.core.database import DBClient
 from app.core.logging import setup_logging
 
 BASE_DIR = Path(__file__).parents[1]
@@ -14,9 +14,19 @@ logger = getLogger(__name__)
 
 
 def seed_data(db_client: DBClient) -> None:
-    """Seeds the database with data from CSV files."""
     logger.info("Seeding data...")
     with closing(db_client.conn.cursor()) as cursor:
+        # Only delete from system data tables
+        cursor.executescript(
+            """
+            DELETE FROM character_organisation;
+            DELETE FROM character;
+            DELETE FROM house;
+            DELETE FROM organisation;
+            DELETE FROM planet;
+            """
+        )
+
         houses = load_from_csv(DATA_DIR / "house.csv")
         cursor.executemany(
             "INSERT INTO house (id, uuid, name, homeworld, status, colours, symbol) VALUES (?, ?, ?, ?, ?, ?, ?)",
@@ -72,29 +82,13 @@ def seed_data(db_client: DBClient) -> None:
 
 def main() -> None:
     setup_logging()
-    logger.info(f"Database will be created at: {DB_PATH}")
-
-    Path(DB_PATH).parent.mkdir(parents=True, exist_ok=True)
+    logger.info(f"Connecting to database at: {DB_PATH}")
     db_client = DBClient(str(DB_PATH), mode="rwc")
 
-    with db_client.conn:
-        logger.info("Dropping all existing tables...")
-        db_client.conn.executescript(
-            """
-            DROP VIEW IF EXISTS character_with_org;
-            DROP TABLE IF EXISTS character_organisation;
-            DROP TABLE IF EXISTS character;
-            DROP TABLE IF EXISTS house;
-            DROP TABLE IF EXISTS organisation;
-            DROP TABLE IF EXISTS planet;
-            """
-        )
-
-        run_migrations(db_client)
-        seed_data(db_client)
+    seed_data(db_client)
 
     db_client.close()
-    logger.info("Database setup and seeding complete.")
+    logger.info("Database seeding complete.")
 
 
 if __name__ == "__main__":
