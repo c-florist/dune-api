@@ -19,3 +19,9 @@ class PlanetService:
         if planet_data:
             return Planet(**planet_data)
         return None
+
+    def get_planet_by_environment(self, environment: str) -> Planet | None:
+        planet_data = queries.read_planet_by_environment(self.db_conn, environment)
+        if planet_data:
+            return Planet(**planet_data)
+        return None

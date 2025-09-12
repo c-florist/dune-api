@@ -8,6 +8,7 @@ from pydantic import UUID4
 from app.core.responses import paginated_response
 from app.domain.models import Character, Planet
 from app.services.character_service import CharacterService
+from app.services.geospatial_service import GeoSpatialService
 from app.services.house_service import HouseService
 from app.services.organisation_service import OrganisationService
 from app.services.planet_service import PlanetService
@@ -15,10 +16,12 @@ from app.services.planet_service import PlanetService
 from .dependencies import (
     CommonQueryParams,
     get_character_service,
+    get_geospatial_service,
     get_house_service,
     get_organisation_service,
     get_planet_service,
 )
+from .request_models import Coordinates
 from .response_models import PaginatedResponse
 
 logger = getLogger(__name__)
@@ -159,3 +162,18 @@ def get_planets(
         raise HTTPException(status_code=404, detail="Items not found")
 
     return paginated_response(planets, common_query_params["limit"], common_query_params["offset"])
+
+
+@router.post("/planet/locate", response_model=Planet)
+async def get_planet_by_coords(
+    coordinates: Coordinates,
+    planet_service: Annotated[PlanetService, Depends(get_planet_service)],
+    geospatial_service: Annotated[GeoSpatialService, Depends(get_geospatial_service)],
+) -> Any:
+    environment = await geospatial_service.get_environment_from_coords(coordinates.latitude, coordinates.longitude)
+    planet = planet_service.get_planet_by_environment(environment)
+
+    if not planet:
+        raise HTTPException(status_code=404, detail=f"No planet found with environment similar to '{environment}'")
+
+    return planet
