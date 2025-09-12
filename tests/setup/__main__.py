@@ -1,12 +1,13 @@
 from contextlib import closing
+from pathlib import Path
 from logging import getLogger
 
-from app.core.constants import DB_PATH
 from app.core.database import DBClient, run_migrations
 from app.core.logging import setup_logging
 
 from .seed_data import CHARACTER_ORGS, CHARACTERS, HOUSES, ORGANISATIONS, PLANETS
 
+TEST_DB_PATH = str(Path(__file__).parents[1] / "test.sqlite3")
 logger = getLogger(__name__)
 
 
@@ -52,7 +53,7 @@ def seed_test_db(db_client: DBClient) -> None:
 
 
 def run() -> None:
-    db_client = DBClient(DB_PATH, mode="rwc")
+    db_client = DBClient(TEST_DB_PATH, mode="rwc")
 
     logger.info("Dropping database tables ...")
     drop_test_db(db_client)
@@ -60,7 +61,7 @@ def run() -> None:
     logger.info("Running migrations ...")
     run_migrations(db_client)
 
-    logger.info(f"Seeding test database at {DB_PATH} ...")
+    logger.info(f"Seeding test database at {TEST_DB_PATH} ...")
     seed_test_db(db_client)
 
     db_client.close()
