@@ -43,6 +43,7 @@ select = [
 ignore = [
   "SIM108",  # Don't enforce ternary operator
 ]
+exclude = ["tests/**/*.py"]
 
 [tool.ruff.format]
 quote-style = "double"
