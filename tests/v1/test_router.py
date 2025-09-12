@@ -114,3 +114,38 @@ def test_search_houses_not_found(test_client):
     response = test_client.get("/v1/houses/search?q=beeblebrox")
     assert response.status_code == 404
     assert response.json()["detail"] == "No houses found matching 'beeblebrox'"
+
+
+def test_get_planet_by_coords_success(test_client, monkeypatch):
+    async def mock_get_environment_from_coords(self, lat, lon):
+        return "desert"
+
+    from app.services import geospatial_service
+
+    monkeypatch.setattr(
+        geospatial_service.GeoSpatialService,
+        "get_environment_from_coords",
+        mock_get_environment_from_coords,
+    )
+
+    response = test_client.post("/v1/planet/locate", json={"latitude": 32.7, "longitude": -114.8})
+    assert response.status_code == 200
+    data = response.json()
+    assert data["name"] == "Arrakis"
+
+
+def test_get_planet_by_coords_not_found(test_client, monkeypatch):
+    async def mock_get_environment_from_coords(self, lat, lon):
+        return "jungle"
+
+    from app.services import geospatial_service
+
+    monkeypatch.setattr(
+        geospatial_service.GeoSpatialService,
+        "get_environment_from_coords",
+        mock_get_environment_from_coords,
+    )
+
+    response = test_client.post("/v1/planet/locate", json={"latitude": -1.9, "longitude": -55.9})
+    assert response.status_code == 404
+    assert response.json()["detail"] == "No planet found with environment similar to 'jungle'"
