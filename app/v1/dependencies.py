@@ -8,6 +8,7 @@ from app.core.constants import DB_PATH
 from app.core.database import DBClient
 from app.services.character_service import CharacterService
 from app.services.house_service import HouseService
+from app.services.organisation_service import OrganisationService
 
 
 def get_db_connection() -> Generator[Connection]:
@@ -28,6 +29,12 @@ def get_house_service(
     db_conn: Annotated[Connection, Depends(get_db_connection)],
 ) -> HouseService:
     return HouseService(db_conn)
+
+
+def get_organisation_service(
+    db_conn: Annotated[Connection, Depends(get_db_connection)],
+) -> OrganisationService:
+    return OrganisationService(db_conn)
 
 
 def common_query_parameters(limit: int = Query(20, ge=0), offset: int = Query(0, ge=0)) -> dict[str, int]:

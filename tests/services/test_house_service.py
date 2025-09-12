@@ -1,4 +1,3 @@
-
 from sqlite3 import Connection
 
 import app.v1.queries as queries

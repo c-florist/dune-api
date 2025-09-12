@@ -10,15 +10,16 @@ from app.core.responses import paginated_response
 from app.domain.models import Character, Planet
 from app.services.character_service import CharacterService
 from app.services.house_service import HouseService
+from app.services.organisation_service import OrganisationService
 
 from .dependencies import (
     CommonQueryParams,
     get_character_service,
     get_db_connection,
     get_house_service,
+    get_organisation_service,
 )
 from .queries import (
-    read_organisations,
     read_planet,
     read_planets,
 )
@@ -94,9 +95,9 @@ def get_houses(
 @router.get("/organisations", response_model=PaginatedResponse)
 def get_organisations(
     common_query_params: CommonQueryParams,
-    db_conn: Annotated[Connection, Depends(get_db_connection)],
+    organisation_service: Annotated[OrganisationService, Depends(get_organisation_service)],
 ) -> Any:
-    organisations = read_organisations(db_conn, common_query_params["limit"], common_query_params["offset"])
+    organisations = organisation_service.get_organisations(common_query_params["limit"], common_query_params["offset"])
 
     if not organisations:
         raise HTTPException(status_code=404, detail="Items not found")
