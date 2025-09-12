@@ -31,11 +31,13 @@ run = "docker run -p 8080:8080 dune-api"
 description = "Initialise the test environment"
 hide = true
 run = "python -m tests.setup"
+env = { DB_PATH = "./test.sqlite3", DATABASE_URL = "sqlite3:./test.sqlite3" }
 
 [tasks.test]
 description = "Run unit tests"
 depends = ["init-tests"]
 run = "python -m pytest tests -vvv"
+env = { DB_PATH = "./test.sqlite3", DATABASE_URL = "sqlite3:./test.sqlite3" }
 
 [tasks.format]
 description = "Run the formatter [and modify files]"

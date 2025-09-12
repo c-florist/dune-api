@@ -1,23 +1,25 @@
+-- migrate:up
 PRAGMA foreign_keys = ON;
 
-CREATE TABLE IF NOT EXISTS house (
+CREATE TABLE IF NOT EXISTS planet (
     id INTEGER NOT NULL PRIMARY KEY,
     uuid TEXT NOT NULL,
     name TEXT NOT NULL,
-    homeworld TEXT NOT NULL,
-    status TEXT NOT NULL,
-    colours TEXT NOT NULL,
-    symbol TEXT NOT NULL,
+    environment TEXT NOT NULL,
+    ruler TEXT,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE UNIQUE INDEX house_uuid_unique_idx ON house(uuid);
+CREATE UNIQUE INDEX planet_uuid_unique_idx ON planet(uuid);
 
-CREATE TRIGGER IF NOT EXISTS house_updated_at
-AFTER UPDATE ON house
+CREATE TRIGGER IF NOT EXISTS planet_updated_at
+AFTER UPDATE ON planet
 BEGIN
-    UPDATE house
+    UPDATE planet
     SET updated_at = CURRENT_TIMESTAMP
     WHERE id = NEW.id;
 END;
+
+-- migrate:down
+DROP TABLE IF EXISTS planet;

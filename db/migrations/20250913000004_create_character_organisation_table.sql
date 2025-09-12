@@ -1,3 +1,4 @@
+-- migrate:up
 PRAGMA foreign_keys = ON;
 
 CREATE TABLE IF NOT EXISTS character_organisation (
@@ -7,3 +8,6 @@ CREATE TABLE IF NOT EXISTS character_organisation (
     FOREIGN KEY (character_id) REFERENCES character(id) ON DELETE CASCADE,
     FOREIGN KEY (org_id) REFERENCES organisation(id) ON DELETE CASCADE
 );
+
+-- migrate:down
+DROP TABLE IF EXISTS character_organisation;

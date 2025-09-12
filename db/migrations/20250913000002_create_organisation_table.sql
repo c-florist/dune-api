@@ -1,3 +1,4 @@
+-- migrate:up
 PRAGMA foreign_keys = ON;
 
 CREATE TABLE IF NOT EXISTS organisation (
@@ -20,3 +21,6 @@ BEGIN
     SET updated_at = CURRENT_TIMESTAMP
     WHERE id = NEW.id;
 END;
+
+-- migrate:down
+DROP TABLE IF EXISTS organisation;

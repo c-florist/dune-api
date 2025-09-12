@@ -1,3 +1,4 @@
+-- migrate:up
 PRAGMA foreign_keys = ON;
 
 CREATE VIEW IF NOT EXISTS character_with_org AS
@@ -28,3 +29,6 @@ CREATE VIEW IF NOT EXISTS character_with_org AS
     LEFT JOIN house
         ON character.house_id = house.id
 ;
+
+-- migrate:down
+DROP VIEW IF EXISTS character_with_org;

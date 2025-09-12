@@ -1,27 +1,15 @@
+import subprocess
 from contextlib import closing
-from pathlib import Path
 from logging import getLogger
+from pathlib import Path
 
-from app.core.database import DBClient, run_migrations
+from app.core.constants import DB_PATH
+from app.core.database import DBClient
 from app.core.logging import setup_logging
 
 from .seed_data import CHARACTER_ORGS, CHARACTERS, HOUSES, ORGANISATIONS, PLANETS
 
-TEST_DB_PATH = str(Path(__file__).parents[1] / "test.sqlite3")
 logger = getLogger(__name__)
-
-
-def drop_test_db(db_client: DBClient) -> None:
-    with closing(db_client.conn.cursor()) as cursor:
-        cursor.executescript(
-            """
-            DROP TABLE IF EXISTS character_organisation;
-            DROP TABLE IF EXISTS character;
-            DROP TABLE IF EXISTS house;
-            DROP TABLE IF EXISTS organisation;
-            DROP TABLE IF EXISTS planet;
-        """
-        )
 
 
 def seed_test_db(db_client: DBClient) -> None:
@@ -53,17 +41,18 @@ def seed_test_db(db_client: DBClient) -> None:
 
 
 def run() -> None:
-    db_client = DBClient(TEST_DB_PATH, mode="rwc")
+    db_dir = Path(__file__).parents[2] / "db"
+    db_dir.mkdir(exist_ok=True)
 
-    logger.info("Dropping database tables ...")
-    drop_test_db(db_client)
+    logger.info("Dropping database tables with dbmate...")
+    subprocess.run(["dbmate", "drop"], check=True)
 
-    logger.info("Running migrations ...")
-    run_migrations(db_client)
+    logger.info("Running migrations with dbmate...")
+    subprocess.run(["dbmate", "up"], check=True)
 
-    logger.info(f"Seeding test database at {TEST_DB_PATH} ...")
+    db_client = DBClient(DB_PATH, mode="rwc")
+    logger.info(f"Seeding test database at {DB_PATH} ...")
     seed_test_db(db_client)
-
     db_client.close()
 
 
