@@ -3,6 +3,8 @@ _.file = ".env.secrets"
 _.python.venv = { path = ".venv", create = true }
 
 DB_PATH = "./dune.sqlite3"
+# Used for dbmate migrations
+DATABASE_URL = "sqlite3:{{env.DB_PATH}}"
 
 [tools]
 python = "3.13"
