@@ -10,6 +10,7 @@ The focus for this API is the original book series, so it doesn't include any in
 This project uses:
 1. [mise](https://mise.jdx.dev/getting-started.html) for dev environment management and task running.
 1. [uv](https://github.com/astral-sh/uv) for python package management.
+1. [dbmate](https://github.com/amacneil/dbmate) for database migrations.
 
 It's recommended to use mise as it will automatically use your python venv.
 
