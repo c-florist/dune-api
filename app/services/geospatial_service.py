@@ -1,10 +1,20 @@
 from logging import getLogger
-from typing import Any
 
 import httpx
 from fastapi import HTTPException
+from pydantic import BaseModel
 
 logger = getLogger(__name__)
+
+
+class CurrentWeather(BaseModel):
+    time: str
+    temperature: float
+
+
+class OpenMeteoResponse(BaseModel):
+    elevation: float
+    current_weather: CurrentWeather
 
 
 class GeoSpatialService:
@@ -22,7 +32,7 @@ class GeoSpatialService:
                 response = await client.get(self.BASE_URL, params=params)
                 response.raise_for_status()
 
-                data = response.json()
+                data = OpenMeteoResponse(**response.json())
                 return self._map_weather_to_environment(data)
             except httpx.HTTPStatusError as e:
                 logger.error(f"Error getting environment from coords: {e}")
@@ -31,9 +41,9 @@ class GeoSpatialService:
                 logger.error(f"An unexpected error occurred: {e}")
                 raise HTTPException(status_code=500, detail="An unexpected error occurred") from e
 
-    def _map_weather_to_environment(self, data: dict[str, Any]) -> str:
+    def _map_weather_to_environment(self, data: OpenMeteoResponse) -> str:
         try:
-            temp = int(data["current_weather"]["temperature"])
+            temp = int(data.current_weather.temperature)
 
             if temp > 30:
                 return "desert"
