@@ -7,9 +7,9 @@ The focus for this API is the original book series, so it doesn't include any in
 ## Development
 
 ### Prerequisites
-
-1. This project uses [mise](https://mise.jdx.dev/getting-started.html) for dev environment management.
-1. This project uses [uv](https://github.com/astral-sh/uv) for python package management.
+This project uses:
+1. [mise](https://mise.jdx.dev/getting-started.html) for dev environment management and task running.
+1. [uv](https://github.com/astral-sh/uv) for python package management.
 
 ### Setup
 For a development install, clone the repository and initialise your virtual environment:
@@ -26,8 +26,3 @@ Check the mise.toml for helpful scripts under "tasks", otherwise you can run the
 source .venv/bin/activate
 uvicorn app.main:app --reload
 ```
-
-### TODO
-
-- [ ] Add a planet model and table, with associated get / getall routes
-- [ ] Add an endpoint to accept a lat/lon, identify where the user is and return the most similar planet based on environment (e.g. desert, island, ocean, forest)
