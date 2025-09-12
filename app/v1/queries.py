@@ -262,12 +262,12 @@ def read_planet_by_environment(db_conn: Connection, environment: str) -> dict[st
             environment,
             ruler
         FROM planet
-        WHERE environment = ?
+        WHERE lower(environment) = ?
         LIMIT 1
     """
 
     with closing(db_conn.cursor()) as cursor:
-        cursor.execute(q, (environment,))
+        cursor.execute(q, (environment.lower(),))
         result = cursor.fetchone()
 
     return result

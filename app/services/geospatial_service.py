@@ -21,6 +21,7 @@ class GeoSpatialService:
             try:
                 response = await client.get(self.BASE_URL, params=params)
                 response.raise_for_status()
+
                 data = response.json()
                 return self._map_weather_to_environment(data)
             except httpx.HTTPStatusError as e:
