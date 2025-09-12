@@ -88,3 +88,31 @@ def test_get_all_planets(test_client):
     data = response.json()["items"]
     assert len(data) == 3
     assert all(x.get("uuid") for x in data)
+
+
+def test_search_characters_success(test_client):
+    response = test_client.get("/v1/characters/search?q=paul")
+    assert response.status_code == 200
+    data = response.json()["items"]
+    assert len(data) == 1
+    assert data[0]["first_name"] == "Paul"
+
+
+def test_search_characters_not_found(test_client):
+    response = test_client.get("/v1/characters/search?q=zaphod")
+    assert response.status_code == 404
+    assert response.json()["detail"] == "No characters found matching 'zaphod'"
+
+
+def test_search_houses_success(test_client):
+    response = test_client.get("/v1/houses/search?q=harkonnen")
+    assert response.status_code == 200
+    data = response.json()["items"]
+    assert len(data) == 1
+    assert data[0]["name"] == "House Harkonnen"
+
+
+def test_search_houses_not_found(test_client):
+    response = test_client.get("/v1/houses/search?q=beeblebrox")
+    assert response.status_code == 404
+    assert response.json()["detail"] == "No houses found matching 'beeblebrox'"

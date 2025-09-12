@@ -47,6 +47,23 @@ def get_characters(
     return paginated_response(characters, common_query_params["limit"], common_query_params["offset"])
 
 
+@router.get("/characters/search", response_model=PaginatedResponse)
+def search_characters(
+    common_query_params: CommonQueryParams,
+    character_service: Annotated[CharacterService, Depends(get_character_service)],
+    q: str,
+) -> Any:
+    characters = character_service.search_characters(q, common_query_params["limit"], common_query_params["offset"])
+
+    if not characters:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No characters found matching '{q}'",
+        )
+
+    return paginated_response(characters, common_query_params["limit"], common_query_params["offset"])
+
+
 @router.get("/character/{uuid}", response_model=Character)
 def get_character(
     uuid: str,
@@ -83,6 +100,23 @@ def get_houses(
         raise HTTPException(
             status_code=404,
             detail=f"Items not found, status House {status.capitalize()} does not exist",
+        )
+
+    return paginated_response(houses, common_query_params["limit"], common_query_params["offset"])
+
+
+@router.get("/houses/search", response_model=PaginatedResponse)
+def search_houses(
+    common_query_params: CommonQueryParams,
+    house_service: Annotated[HouseService, Depends(get_house_service)],
+    q: str,
+) -> Any:
+    houses = house_service.search_houses(q, common_query_params["limit"], common_query_params["offset"])
+
+    if not houses:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No houses found matching '{q}'",
         )
 
     return paginated_response(houses, common_query_params["limit"], common_query_params["offset"])
