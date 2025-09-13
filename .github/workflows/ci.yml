@@ -64,7 +64,8 @@ jobs:
 
       - name: Run tests
         env:
-          DB_PATH: ./local.sqlite3
+          DB_PATH: ./tests/test.sqlite3
+          DATABASE_URL: sqlite:./tests/test.sqlite3
         run: |
           uv run python -m tests.setup
           uv run pytest -vvv
