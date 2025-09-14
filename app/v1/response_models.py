@@ -10,5 +10,5 @@ class PaginatedResponse(BaseModel):
     total: int
 
 
-class SuccessResponse(BaseModel):
+class BoolResponse(BaseModel):
     success: bool

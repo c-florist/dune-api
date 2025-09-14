@@ -6,7 +6,7 @@ from fastapi.responses import RedirectResponse
 from pydantic import UUID4
 
 from app.core.responses import paginated_response
-from app.domain.models import Character, Planet
+from app.domain.models import Annotation, Character, Planet
 from app.services.annotation_service import AnnotationService
 from app.services.character_service import CharacterService
 from app.services.geospatial_service import GeoSpatialService
@@ -24,7 +24,7 @@ from .dependencies import (
     get_planet_service,
 )
 from .request_models import AnnotationCreate, AnnotationUpdate, Coordinates
-from .response_models import PaginatedResponse, SuccessResponse
+from .response_models import BoolResponse, PaginatedResponse
 
 logger = getLogger(__name__)
 router = APIRouter()
@@ -69,11 +69,11 @@ def search_characters(
     return paginated_response(characters, common_query_params["limit"], common_query_params["offset"])
 
 
-@router.get("/character/{uuid}", response_model=Character)
+@router.get("/character/{uuid}")
 def get_character(
     uuid: str,
     character_service: Annotated[CharacterService, Depends(get_character_service)],
-) -> Any:
+) -> Character:
     character = character_service.get_character_by_uuid(uuid)
 
     if not character:
@@ -82,15 +82,15 @@ def get_character(
     return character
 
 
-@router.get("/character/random", response_model=PaginatedResponse)
-def get_random_character(character_service: Annotated[CharacterService, Depends(get_character_service)]) -> Any:
+@router.get("/character/random")
+def get_random_character(character_service: Annotated[CharacterService, Depends(get_character_service)]) -> Character:
     character = character_service.get_random_character()
 
     if not character:
         logger.error("Could not get a random character from database")
         raise HTTPException(status_code=500, detail="No data available")
 
-    return paginated_response([character], 0, 0)
+    return character
 
 
 @router.get("/houses", response_model=PaginatedResponse)
@@ -140,11 +140,11 @@ def get_organisations(
     return paginated_response(organisations, common_query_params["limit"], common_query_params["offset"])
 
 
-@router.get("/planet/{uuid}", response_model=Planet)
+@router.get("/planet/{uuid}")
 def get_planet(
     uuid: UUID4,
     planet_service: Annotated[PlanetService, Depends(get_planet_service)],
-) -> Any:
+) -> Planet:
     planet = planet_service.get_planet_by_uuid(str(uuid))
 
     if not planet:
@@ -166,12 +166,12 @@ def get_planets(
     return paginated_response(planets, common_query_params["limit"], common_query_params["offset"])
 
 
-@router.post("/planet/locate", response_model=Planet)
+@router.post("/planet/locate")
 async def get_planet_by_coords(
     coordinates: Coordinates,
     planet_service: Annotated[PlanetService, Depends(get_planet_service)],
     geospatial_service: Annotated[GeoSpatialService, Depends(get_geospatial_service)],
-) -> Any:
+) -> Planet:
     environment = await geospatial_service.get_environment_from_coords(coordinates.latitude, coordinates.longitude)
     planet = planet_service.get_planet_by_environment(environment)
 
@@ -186,7 +186,7 @@ def create_character_annotation(
     uuid: str,
     annotation_data: AnnotationCreate,
     annotation_service: Annotated[AnnotationService, Depends(get_annotation_service)],
-) -> Any:
+) -> Annotation:
     return annotation_service.create_annotation("character", uuid, annotation_data)
 
 
@@ -204,26 +204,27 @@ def get_user_annotations(
     return paginated_response(annotations, common_query_params["limit"], common_query_params["offset"])
 
 
-@router.put("/annotations/{annotation_uuid}", response_model=SuccessResponse)
+@router.put("/annotations/{annotation_uuid}")
 def update_annotation(
     annotation_uuid: str,
     user_id: str,
     annotation_data: AnnotationUpdate,
     annotation_service: Annotated[AnnotationService, Depends(get_annotation_service)],
-) -> dict[str, bool]:
+) -> BoolResponse:
     success = annotation_service.update_annotation(annotation_uuid, user_id, annotation_data)
     if not success:
         raise HTTPException(status_code=404, detail="Annotation not found or user does not have permission to update")
-    return {"success": True}
+
+    return BoolResponse(success=True)
 
 
-@router.delete("/annotations/{annotation_uuid}", response_model=SuccessResponse)
+@router.delete("/annotations/{annotation_uuid}")
 def delete_annotation(
     annotation_uuid: str,
     user_id: str,
     annotation_service: Annotated[AnnotationService, Depends(get_annotation_service)],
-) -> dict[str, bool]:
+) -> BoolResponse:
     success = annotation_service.delete_annotation(annotation_uuid, user_id)
     if not success:
         raise HTTPException(status_code=404, detail="Annotation not found or user does not have permission to delete")
-    return {"success": True}
+    return BoolResponse(success=True)
