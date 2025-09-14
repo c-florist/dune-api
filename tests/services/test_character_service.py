@@ -71,14 +71,15 @@ def test_get_characters_returns_domain_models(monkeypatch):
     ]
 
     def mock_read_characters(db_conn: Connection, house: str | None, limit: int, offset: int):
-        return characters_data
+        return characters_data, len(characters_data)
 
     monkeypatch.setattr(queries, "read_characters", mock_read_characters)
 
     service = CharacterService(db_conn=None)
-    result = service.get_characters(house=None, limit=20, offset=0)
+    result, total = service.get_characters(house=None, limit=20, offset=0)
 
     assert len(result) == 2
+    assert total == 2
     assert isinstance(result[0], Character)
     assert isinstance(result[1], Character)
     assert result[0].first_name == "Paul"

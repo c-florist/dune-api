@@ -34,8 +34,9 @@ def test_get_annotations_for_user(db_client):
     )
     annotation_service.create_annotation("character", "540b8c10-8297-4710-833e-84ef51797ac0", annotation_data)
 
-    annotations = annotation_service.get_annotations_for_user("test_user")
+    annotations, total = annotation_service.get_annotations_for_user("test_user")
     assert len(annotations) == 1
+    assert total == 1
     assert annotations[0].user_id == "test_user"
     assert annotations[0].annotation_text == "This is a test annotation."
 

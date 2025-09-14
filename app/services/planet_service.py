@@ -10,9 +10,10 @@ class PlanetService:
     def __init__(self, db_conn: Connection) -> None:
         self.db_conn = db_conn
 
-    def get_planets(self, limit: int, offset: int) -> list[Planet]:
-        planets_data = queries.read_planets(self.db_conn, limit, offset)
-        return [Planet(**planet_data) for planet_data in planets_data]
+    def get_planets(self, limit: int, offset: int) -> tuple[list[Planet], int]:
+        planets_data, total = queries.read_planets(self.db_conn, limit, offset)
+        planets = [Planet(**planet_data) for planet_data in planets_data]
+        return planets, total
 
     def get_planet_by_uuid(self, uuid: str) -> Planet | None:
         planet_data = queries.read_planet(self.db_conn, uuid)

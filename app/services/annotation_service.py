@@ -27,9 +27,10 @@ class AnnotationService:
         )
         return Annotation(**created_annotation)
 
-    def get_annotations_for_user(self, user_id: str) -> list[Annotation]:
-        annotations_data = queries.read_annotations_for_user(self.db_conn, user_id)
-        return [Annotation(**annotation_data) for annotation_data in annotations_data]
+    def get_annotations_for_user(self, user_id: str) -> tuple[list[Annotation], int]:
+        annotations_data, total = queries.read_annotations_for_user(self.db_conn, user_id)
+        annotations = [Annotation(**annotation_data) for annotation_data in annotations_data]
+        return annotations, total
 
     def update_annotation(self, annotation_uuid: str, user_id: str, update_data: AnnotationUpdate) -> bool:
         return queries.update_annotation(

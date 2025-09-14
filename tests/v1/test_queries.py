@@ -32,16 +32,18 @@ def test_read_character(db_client):
 
 
 def test_read_characters(db_client):
-    characters = read_characters(db_client.conn)
+    characters, total = read_characters(db_client.conn)
     assert len(characters) == 5
+    assert total == 5
     for char in characters:
         assert isinstance(char["first_name"], str)
         assert isinstance(char["last_name"], (str, type(None)))
 
 
 def test_read_characters_by_house(db_client):
-    characters = read_characters(db_client.conn, "atreides")
+    characters, total = read_characters(db_client.conn, "atreides")
     assert len(characters) == 3
+    assert total == 3
     assert all(c["house"] == "House Atreides" for c in characters)
 
 
@@ -51,19 +53,22 @@ def test_read_random_character(db_client):
 
 
 def test_read_houses(db_client):
-    houses = read_houses(db_client.conn)
+    houses, total = read_houses(db_client.conn)
     assert len(houses) == 2
+    assert total == 2
 
 
 def test_read_houses_by_status(db_client):
-    houses = read_houses(db_client.conn, "major")
+    houses, total = read_houses(db_client.conn, "major")
     assert len(houses) == 2
+    assert total == 2
     assert all(h["status"] == "House Major" for h in houses)
 
 
 def test_read_organisations(db_client):
-    orgs = read_organisations(db_client.conn)
+    orgs, total = read_organisations(db_client.conn)
     assert len(orgs) == 3
+    assert total == 3
 
 
 def test_read_planet(db_client):
@@ -72,8 +77,9 @@ def test_read_planet(db_client):
 
 
 def test_read_planets(db_client):
-    planets = read_planets(db_client.conn)
+    planets, total = read_planets(db_client.conn)
     assert len(planets) == 3
+    assert total == 3
     for planet in planets:
         assert isinstance(planet["name"], str)
         assert isinstance(planet["environment"], str)
@@ -81,14 +87,16 @@ def test_read_planets(db_client):
 
 
 def test_search_characters(db_client):
-    characters = search_characters(db_client.conn, "paul")
+    characters, total = search_characters(db_client.conn, "paul")
     assert len(characters) == 1
+    assert total == 1
     assert characters[0]["first_name"] == "Paul"
 
 
 def test_search_houses(db_client):
-    houses = search_houses(db_client.conn, "harkonnen")
+    houses, total = search_houses(db_client.conn, "harkonnen")
     assert len(houses) == 1
+    assert total == 1
     assert houses[0]["name"] == "House Harkonnen"
 
 
@@ -128,8 +136,9 @@ def test_update_annotation_success(db_client):
     result = update_annotation(db_client.conn, annotation_uuid, "test_user", update_data)
     assert result is True
 
-    annotations = read_annotations_for_user(db_client.conn, "test_user")
+    annotations, total = read_annotations_for_user(db_client.conn, "test_user")
     assert len(annotations) == 1
+    assert total == 1
     updated_annotation = annotations[0]
     assert updated_annotation["annotation_text"] == "This is an updated annotation."
     assert updated_annotation["is_public"] == 0
@@ -154,8 +163,9 @@ def test_update_annotation_wrong_user(db_client):
     result = update_annotation(db_client.conn, annotation_uuid, "wrong_user", update_data)
     assert result is False
 
-    annotations = read_annotations_for_user(db_client.conn, "test_user")
+    annotations, total = read_annotations_for_user(db_client.conn, "test_user")
     assert len(annotations) == 1
+    assert total == 1
     updated_annotation = annotations[0]
     assert updated_annotation["annotation_text"] == "This is a test annotation."
     assert updated_annotation["is_public"] == 1
@@ -176,8 +186,9 @@ def test_delete_annotation_success(db_client):
     result = delete_annotation(db_client.conn, annotation_uuid, "test_user")
     assert result is True
 
-    annotations = read_annotations_for_user(db_client.conn, "test_user")
+    annotations, total = read_annotations_for_user(db_client.conn, "test_user")
     assert len(annotations) == 0
+    assert total == 0
 
 
 def test_delete_annotation_wrong_user(db_client):
@@ -195,5 +206,6 @@ def test_delete_annotation_wrong_user(db_client):
     result = delete_annotation(db_client.conn, annotation_uuid, "wrong_user")
     assert result is False
 
-    annotations = read_annotations_for_user(db_client.conn, "test_user")
+    annotations, total = read_annotations_for_user(db_client.conn, "test_user")
     assert len(annotations) == 1
+    assert total == 1

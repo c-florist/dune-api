@@ -41,7 +41,9 @@ def get_characters(
     character_service: Annotated[CharacterService, Depends(get_character_service)],
     house: Annotated[str | None, Query(strict=True, examples=["Atreides", "atreides"])] = None,
 ) -> Any:
-    characters = character_service.get_characters(house, common_query_params["limit"], common_query_params["offset"])
+    characters, total = character_service.get_characters(
+        house, common_query_params["limit"], common_query_params["offset"]
+    )
 
     if not characters and house is not None:
         raise HTTPException(
@@ -49,7 +51,7 @@ def get_characters(
             detail=f"Items not found, House {house.capitalize()} does not exist",
         )
 
-    return paginated_response(characters, common_query_params["limit"], common_query_params["offset"])
+    return paginated_response(characters, common_query_params["limit"], common_query_params["offset"], total)
 
 
 @router.get("/characters/search", response_model=PaginatedResponse)
@@ -58,7 +60,9 @@ def search_characters(
     character_service: Annotated[CharacterService, Depends(get_character_service)],
     q: str,
 ) -> Any:
-    characters = character_service.search_characters(q, common_query_params["limit"], common_query_params["offset"])
+    characters, total = character_service.search_characters(
+        q, common_query_params["limit"], common_query_params["offset"]
+    )
 
     if not characters:
         raise HTTPException(
@@ -66,7 +70,7 @@ def search_characters(
             detail=f"No characters found matching '{q}'",
         )
 
-    return paginated_response(characters, common_query_params["limit"], common_query_params["offset"])
+    return paginated_response(characters, common_query_params["limit"], common_query_params["offset"], total)
 
 
 @router.get("/character/{uuid}")
@@ -99,7 +103,7 @@ def get_houses(
     house_service: Annotated[HouseService, Depends(get_house_service)],
     status: Annotated[str | None, Query(strict=True, examples=["Major", "major"])] = None,
 ) -> Any:
-    houses = house_service.get_houses(status, common_query_params["limit"], common_query_params["offset"])
+    houses, total = house_service.get_houses(status, common_query_params["limit"], common_query_params["offset"])
 
     if not houses and status is not None:
         raise HTTPException(
@@ -107,7 +111,7 @@ def get_houses(
             detail=f"Items not found, status House {status.capitalize()} does not exist",
         )
 
-    return paginated_response(houses, common_query_params["limit"], common_query_params["offset"])
+    return paginated_response(houses, common_query_params["limit"], common_query_params["offset"], total)
 
 
 @router.get("/houses/search", response_model=PaginatedResponse)
@@ -116,7 +120,7 @@ def search_houses(
     house_service: Annotated[HouseService, Depends(get_house_service)],
     q: str,
 ) -> Any:
-    houses = house_service.search_houses(q, common_query_params["limit"], common_query_params["offset"])
+    houses, total = house_service.search_houses(q, common_query_params["limit"], common_query_params["offset"])
 
     if not houses:
         raise HTTPException(
@@ -124,7 +128,7 @@ def search_houses(
             detail=f"No houses found matching '{q}'",
         )
 
-    return paginated_response(houses, common_query_params["limit"], common_query_params["offset"])
+    return paginated_response(houses, common_query_params["limit"], common_query_params["offset"], total)
 
 
 @router.get("/organisations", response_model=PaginatedResponse)
@@ -132,12 +136,14 @@ def get_organisations(
     common_query_params: CommonQueryParams,
     organisation_service: Annotated[OrganisationService, Depends(get_organisation_service)],
 ) -> Any:
-    organisations = organisation_service.get_organisations(common_query_params["limit"], common_query_params["offset"])
+    organisations, total = organisation_service.get_organisations(
+        common_query_params["limit"], common_query_params["offset"]
+    )
 
     if not organisations:
         raise HTTPException(status_code=404, detail="Items not found")
 
-    return paginated_response(organisations, common_query_params["limit"], common_query_params["offset"])
+    return paginated_response(organisations, common_query_params["limit"], common_query_params["offset"], total)
 
 
 @router.get("/planet/{uuid}")
@@ -158,12 +164,12 @@ def get_planets(
     common_query_params: CommonQueryParams,
     planet_service: Annotated[PlanetService, Depends(get_planet_service)],
 ) -> Any:
-    planets = planet_service.get_planets(common_query_params["limit"], common_query_params["offset"])
+    planets, total = planet_service.get_planets(common_query_params["limit"], common_query_params["offset"])
 
     if not planets:
         raise HTTPException(status_code=404, detail="Items not found")
 
-    return paginated_response(planets, common_query_params["limit"], common_query_params["offset"])
+    return paginated_response(planets, common_query_params["limit"], common_query_params["offset"], total)
 
 
 @router.post("/planet/locate")
@@ -200,12 +206,12 @@ def get_user_annotations(
     common_query_params: CommonQueryParams,
     annotation_service: Annotated[AnnotationService, Depends(get_annotation_service)],
 ) -> Any:
-    annotations = annotation_service.get_annotations_for_user(user_id)
+    annotations, total = annotation_service.get_annotations_for_user(user_id)
 
     if not annotations:
         raise HTTPException(status_code=404, detail="No annotations found for user")
 
-    return paginated_response(annotations, common_query_params["limit"], common_query_params["offset"])
+    return paginated_response(annotations, common_query_params["limit"], common_query_params["offset"], total)
 
 
 @router.put("/annotations/{uuid}")

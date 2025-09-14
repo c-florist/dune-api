@@ -18,13 +18,14 @@ def test_get_houses_returns_domain_model(monkeypatch):
     ]
 
     def mock_read_houses(db_conn: Connection, status: str | None, limit: int, offset: int):
-        return house_data
+        return house_data, len(house_data)
 
     monkeypatch.setattr(queries, "read_houses", mock_read_houses)
 
     service = HouseService(db_conn=None)
-    result = service.get_houses(status=None, limit=20, offset=0)
+    result, total = service.get_houses(status=None, limit=20, offset=0)
 
     assert isinstance(result[0], House)
     assert result[0].name == "House Atreides"
     assert result[0].homeworld == ["Caladan", "Arrakis"]
+    assert total == 1

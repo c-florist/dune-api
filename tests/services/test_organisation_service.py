@@ -17,12 +17,13 @@ def test_get_organisations_returns_domain_model(monkeypatch):
     ]
 
     def mock_read_organisations(db_conn: Connection, limit: int, offset: int):
-        return organisation_data
+        return organisation_data, len(organisation_data)
 
     monkeypatch.setattr(queries, "read_organisations", mock_read_organisations)
 
     service = OrganisationService(db_conn=None)
-    result = service.get_organisations(limit=20, offset=0)
+    result, total = service.get_organisations(limit=20, offset=0)
 
     assert isinstance(result[0], Organisation)
     assert result[0].name == "Bene Gesserit"
+    assert total == 1

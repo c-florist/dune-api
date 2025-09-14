@@ -10,10 +10,12 @@ class HouseService:
     def __init__(self, db_conn: Connection) -> None:
         self.db_conn = db_conn
 
-    def get_houses(self, status: str | None, limit: int, offset: int) -> list[House]:
-        houses_data = queries.read_houses(self.db_conn, status, limit, offset)
-        return [House(**house_data) for house_data in houses_data]
+    def get_houses(self, status: str | None, limit: int, offset: int) -> tuple[list[House], int]:
+        houses_data, total = queries.read_houses(self.db_conn, status, limit, offset)
+        houses = [House(**house_data) for house_data in houses_data]
+        return houses, total
 
-    def search_houses(self, search_term: str, limit: int, offset: int) -> list[House]:
-        houses_data = queries.search_houses(self.db_conn, search_term, limit, offset)
-        return [House(**house_data) for house_data in houses_data]
+    def search_houses(self, search_term: str, limit: int, offset: int) -> tuple[list[House], int]:
+        houses_data, total = queries.search_houses(self.db_conn, search_term, limit, offset)
+        houses = [House(**house_data) for house_data in houses_data]
+        return houses, total

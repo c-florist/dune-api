@@ -32,14 +32,22 @@ def read_character(db_conn: Connection, character_uuid: str) -> dict[str, Any]:
 
 def read_characters(
     db_conn: Connection, house: str | None = None, limit: int = 20, offset: int = 0
-) -> list[dict[str, Any]]:
-    params: tuple[Any, ...] = (limit, offset)
+) -> tuple[list[dict[str, Any]], int]:
+    params: tuple[Any, ...] = ()
+    count_params: tuple[Any, ...] = ()
 
     if house is not None:
-        params = (house.capitalize(),) + params
         where_clause = "WHERE house = 'House ' || ?"
+        params = (house.capitalize(), limit, offset)
+        count_params = (house.capitalize(),)
     else:
         where_clause = ""
+        params = (limit, offset)
+
+    count_query = "SELECT COUNT(*) as total FROM character_with_org " + where_clause
+    with closing(db_conn.cursor()) as cursor:
+        cursor.execute(count_query, count_params)
+        total = cursor.fetchone()["total"]
 
     base_query = """
         SELECT
@@ -66,7 +74,7 @@ def read_characters(
         cursor.execute(q, params)
         results = cursor.fetchall()
 
-    return results
+    return results, total
 
 
 def read_random_character(db_conn: Connection) -> dict[str, Any]:
@@ -97,7 +105,20 @@ def read_random_character(db_conn: Connection) -> dict[str, Any]:
     return result
 
 
-def search_characters(db_conn: Connection, search_term: str, limit: int = 20, offset: int = 0) -> list[dict[str, Any]]:
+def search_characters(
+    db_conn: Connection, search_term: str, limit: int = 20, offset: int = 0
+) -> tuple[list[dict[str, Any]], int]:
+    count_q = """
+        SELECT COUNT(*) as total
+        FROM character
+        INNER JOIN character_fts fts
+            ON character.id = fts.rowid
+        WHERE fts.character_fts MATCH ?
+    """
+    with closing(db_conn.cursor()) as cursor:
+        cursor.execute(count_q, (search_term,))
+        total = cursor.fetchone()["total"]
+
     q = """
         SELECT
             character.uuid,
@@ -134,7 +155,7 @@ def search_characters(db_conn: Connection, search_term: str, limit: int = 20, of
         cursor.execute(q, (search_term, limit, offset))
         results = cursor.fetchall()
 
-    return results
+    return results, total
 
 
 def read_houses(
@@ -142,14 +163,22 @@ def read_houses(
     status: str | None = None,
     limit: int = 20,
     offset: int = 0,
-) -> list[dict[str, Any]]:
-    params: tuple[Any, ...] = (limit, offset)
+) -> tuple[list[dict[str, Any]], int]:
+    params: tuple[Any, ...] = ()
+    count_params: tuple[Any, ...] = ()
 
     if status is not None:
-        params = (status.capitalize(),) + params
         where_clause = "WHERE house.status = 'House ' || ?"
+        params = (status.capitalize(), limit, offset)
+        count_params = (status.capitalize(),)
     else:
         where_clause = ""
+        params = (limit, offset)
+
+    count_query = "SELECT COUNT(*) as total FROM house " + where_clause
+    with closing(db_conn.cursor()) as cursor:
+        cursor.execute(count_query, count_params)
+        total = cursor.fetchone()["total"]
 
     base_query = """
         SELECT
@@ -169,10 +198,23 @@ def read_houses(
         cursor.execute(q, params)
         results = cursor.fetchall()
 
-    return results
+    return results, total
 
 
-def search_houses(db_conn: Connection, search_term: str, limit: int = 20, offset: int = 0) -> list[dict[str, Any]]:
+def search_houses(
+    db_conn: Connection, search_term: str, limit: int = 20, offset: int = 0
+) -> tuple[list[dict[str, Any]], int]:
+    count_q = """
+        SELECT COUNT(*) as total
+        FROM house
+        INNER JOIN house_fts fts
+            ON house.id = fts.rowid
+        WHERE fts.house_fts MATCH ?
+    """
+    with closing(db_conn.cursor()) as cursor:
+        cursor.execute(count_q, (search_term,))
+        total = cursor.fetchone()["total"]
+
     q = """
         SELECT
             house.uuid,
@@ -192,10 +234,15 @@ def search_houses(db_conn: Connection, search_term: str, limit: int = 20, offset
         cursor.execute(q, (search_term, limit, offset))
         results = cursor.fetchall()
 
-    return results
+    return results, total
 
 
-def read_organisations(db_conn: Connection, limit: int = 20, offset: int = 0) -> list[dict[str, Any]]:
+def read_organisations(db_conn: Connection, limit: int = 20, offset: int = 0) -> tuple[list[dict[str, Any]], int]:
+    count_q = "SELECT COUNT(*) as total FROM organisation"
+    with closing(db_conn.cursor()) as cursor:
+        cursor.execute(count_q)
+        total = cursor.fetchone()["total"]
+
     params = (limit, offset)
     q = """
         SELECT
@@ -213,7 +260,7 @@ def read_organisations(db_conn: Connection, limit: int = 20, offset: int = 0) ->
         cursor.execute(q, params)
         results = cursor.fetchall()
 
-    return results
+    return results, total
 
 
 def read_planet(db_conn: Connection, planet_uuid: str) -> dict[str, Any]:
@@ -234,7 +281,12 @@ def read_planet(db_conn: Connection, planet_uuid: str) -> dict[str, Any]:
     return result
 
 
-def read_planets(db_conn: Connection, limit: int = 20, offset: int = 0) -> list[dict[str, Any]]:
+def read_planets(db_conn: Connection, limit: int = 20, offset: int = 0) -> tuple[list[dict[str, Any]], int]:
+    count_q = "SELECT COUNT(*) as total FROM planet"
+    with closing(db_conn.cursor()) as cursor:
+        cursor.execute(count_q)
+        total = cursor.fetchone()["total"]
+
     params = (limit, offset)
     q = """
         SELECT
@@ -251,7 +303,7 @@ def read_planets(db_conn: Connection, limit: int = 20, offset: int = 0) -> list[
         cursor.execute(q, params)
         results = cursor.fetchall()
 
-    return results
+    return results, total
 
 
 def read_planet_by_environment(db_conn: Connection, environment: str) -> dict[str, Any]:
@@ -300,7 +352,12 @@ def create_annotation(db_conn: Connection, annotation: dict[str, Any]) -> dict[s
         return cursor.fetchone()
 
 
-def read_annotations_for_user(db_conn: Connection, user_id: str) -> list[dict[str, Any]]:
+def read_annotations_for_user(db_conn: Connection, user_id: str) -> tuple[list[dict[str, Any]], int]:
+    count_q = "SELECT COUNT(*) as total FROM annotations WHERE user_id = ?"
+    with closing(db_conn.cursor()) as cursor:
+        cursor.execute(count_q, (user_id,))
+        total = cursor.fetchone()["total"]
+
     q = """
         SELECT
             uuid,
@@ -315,7 +372,8 @@ def read_annotations_for_user(db_conn: Connection, user_id: str) -> list[dict[st
     """
     with closing(db_conn.cursor()) as cursor:
         cursor.execute(q, (user_id,))
-        return cursor.fetchall()
+        results = cursor.fetchall()
+    return results, total
 
 
 def update_annotation(db_conn: Connection, annotation_uuid: str, user_id: str, annotation: dict[str, Any]) -> bool:

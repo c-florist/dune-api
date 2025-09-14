@@ -10,6 +10,7 @@ class OrganisationService:
     def __init__(self, db_conn: Connection) -> None:
         self.db_conn = db_conn
 
-    def get_organisations(self, limit: int, offset: int) -> list[Organisation]:
-        organisations_data = queries.read_organisations(self.db_conn, limit, offset)
-        return [Organisation(**org_data) for org_data in organisations_data]
+    def get_organisations(self, limit: int, offset: int) -> tuple[list[Organisation], int]:
+        organisations_data, total = queries.read_organisations(self.db_conn, limit, offset)
+        organisations = [Organisation(**org_data) for org_data in organisations_data]
+        return organisations, total
