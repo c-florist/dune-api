@@ -1,10 +1,10 @@
 from pydantic import BaseModel
 
-from app.domain.models import Character, House, Organisation, Planet
+from app.domain.models import Annotation, Character, House, Organisation, Planet
 
 
 class PaginatedResponse(BaseModel):
-    items: list[Character | House | Organisation | Planet]
+    items: list[Character | House | Organisation | Planet | Annotation]
     limit: int
     offset: int
     total: int

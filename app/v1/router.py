@@ -190,12 +190,18 @@ def create_character_annotation(
     return annotation_service.create_annotation("character", uuid, annotation_data)
 
 
-@router.get("/users/{user_id}/annotations")
+@router.get("/users/{user_id}/annotations", response_model=PaginatedResponse)
 def get_user_annotations(
     user_id: str,
+    common_query_params: CommonQueryParams,
     annotation_service: Annotated[AnnotationService, Depends(get_annotation_service)],
 ) -> Any:
-    return annotation_service.get_annotations_for_user(user_id)
+    annotations = annotation_service.get_annotations_for_user(user_id)
+
+    if not annotations:
+        raise HTTPException(status_code=404, detail="No annotations found for user")
+
+    return paginated_response(annotations, common_query_params["limit"], common_query_params["offset"])
 
 
 @router.put("/annotations/{annotation_uuid}", response_model=SuccessResponse)
@@ -204,7 +210,7 @@ def update_annotation(
     user_id: str,
     annotation_data: AnnotationUpdate,
     annotation_service: Annotated[AnnotationService, Depends(get_annotation_service)],
-) -> Any:
+) -> dict[str, bool]:
     success = annotation_service.update_annotation(annotation_uuid, user_id, annotation_data)
     if not success:
         raise HTTPException(status_code=404, detail="Annotation not found or user does not have permission to update")
@@ -216,7 +222,7 @@ def delete_annotation(
     annotation_uuid: str,
     user_id: str,
     annotation_service: Annotated[AnnotationService, Depends(get_annotation_service)],
-) -> Any:
+) -> dict[str, bool]:
     success = annotation_service.delete_annotation(annotation_uuid, user_id)
     if not success:
         raise HTTPException(status_code=404, detail="Annotation not found or user does not have permission to delete")

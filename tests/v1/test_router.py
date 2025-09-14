@@ -187,7 +187,7 @@ def test_get_user_annotations(test_client):
 
     response = test_client.get("/v1/users/test_user/annotations")
     assert response.status_code == 200
-    data = response.json()
+    data = response.json()["items"]
     assert len(data) == 1
     assert data[0]["user_id"] == "test_user"
 
