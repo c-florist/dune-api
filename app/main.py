@@ -9,7 +9,7 @@ from .v1.router import router as v1
 setup_logging()
 app = FastAPI(
     title="Dune API",
-    summary="API for information about the book series Dune by Frank Herbert'",
+    summary="API for information about the book series Dune by Frank Herbert",
     version="0.0.1",
     redoc_url=None,
 )
