@@ -291,9 +291,7 @@ def create_annotation(db_conn: Connection, annotation: dict[str, Any]) -> dict[s
             target_type,
             target_uuid,
             annotation_text,
-            is_public,
-            created_at,
-            updated_at
+            is_public
         FROM annotations
         WHERE uuid = ?
     """

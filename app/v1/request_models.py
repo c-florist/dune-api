@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 class AnnotationCreate(BaseModel):
     user_id: str
-    text: str
+    annotation_text: str
     is_public: bool = False
 
 
