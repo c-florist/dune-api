@@ -93,7 +93,7 @@ def test_search_houses(db_client):
     assert houses[0]["name"] == "House Harkonnen"
 
 
-def test_create_and_read_annotation(db_client):
+def test_create_annotation(db_client):
     annotation_uuid = str(uuid.uuid4())
     annotation_data = {
         "uuid": annotation_uuid,
@@ -103,10 +103,7 @@ def test_create_and_read_annotation(db_client):
         "annotation_text": "This is a test annotation.",
         "is_public": True,
     }
-    create_annotation(db_client.conn, annotation_data)
-    annotations = read_annotations_for_user(db_client.conn, "test_user")
-    assert len(annotations) == 1
-    annotation = annotations[0]
+    annotation = create_annotation(db_client.conn, annotation_data)
     assert annotation["uuid"] == annotation_uuid
     assert annotation["user_id"] == "test_user"
     assert annotation["annotation_text"] == "This is a test annotation."

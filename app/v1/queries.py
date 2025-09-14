@@ -273,7 +273,7 @@ def read_planet_by_environment(db_conn: Connection, environment: str) -> dict[st
     return result
 
 
-def create_annotation(db_conn: Connection, annotation: dict[str, Any]) -> None:
+def create_annotation(db_conn: Connection, annotation: dict[str, Any]) -> dict[str, Any]:
     q = """
         INSERT INTO annotations
             (uuid, user_id, target_type, target_uuid, annotation_text, is_public)
@@ -283,6 +283,23 @@ def create_annotation(db_conn: Connection, annotation: dict[str, Any]) -> None:
     with closing(db_conn.cursor()) as cursor:
         cursor.execute(q, annotation)
         db_conn.commit()
+
+    read_q = """
+        SELECT
+            uuid,
+            user_id,
+            target_type,
+            target_uuid,
+            annotation_text,
+            is_public,
+            created_at,
+            updated_at
+        FROM annotations
+        WHERE uuid = ?
+    """
+    with closing(db_conn.cursor()) as cursor:
+        cursor.execute(read_q, (annotation["uuid"],))
+        return cursor.fetchone()
 
 
 def read_annotations_for_target(db_conn: Connection, target_type: str, target_uuid: str) -> list[dict[str, Any]]:
