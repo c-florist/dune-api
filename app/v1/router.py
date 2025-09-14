@@ -23,7 +23,7 @@ from .dependencies import (
     get_organisation_service,
     get_planet_service,
 )
-from .request_models import AnnotationCreate, Coordinates
+from .request_models import AnnotationCreate, AnnotationUpdate, Coordinates
 from .response_models import PaginatedResponse
 
 logger = getLogger(__name__)
@@ -196,3 +196,16 @@ def get_user_annotations(
     annotation_service: Annotated[AnnotationService, Depends(get_annotation_service)],
 ) -> Any:
     return annotation_service.get_annotations_for_user(user_id)
+
+
+@router.put("/annotations/{annotation_uuid}")
+def update_annotation(
+    annotation_uuid: str,
+    user_id: str,
+    annotation_data: AnnotationUpdate,
+    annotation_service: Annotated[AnnotationService, Depends(get_annotation_service)],
+) -> Any:
+    success = annotation_service.update_annotation(annotation_uuid, user_id, annotation_data)
+    if not success:
+        raise HTTPException(status_code=404, detail="Annotation not found or user does not have permission to update")
+    return {"success": True}

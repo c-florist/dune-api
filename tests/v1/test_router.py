@@ -190,3 +190,33 @@ def test_get_user_annotations(test_client):
     data = response.json()
     assert len(data) == 1
     assert data[0]["user_id"] == "test_user"
+
+
+def test_update_annotation_success(test_client):
+    response = test_client.post(
+        "/v1/character/540b8c10-8297-4710-833e-84ef51797ac0/annotation",
+        json={
+            "user_id": "test_user",
+            "annotation_text": "This is a test annotation.",
+            "is_public": True,
+        },
+    )
+    assert response.status_code == 201
+    annotation_uuid = response.json()["uuid"]
+
+    response = test_client.put(
+        f"/v1/annotations/{annotation_uuid}",
+        params={"user_id": "test_user"},
+        json={"text": "This is an updated annotation.", "is_public": False},
+    )
+    assert response.status_code == 200
+    assert response.json() == {"success": True}
+
+
+def test_update_annotation_not_found(test_client):
+    response = test_client.put(
+        "/v1/annotations/some-uuid",
+        params={"user_id": "test_user"},
+        json={"text": "This is an updated annotation.", "is_public": False},
+    )
+    assert response.status_code == 404
