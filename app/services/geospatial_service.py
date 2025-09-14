@@ -20,7 +20,7 @@ class OpenMeteoResponse(BaseModel):
 class GeoSpatialService:
     BASE_URL = "https://api.open-meteo.com/v1/forecast"
 
-    async def get_environment_from_coords(self, lat: float, lon: float) -> str:
+    async def get_environment_from_coords(self, lat: float, lon: float) -> str | None:
         params = {
             "latitude": lat,
             "longitude": lon,
@@ -36,10 +36,7 @@ class GeoSpatialService:
                 return self._map_weather_to_environment(data)
             except httpx.HTTPStatusError as e:
                 logger.error(f"Error getting environment from coords: {e}")
-                raise HTTPException(status_code=500, detail="Error getting environment from coords") from e
-            except Exception as e:
-                logger.error(f"An unexpected error occurred: {e}")
-                raise HTTPException(status_code=500, detail="An unexpected error occurred") from e
+                return None
 
     def _map_weather_to_environment(self, data: OpenMeteoResponse) -> str:
         try:

@@ -173,6 +173,10 @@ async def get_planet_by_coords(
     geospatial_service: Annotated[GeoSpatialService, Depends(get_geospatial_service)],
 ) -> Planet:
     environment = await geospatial_service.get_environment_from_coords(coordinates.latitude, coordinates.longitude)
+
+    if environment is None:
+        raise HTTPException(status_code=500, detail="Encountered an error while determining environment.")
+
     planet = planet_service.get_planet_by_environment(environment)
 
     if not planet:
