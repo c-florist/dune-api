@@ -350,4 +350,13 @@ def update_annotation(db_conn: Connection, annotation_uuid: str, user_id: str, a
 
 
 def delete_annotation(db_conn: Connection, annotation_uuid: str, user_id: str) -> bool:
-    raise NotImplementedError
+    q = """
+        DELETE FROM annotations
+        WHERE
+            uuid = ?
+            AND user_id = ?
+    """
+    with closing(db_conn.cursor()) as cursor:
+        cursor.execute(q, (annotation_uuid, user_id))
+        db_conn.commit()
+        return cursor.rowcount > 0
