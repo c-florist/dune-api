@@ -3,7 +3,6 @@ import uuid
 import pytest
 from app.v1.queries import (
     create_annotation,
-    read_annotations_for_target,
     read_annotations_for_user,
     read_character,
     read_characters,
@@ -108,35 +107,6 @@ def test_create_annotation(db_client):
     assert annotation["user_id"] == "test_user"
     assert annotation["annotation_text"] == "This is a test annotation."
     assert annotation["is_public"] == 1
-
-
-def test_read_annotations_for_target(db_client):
-    annotation_uuid = str(uuid.uuid4())
-    annotation_data = {
-        "uuid": annotation_uuid,
-        "user_id": "test_user",
-        "target_type": "character",
-        "target_uuid": "540b8c10-8297-4710-833e-84ef51797ac0",
-        "annotation_text": "This is a public annotation.",
-        "is_public": True,
-    }
-    create_annotation(db_client.conn, annotation_data)
-
-    annotation_uuid_private = str(uuid.uuid4())
-    annotation_data_private = {
-        "uuid": annotation_uuid_private,
-        "user_id": "test_user",
-        "target_type": "character",
-        "target_uuid": "540b8c10-8297-4710-833e-84ef51797ac0",
-        "annotation_text": "This is a private annotation.",
-        "is_public": False,
-    }
-    create_annotation(db_client.conn, annotation_data_private)
-
-    annotations = read_annotations_for_target(db_client.conn, "character", "540b8c10-8297-4710-833e-84ef51797ac0")
-    assert len(annotations) == 1
-    assert annotations[0]["uuid"] == annotation_uuid
-    assert annotations[0]["is_public"] == 1
 
 
 def test_update_annotation_success(db_client):

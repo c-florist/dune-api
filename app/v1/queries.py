@@ -300,26 +300,6 @@ def create_annotation(db_conn: Connection, annotation: dict[str, Any]) -> dict[s
         return cursor.fetchone()
 
 
-def read_annotations_for_target(db_conn: Connection, target_type: str, target_uuid: str) -> list[dict[str, Any]]:
-    q = """
-        SELECT
-            uuid,
-            user_id,
-            target_type,
-            target_uuid,
-            annotation_text,
-            is_public
-        FROM annotations
-        WHERE
-            target_type = ?
-            AND target_uuid = ?
-            AND is_public = TRUE
-    """
-    with closing(db_conn.cursor()) as cursor:
-        cursor.execute(q, (target_type, target_uuid))
-        return cursor.fetchall()
-
-
 def read_annotations_for_user(db_conn: Connection, user_id: str) -> list[dict[str, Any]]:
     q = """
         SELECT

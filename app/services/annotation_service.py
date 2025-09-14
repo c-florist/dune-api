@@ -27,9 +27,6 @@ class AnnotationService:
         )
         return Annotation(**created_annotation)
 
-    def get_public_annotations_for_target(self, target_type: str, target_uuid: str) -> list[Annotation]:
-        raise NotImplementedError
-
     def get_annotations_for_user(self, user_id: str) -> list[Annotation]:
         annotations_data = queries.read_annotations_for_user(self.db_conn, user_id)
         return [Annotation(**annotation_data) for annotation_data in annotations_data]
