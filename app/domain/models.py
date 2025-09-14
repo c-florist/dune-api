@@ -43,3 +43,12 @@ class Planet(CustomBase):
     name: str
     environment: str
     ruler: str | None
+
+
+class Annotation(CustomBase):
+    uuid: UUID4
+    user_id: str
+    target_type: str
+    target_uuid: str
+    text: str
+    is_public: bool
