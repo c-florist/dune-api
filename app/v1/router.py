@@ -227,4 +227,5 @@ def delete_annotation(
     success = annotation_service.delete_annotation(uuid, user_id)
     if not success:
         raise HTTPException(status_code=404, detail="Annotation not found or user does not have permission to delete")
+
     return BoolResponse(success=True)
