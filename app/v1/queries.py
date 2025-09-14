@@ -271,3 +271,67 @@ def read_planet_by_environment(db_conn: Connection, environment: str) -> dict[st
         result = cursor.fetchone()
 
     return result
+
+
+def create_annotation(db_conn: Connection, annotation: dict[str, Any]) -> None:
+    q = """
+        INSERT INTO annotations
+            (uuid, user_id, target_type, target_uuid, annotation_text, is_public)
+        VALUES
+            (:uuid, :user_id, :target_type, :target_uuid, :annotation_text, :is_public)
+    """
+    with closing(db_conn.cursor()) as cursor:
+        cursor.execute(q, annotation)
+        db_conn.commit()
+
+
+def read_annotations_for_target(db_conn: Connection, target_type: str, target_uuid: str) -> list[dict[str, Any]]:
+    q = """
+        SELECT
+            uuid,
+            user_id,
+            target_type,
+            target_uuid,
+            annotation_text,
+            is_public,
+            created_at,
+            updated_at
+        FROM annotations
+        WHERE
+            target_type = ?
+            AND target_uuid = ?
+            AND is_public = TRUE
+    """
+    with closing(db_conn.cursor()) as cursor:
+        cursor.execute(q, (target_type, target_uuid))
+        return cursor.fetchall()
+
+
+def read_annotations_for_user(db_conn: Connection, user_id: str) -> list[dict[str, Any]]:
+    q = """
+        SELECT
+            uuid,
+            user_id,
+            target_type,
+            target_uuid,
+            annotation_text,
+            is_public,
+            created_at,
+            updated_at
+        FROM annotations
+        WHERE
+            user_id = ?
+    """
+    with closing(db_conn.cursor()) as cursor:
+        cursor.execute(q, (user_id,))
+        return cursor.fetchall()
+
+
+def update_annotation(
+    db_conn: Connection, annotation_uuid: str, user_id: str, update_data: dict[str, Any]
+) -> dict[str, Any]:
+    raise NotImplementedError
+
+
+def delete_annotation(db_conn: Connection, annotation_uuid: str, user_id: str) -> bool:
+    raise NotImplementedError

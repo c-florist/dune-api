@@ -177,7 +177,7 @@ CREATE TABLE annotations (
     user_id TEXT NOT NULL,
     target_type TEXT NOT NULL,
     target_uuid TEXT NOT NULL,
-    TEXT TEXT NOT NULL,
+    annotation_text TEXT NOT NULL,
     is_public BOOLEAN NOT NULL DEFAULT FALSE,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
