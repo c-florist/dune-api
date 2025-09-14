@@ -327,10 +327,26 @@ def read_annotations_for_user(db_conn: Connection, user_id: str) -> list[dict[st
         return cursor.fetchall()
 
 
-def update_annotation(
-    db_conn: Connection, annotation_uuid: str, user_id: str, update_data: dict[str, Any]
-) -> dict[str, Any]:
-    raise NotImplementedError
+def update_annotation(db_conn: Connection, annotation_uuid: str, user_id: str, annotation: dict[str, Any]) -> bool:
+    q = """
+        UPDATE annotations
+        SET
+            annotation_text = :annotation_text,
+            is_public = :is_public
+        WHERE
+            uuid = :uuid
+            AND user_id = :user_id
+    """
+    params = {
+        "uuid": annotation_uuid,
+        "user_id": user_id,
+        "annotation_text": annotation["annotation_text"],
+        "is_public": annotation["is_public"],
+    }
+    with closing(db_conn.cursor()) as cursor:
+        cursor.execute(q, params)
+        db_conn.commit()
+        return cursor.rowcount > 0
 
 
 def delete_annotation(db_conn: Connection, annotation_uuid: str, user_id: str) -> bool:

@@ -14,6 +14,7 @@ from app.v1.queries import (
     read_random_character,
     search_characters,
     search_houses,
+    update_annotation,
 )
 from tests.setup.teardown import teardown_annotations
 
@@ -138,3 +139,55 @@ def test_read_annotations_for_target(db_client):
     assert len(annotations) == 1
     assert annotations[0]["uuid"] == annotation_uuid
     assert annotations[0]["is_public"] == 1
+
+
+def test_update_annotation_success(db_client):
+    annotation_uuid = str(uuid.uuid4())
+    annotation_data = {
+        "uuid": annotation_uuid,
+        "user_id": "test_user",
+        "target_type": "character",
+        "target_uuid": "540b8c10-8297-4710-833e-84ef51797ac0",
+        "annotation_text": "This is a test annotation.",
+        "is_public": True,
+    }
+    create_annotation(db_client.conn, annotation_data)
+
+    update_data = {
+        "annotation_text": "This is an updated annotation.",
+        "is_public": False,
+    }
+    result = update_annotation(db_client.conn, annotation_uuid, "test_user", update_data)
+    assert result is True
+
+    annotations = read_annotations_for_user(db_client.conn, "test_user")
+    assert len(annotations) == 1
+    updated_annotation = annotations[0]
+    assert updated_annotation["annotation_text"] == "This is an updated annotation."
+    assert updated_annotation["is_public"] == 0
+
+
+def test_update_annotation_wrong_user(db_client):
+    annotation_uuid = str(uuid.uuid4())
+    annotation_data = {
+        "uuid": annotation_uuid,
+        "user_id": "test_user",
+        "target_type": "character",
+        "target_uuid": "540b8c10-8297-4710-833e-84ef51797ac0",
+        "annotation_text": "This is a test annotation.",
+        "is_public": True,
+    }
+    create_annotation(db_client.conn, annotation_data)
+
+    update_data = {
+        "annotation_text": "This is an updated annotation.",
+        "is_public": False,
+    }
+    result = update_annotation(db_client.conn, annotation_uuid, "wrong_user", update_data)
+    assert result is False
+
+    annotations = read_annotations_for_user(db_client.conn, "test_user")
+    assert len(annotations) == 1
+    updated_annotation = annotations[0]
+    assert updated_annotation["annotation_text"] == "This is a test annotation."
+    assert updated_annotation["is_public"] == 1
