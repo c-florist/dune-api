@@ -31,8 +31,16 @@ class AnnotationService:
         annotations_data = queries.read_annotations_for_user(self.db_conn, user_id)
         return [Annotation(**annotation_data) for annotation_data in annotations_data]
 
-    def update_annotation(self, annotation_uuid: str, user_id: str, update_data: AnnotationUpdate) -> Annotation | None:
-        raise NotImplementedError
+    def update_annotation(self, annotation_uuid: str, user_id: str, update_data: AnnotationUpdate) -> bool:
+        return queries.update_annotation(
+            self.db_conn,
+            str(annotation_uuid),
+            user_id,
+            {
+                "annotation_text": update_data.text,
+                "is_public": update_data.is_public,
+            },
+        )
 
     def delete_annotation(self, annotation_uuid: str, user_id: str) -> bool:
         raise NotImplementedError
