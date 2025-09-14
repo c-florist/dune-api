@@ -204,27 +204,27 @@ def get_user_annotations(
     return paginated_response(annotations, common_query_params["limit"], common_query_params["offset"])
 
 
-@router.put("/annotations/{annotation_uuid}")
+@router.put("/annotations/{uuid}")
 def update_annotation(
-    annotation_uuid: str,
+    uuid: str,
     user_id: str,
     annotation_data: AnnotationUpdate,
     annotation_service: Annotated[AnnotationService, Depends(get_annotation_service)],
 ) -> BoolResponse:
-    success = annotation_service.update_annotation(annotation_uuid, user_id, annotation_data)
+    success = annotation_service.update_annotation(uuid, user_id, annotation_data)
     if not success:
         raise HTTPException(status_code=404, detail="Annotation not found or user does not have permission to update")
 
     return BoolResponse(success=True)
 
 
-@router.delete("/annotations/{annotation_uuid}")
+@router.delete("/annotations/{uuid}")
 def delete_annotation(
-    annotation_uuid: str,
+    uuid: str,
     user_id: str,
     annotation_service: Annotated[AnnotationService, Depends(get_annotation_service)],
 ) -> BoolResponse:
-    success = annotation_service.delete_annotation(annotation_uuid, user_id)
+    success = annotation_service.delete_annotation(uuid, user_id)
     if not success:
         raise HTTPException(status_code=404, detail="Annotation not found or user does not have permission to delete")
     return BoolResponse(success=True)
