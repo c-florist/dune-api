@@ -160,7 +160,7 @@ def test_get_planet_by_coords_not_found(test_client, monkeypatch):
 
 def test_create_annotation_for_character(test_client):
     response = test_client.post(
-        "/v1/character/540b8c10-8297-4710-833e-84ef51797ac0/annotations",
+        "/v1/character/540b8c10-8297-4710-833e-84ef51797ac0/annotation",
         json={
             "user_id": "test_user",
             "annotation_text": "This is a test annotation.",
@@ -172,3 +172,21 @@ def test_create_annotation_for_character(test_client):
     assert data["user_id"] == "test_user"
     assert data["annotation_text"] == "This is a test annotation."
     assert data["is_public"] is True
+
+
+def test_get_user_annotations(test_client):
+    response = test_client.post(
+        "/v1/character/540b8c10-8297-4710-833e-84ef51797ac0/annotation",
+        json={
+            "user_id": "test_user",
+            "annotation_text": "This is a test annotation.",
+            "is_public": True,
+        },
+    )
+    assert response.status_code == 201
+
+    response = test_client.get("/v1/users/test_user/annotations")
+    assert response.status_code == 200
+    data = response.json()
+    assert len(data) == 1
+    assert data[0]["user_id"] == "test_user"

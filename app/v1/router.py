@@ -181,10 +181,18 @@ async def get_planet_by_coords(
     return planet
 
 
-@router.post("/character/{uuid}/annotations", status_code=201)
-def create_annotation(
+@router.post("/character/{uuid}/annotation", status_code=201)
+def create_character_annotation(
     uuid: str,
     annotation_data: AnnotationCreate,
     annotation_service: Annotated[AnnotationService, Depends(get_annotation_service)],
 ) -> Any:
     return annotation_service.create_annotation("character", uuid, annotation_data)
+
+
+@router.get("/users/{user_id}/annotations")
+def get_user_annotations(
+    user_id: str,
+    annotation_service: Annotated[AnnotationService, Depends(get_annotation_service)],
+) -> Any:
+    return annotation_service.get_annotations_for_user(user_id)
