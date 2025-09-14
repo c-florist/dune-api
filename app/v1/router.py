@@ -209,3 +209,15 @@ def update_annotation(
     if not success:
         raise HTTPException(status_code=404, detail="Annotation not found or user does not have permission to update")
     return {"success": True}
+
+
+@router.delete("/annotations/{annotation_uuid}")
+def delete_annotation(
+    annotation_uuid: str,
+    user_id: str,
+    annotation_service: Annotated[AnnotationService, Depends(get_annotation_service)],
+) -> Any:
+    success = annotation_service.delete_annotation(annotation_uuid, user_id)
+    if not success:
+        raise HTTPException(status_code=404, detail="Annotation not found or user does not have permission to delete")
+    return {"success": True}
