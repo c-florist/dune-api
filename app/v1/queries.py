@@ -308,9 +308,7 @@ def read_annotations_for_target(db_conn: Connection, target_type: str, target_uu
             target_type,
             target_uuid,
             annotation_text,
-            is_public,
-            created_at,
-            updated_at
+            is_public
         FROM annotations
         WHERE
             target_type = ?
@@ -330,9 +328,7 @@ def read_annotations_for_user(db_conn: Connection, user_id: str) -> list[dict[st
             target_type,
             target_uuid,
             annotation_text,
-            is_public,
-            created_at,
-            updated_at
+            is_public
         FROM annotations
         WHERE
             user_id = ?

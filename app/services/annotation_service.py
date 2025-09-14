@@ -31,7 +31,8 @@ class AnnotationService:
         raise NotImplementedError
 
     def get_annotations_for_user(self, user_id: str) -> list[Annotation]:
-        raise NotImplementedError
+        annotations_data = queries.read_annotations_for_user(self.db_conn, user_id)
+        return [Annotation(**annotation_data) for annotation_data in annotations_data]
 
     def update_annotation(self, annotation_uuid: str, user_id: str, update_data: AnnotationUpdate) -> Annotation | None:
         raise NotImplementedError
