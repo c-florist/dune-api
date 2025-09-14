@@ -2,6 +2,13 @@ import pytest
 from fastapi.testclient import TestClient
 
 from app.main import app
+from tests.setup.teardown import teardown_annotations
+
+
+@pytest.fixture(autouse=True)
+def run_around_tests(db_client):
+    yield
+    teardown_annotations(db_client.conn)
 
 
 @pytest.fixture
@@ -149,3 +156,19 @@ def test_get_planet_by_coords_not_found(test_client, monkeypatch):
     response = test_client.post("/v1/planet/locate", json={"latitude": -1.9, "longitude": -55.9})
     assert response.status_code == 404
     assert response.json()["detail"] == "No planet found with environment similar to 'jungle'"
+
+
+def test_create_annotation_for_character(test_client):
+    response = test_client.post(
+        "/v1/character/540b8c10-8297-4710-833e-84ef51797ac0/annotations",
+        json={
+            "user_id": "test_user",
+            "annotation_text": "This is a test annotation.",
+            "is_public": True,
+        },
+    )
+    assert response.status_code == 201
+    data = response.json()
+    assert data["user_id"] == "test_user"
+    assert data["annotation_text"] == "This is a test annotation."
+    assert data["is_public"] is True

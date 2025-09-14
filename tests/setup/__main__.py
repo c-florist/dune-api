@@ -50,7 +50,7 @@ def run() -> None:
     logger.info("Running migrations with dbmate...")
     subprocess.run(["dbmate", "up"], check=True)
 
-    db_client = DBClient(DB_PATH, mode="rwc")
+    db_client = DBClient(DB_PATH)
     logger.info(f"Seeding test database at {DB_PATH} ...")
     seed_test_db(db_client)
     db_client.close()

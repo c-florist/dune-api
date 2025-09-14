@@ -8,7 +8,7 @@ logger = getLogger(__name__)
 
 
 class DBClient:
-    def __init__(self, file_path: str, mode: str = "ro") -> None:
+    def __init__(self, file_path: str, mode: str = "rwc") -> None:
         self.file_path = file_path
         self.mode = mode
 

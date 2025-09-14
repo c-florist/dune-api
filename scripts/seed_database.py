@@ -83,7 +83,7 @@ def seed_data(db_client: DBClient) -> None:
 def main() -> None:
     setup_logging()
     logger.info(f"Connecting to database at: {DB_PATH}")
-    db_client = DBClient(str(DB_PATH), mode="rwc")
+    db_client = DBClient(str(DB_PATH))
 
     seed_data(db_client)
 

@@ -6,6 +6,7 @@ from fastapi import Depends, Query
 
 from app.core.constants import DB_PATH
 from app.core.database import DBClient
+from app.services.annotation_service import AnnotationService
 from app.services.character_service import CharacterService
 from app.services.geospatial_service import GeoSpatialService
 from app.services.house_service import HouseService
@@ -43,6 +44,12 @@ def get_planet_service(
     db_conn: Annotated[Connection, Depends(get_db_connection)],
 ) -> PlanetService:
     return PlanetService(db_conn)
+
+
+def get_annotation_service(
+    db_conn: Annotated[Connection, Depends(get_db_connection)],
+) -> AnnotationService:
+    return AnnotationService(db_conn)
 
 
 def get_geospatial_service() -> GeoSpatialService:

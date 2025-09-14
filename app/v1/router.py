@@ -7,6 +7,7 @@ from pydantic import UUID4
 
 from app.core.responses import paginated_response
 from app.domain.models import Character, Planet
+from app.services.annotation_service import AnnotationService
 from app.services.character_service import CharacterService
 from app.services.geospatial_service import GeoSpatialService
 from app.services.house_service import HouseService
@@ -15,13 +16,14 @@ from app.services.planet_service import PlanetService
 
 from .dependencies import (
     CommonQueryParams,
+    get_annotation_service,
     get_character_service,
     get_geospatial_service,
     get_house_service,
     get_organisation_service,
     get_planet_service,
 )
-from .request_models import Coordinates
+from .request_models import AnnotationCreate, Coordinates
 from .response_models import PaginatedResponse
 
 logger = getLogger(__name__)
@@ -177,3 +179,12 @@ async def get_planet_by_coords(
         raise HTTPException(status_code=404, detail=f"No planet found with environment similar to '{environment}'")
 
     return planet
+
+
+@router.post("/character/{uuid}/annotations", status_code=201)
+def create_annotation(
+    uuid: str,
+    annotation_data: AnnotationCreate,
+    annotation_service: Annotated[AnnotationService, Depends(get_annotation_service)],
+) -> Any:
+    return annotation_service.create_annotation("character", uuid, annotation_data)
