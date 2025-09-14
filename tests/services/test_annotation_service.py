@@ -76,3 +76,33 @@ def test_update_annotation_wrong_user(db_client):
     )
     result = annotation_service.update_annotation(annotation.uuid, "wrong_user", update_data)
     assert result is False
+
+
+def test_delete_annotation_success(db_client):
+    annotation_service = AnnotationService(db_client.conn)
+    annotation_data = AnnotationCreate(
+        user_id="test_user",
+        annotation_text="This is a test annotation.",
+        is_public=True,
+    )
+    annotation = annotation_service.create_annotation(
+        "character", "540b8c10-8297-4710-833e-84ef51797ac0", annotation_data
+    )
+
+    result = annotation_service.delete_annotation(annotation.uuid, "test_user")
+    assert result is True
+
+
+def test_delete_annotation_wrong_user(db_client):
+    annotation_service = AnnotationService(db_client.conn)
+    annotation_data = AnnotationCreate(
+        user_id="test_user",
+        annotation_text="This is a test annotation.",
+        is_public=True,
+    )
+    annotation = annotation_service.create_annotation(
+        "character", "540b8c10-8297-4710-833e-84ef51797ac0", annotation_data
+    )
+
+    result = annotation_service.delete_annotation(annotation.uuid, "wrong_user")
+    assert result is False

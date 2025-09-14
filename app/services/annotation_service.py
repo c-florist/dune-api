@@ -43,4 +43,4 @@ class AnnotationService:
         )
 
     def delete_annotation(self, annotation_uuid: str, user_id: str) -> bool:
-        raise NotImplementedError
+        return queries.delete_annotation(self.db_conn, str(annotation_uuid), user_id)
