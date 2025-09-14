@@ -13,7 +13,7 @@ dbmate = "2.28"
 
 [tasks.init]
 description = "Initialise the development environment"
-run = "uv sync && python -m scripts.seed_database"
+run = "uv sync && dbmate up && python -m scripts.seed_database"
 
 [tasks.dev]
 description = "Run the development server"
