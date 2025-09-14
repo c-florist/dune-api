@@ -24,7 +24,7 @@ from .dependencies import (
     get_planet_service,
 )
 from .request_models import AnnotationCreate, AnnotationUpdate, Coordinates
-from .response_models import PaginatedResponse
+from .response_models import PaginatedResponse, SuccessResponse
 
 logger = getLogger(__name__)
 router = APIRouter()
@@ -198,7 +198,7 @@ def get_user_annotations(
     return annotation_service.get_annotations_for_user(user_id)
 
 
-@router.put("/annotations/{annotation_uuid}")
+@router.put("/annotations/{annotation_uuid}", response_model=SuccessResponse)
 def update_annotation(
     annotation_uuid: str,
     user_id: str,
@@ -211,7 +211,7 @@ def update_annotation(
     return {"success": True}
 
 
-@router.delete("/annotations/{annotation_uuid}")
+@router.delete("/annotations/{annotation_uuid}", response_model=SuccessResponse)
 def delete_annotation(
     annotation_uuid: str,
     user_id: str,

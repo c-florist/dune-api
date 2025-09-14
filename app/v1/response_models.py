@@ -8,3 +8,7 @@ class PaginatedResponse(BaseModel):
     limit: int
     offset: int
     total: int
+
+
+class SuccessResponse(BaseModel):
+    success: bool
